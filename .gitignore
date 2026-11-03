@@ -1,0 +1,47 @@
+# Entornos de Python
+.venv/
+.venv-*/
+venv/
+
+# Archivos generados de Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Dependencias y compilación del frontend
+node_modules/
+dist/
+
+# Variables de entorno y credenciales
+.env
+.env.*
+!.env.example
+
+# Repositorio externo y entorno de SAM
+/ai/sam2/
+/ai/.venv-sam2/
+
+# Pesos de modelos
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Datos locales e índices generados
+/data/
+/uploads/
+/outputs/
+/indexes/
+*.sqlite
+*.sqlite3
+
+# Archivos de pruebas locales
+/ai/prueba.jpg
+/ai/mascara.png
+/ai/silla_transparente.png
+/ai/seleccion.png
+
+# Sistema y logs
+.DS_Store
+Thumbs.db
+*.log
