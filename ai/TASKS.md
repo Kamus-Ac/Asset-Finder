@@ -1,7 +1,7 @@
 # TASKS.md — Lista de tareas de P4 (IA y catálogo), orden estricto, una a la vez
 
 Responsable: Brandon (P4). Carpeta propia: `ai/`. Rama: `feature/ai-<tarea>`.
-Alcance y criterios de cada etapa: `ai/PLAN_P4.md` y `ai/PLAN_P4_IA.md`. Contratos: `docs/CONTRATOS_API.md`.
+Alcance y criterios de cada etapa: `PLAN_P4.md` (raíz) y `ai/PLAN_P4_IA.md`. Contratos actuales: `CONTRATOS_API.md` (raíz).
 
 Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere algo de Brandon o del equipo (implementa lo posible, anota el bloqueo y sigue con la siguiente tarea que no dependa de él).
 
@@ -39,11 +39,15 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
   Ubuntu, memoria visible y confirmar la versión de Python dentro de ese WSL.
   El entorno local de pruebas está en verde. Por solicitud explícita de Brandon,
   se reinstaló el entorno CPU dentro de este proyecto: ya no depende del antiguo.
-  Ver `PROGRESS.md`. Mantener `[ ]` y no avanzar a T02 en esta sesión.
+  Ver `PROGRESS.md`. T01 sigue `[ ]`; Brandon autorizó preparar únicamente la
+  propuesta documental T02 el 5 de noviembre, sin instalar ni ejecutar T03.
 
 - [ ] **T02 Propuesta de versiones (E1.2), sin instalar.** Consultar la documentación oficial de PyTorch, SAM 2 y DINOv2. Escribir en `ai/PROPUESTA_ENTORNO.md` la combinación compatible con el driver: versión de PyTorch, CUDA, numpy, pillow y los comandos exactos.
   *Aceptación:* propuesta revisada; no se modifica ningún entorno.
   [NEEDS USER] Aprobación de Brandon y, si cambian dependencias compartidas, de Manuel.
+  **Propuesta elaborada:** `ai/PROPUESTA_ENTORNO.md`, con fuentes oficiales y
+  comandos revisados. Investigación terminada; mantener `[ ]` hasta la revisión
+  y aprobación de la propuesta. No se ejecutaron los comandos de instalación.
 
 - [ ] **T03 Entorno CUDA aislado (E1.2).** Crear `ai/.venv-gpu` (fuera de Git), instalar la combinación aprobada en T02 y generar `ai/requirements-gpu.txt` nuevo. No modificar `requirements-sam2.txt`, que fija PyTorch CPU.
   *Aceptación:* `python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"` muestra `True` y la GPU. Si no hay GPU, la tarea queda `[ ]` y se acuerda CPU con P3.

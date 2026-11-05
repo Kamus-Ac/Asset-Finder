@@ -15,7 +15,8 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 ## T01 — Diagnóstico del servidor · 2026-11-05
 
 - **Estado:** `queued`, pendiente de completar evidencia de Ubuntu/WSL; pruebas
-  locales en verde. No se inició la propuesta T02 ni la instalación CUDA T03.
+  locales en verde. T02 documental se preparó después por autorización explícita
+  de Brandon; la instalación CUDA T03 no se inició.
 - **Servidor confirmado por Brandon:** laptop de Angel, Ubuntu sobre WSL.
   Datos iniciales del equipo: i7-12650H, 16 GB RAM, RTX 4070 Laptop de 8 GB,
   Windows 11 Home 25H2 como anfitrión. Angel compartió NVIDIA-SMI/KMD 610.78,
@@ -87,9 +88,48 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 - **Documentación:** el comando activo de `ai/README.md` ya usa el entorno propio;
   el entorno CUDA de Angel permanece separado y pendiente de aprobación en T02.
 
+## T02 — Propuesta de entorno · 2026-11-05
+
+- **Estado:** `queued`, propuesta elaborada y revisada documentalmente;
+  aceptación pendiente de Brandon. No se instalaron dependencias ni modelos.
+- **Autorización:** Brandon pidió T02 con límite de 10 minutos y un commit que
+  incluya todos los cambios pendientes realizados, también README y plan raíz.
+- **Evidencia:** [PROPUESTA_ENTORNO.md](PROPUESTA_ENTORNO.md). Fuentes oficiales
+  de PyTorch, Meta/SAM, Meta/DINOv2, NVIDIA y PyPI. Candidata: Python 3.12.x,
+  torch 2.14.1 + torchvision 0.29.1, CUDA 12.6, NumPy 2.4.6 y Pillow 13.0.0.
+- **Revisión:** pareja publicada y ruedas CPython 3.12 Linux x86_64 verificadas;
+  se documentó el conflicto del requirements de entrenamiento DINO y la ruta de
+  inferencia sin xFormers. Sin afirmación de pruebas GPU en esta laptop.
+- **Validación:** compilación Python con código 0; pytest `1 passed in 0.01s`;
+  enlaces locales y sintaxis de dos bloques shell y un bloque Python de la
+  propuesta revisados. `git diff --check` pasó. Las instrucciones CUDA no se ejecutaron.
+- **Git:** fetch volvió a fallar por credenciales HTTPS; trabajo local en
+  `feature/ai-t02-propuesta-entorno`, sin rebase. Brandon pidió push inmediato;
+  la revisión automática pidió confirmar el destino y Brandon autorizó
+  explícitamente `https://github.com/Kamus-Ac/Asset-Finder`. Al reintentar,
+  `git push -u origin feature/ai-t02-propuesta-entorno` falló por credenciales:
+  `could not read Username for https://github.com`. La aprobación ya está
+  resuelta; falta autenticar Git (B01). No se publicó ningún commit. Commit de esta entrada:
+  `ai(T02): proponer entorno CUDA y guardar cambios pendientes`.
+  Incluye todos los cambios pendientes pedidos por Brandon: documentación,
+  `ai/notas.txt` y los tres metadatos Windows Zone.Identifier preexistentes.
+  Los entornos, pesos y resultados generados continúan ignorados y fuera del commit.
+
 ## Pendiente de la siguiente sesión
 
 - Retomar **T01**, sin avanzar: registrar `/etc/os-release` y `free -h` del WSL
   de Angel y confirmar allí Python 3.12.1. La elección Ubuntu/WSL ya está resuelta.
 - El proyecto actual ya funciona sin la carpeta antigua; T03–T05 siguen pendientes
   para preparar y probar el entorno CUDA del servidor de Angel.
+- Revisar y aprobar T02 antes de cualquier instalación CUDA. Mantener T01/T02
+  pendientes por sus criterios externos; no comenzar T03 sin resolverlos.
+
+## Rama de publicación acordada · 2026-11-05
+
+- Brandon indica que estos avances deben publicarse en **feature/ai-exploracion**.
+- Las ramas T01/T02 fueron ramas locales de trabajo; no son el destino de publicación.
+- Incorporar los commits por fast-forward, sin reescribir el historial de ai-exploracion.
+- Destino autorizado: https://github.com/Kamus-Ac/Asset-Finder, rama feature/ai-exploracion.
+- Comando de publicación: `git push -u origin feature/ai-exploracion`.
+- B01 sigue pendiente: el último push falló por credenciales HTTPS; no pedir de
+  nuevo autorización para el repositorio o esta rama ya confirmados por Brandon.

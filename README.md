@@ -13,12 +13,17 @@ Asset-Finder/
 ├── README.md                         ← Empieza aquí: mapa y estado del proyecto
 ├── AGENTS.md                         ← Reglas de trabajo y propiedad de carpetas
 ├── PLAN_EQUIPO.md                    ← Roles, tareas y calendario del equipo
+├── PLAN_P4.md                        ← Alcance personal de Brandon: qué entregar
 ├── CONTRATOS_API.md                  ← Borrador de comunicación entre clientes y servidor
 ├── Asset_Finder_Contexto_Claude_Equipo.md
 │                                    ← Contexto amplio, decisiones y arquitectura propuesta
 ├── .gitignore                       ← Archivos locales que no deben subirse a Git
 │
 ├── ai/                              ← P4 · Brandon: IA y catálogo
+│   ├── README.md                     ← Comparación de carpetas y prueba CPU local
+│   ├── PLAN_P4_IA.md                 ← Etapas, checklist de avance y siguiente tarea
+│   ├── PROPUESTA_ENTORNO.md          ← Versiones CUDA propuestas para el servidor WSL
+│   ├── MEDICIONES.md                 ← Resultados observados y límites de las pruebas
 │   ├── prueba_sam2.py                ← Prueba de segmentación con SAM en CPU
 │   ├── prueba.jpeg                   ← Imagen de entrada de la prueba
 │   └── requirements-sam2.txt         ← Dependencias registradas del entorno SAM
@@ -90,7 +95,8 @@ bajo `docs/`.
 3. [CONTRATOS_API.md](CONTRATOS_API.md): qué datos intercambiarán las áreas.
 4. El código de tu área: para **Brandon / P4**, empieza por
    [ai/prueba_sam2.py](ai/prueba_sam2.py). Lee la carga de imagen, el rectángulo,
-   la predicción y el guardado de máscara/recorte.
+   la predicción y el guardado de máscara/recorte. Sigue las tareas y su avance
+   en [ai/PLAN_P4_IA.md](ai/PLAN_P4_IA.md).
 5. [Contexto completo](Asset_Finder_Contexto_Claude_Equipo.md): consulta el diseño
    amplio y los antecedentes cuando necesites más detalle. El plan del equipo
    distingue el alcance de una semana del roadmap original de seis semanas.
@@ -117,9 +123,13 @@ búsqueda forman parte de las simplificaciones recomendadas en el plan.
 SAM 2.1 Tiny probado para segmentar imágenes en CPU.
 Indexación y búsqueda visual en desarrollo.
 
-La prueba en CPU es un antecedente documentado, no una validación del entorno
-de quien clone el repositorio. El script actual usa un rectángulo fijo y guarda
+La prueba CPU usa el entorno propio `ai/.venv-sam2`, sin depender de la carpeta
+antigua. Comando y resultados en
+[ai/README.md](ai/README.md) y [ai/MEDICIONES.md](ai/MEDICIONES.md).
+El entorno CUDA del servidor de Angel en Ubuntu/WSL sigue pendiente.
+El script usa un rectángulo fijo y guarda
 `mascara.png`, `silla_transparente.png` y `seleccion.png` dentro de `ai/`.
+La selección actual toma fondo/pared; falta validar la selección del objeto.
 Las funciones reutilizables `segment`, `embed` y `search` siguen pendientes.
 
 CUDA, catálogo indexado, conexión Tailscale y flujo completo requieren validación.
@@ -133,6 +143,7 @@ Python 3.11 y Node.js LTS.
 Los entornos virtuales, pesos de modelos y datos locales
 se instalan por separado y no están incluidos en el repositorio.
 
-`ai/requirements-sam2.txt` registra PyTorch para CPU e incluye una ruta local
-absoluta al repositorio SAM. Hay que revisar ese entorno antes de preparar CUDA
-o intentar reproducir la prueba en otra máquina.
+`ai/requirements-sam2.txt` registra PyTorch para CPU; su ruta editable `./sam2`
+se resuelve desde `ai/`. Hay que revisar ese entorno antes de preparar CUDA.
+El código externo SAM y sus pesos están disponibles localmente en `ai/sam2/`,
+ignorados por Git; no se incluyen al clonar el proyecto.

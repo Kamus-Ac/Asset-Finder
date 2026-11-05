@@ -1,0 +1,3 @@
+En la rama feature/ai-plan-inicio si debe de aparecer graphify-out/
+
+Cuando se haga algune merge que vaya a main hay que agregar en git ignore a graphify-out/
