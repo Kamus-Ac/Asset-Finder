@@ -1,0 +1,152 @@
+{
+  "ai/prueba_sam2.py": {
+    "mtime": 1793814029.0826828,
+    "seen": 1793899300.1485972,
+    "ast_hash": "9e7bdf5cde0f542f6035daefdb4ca2df",
+    "semantic_hash": "9e7bdf5cde0f542f6035daefdb4ca2df"
+  },
+  "backend/main.py": {
+    "mtime": 1793814029.0827603,
+    "seen": 1793899300.148603,
+    "ast_hash": "9b7b526017caff40e1811464e7695b1e",
+    "semantic_hash": "9b7b526017caff40e1811464e7695b1e"
+  },
+  "frontend/eslint.config.js": {
+    "mtime": 1793814029.0838935,
+    "seen": 1793899300.1486049,
+    "ast_hash": "0355276bc79439afe3c53e3a2470ca1e",
+    "semantic_hash": "0355276bc79439afe3c53e3a2470ca1e"
+  },
+  "frontend/package.json": {
+    "mtime": 1793814029.0849557,
+    "seen": 1793899300.1486068,
+    "ast_hash": "bab70e05ba002f68bc871760ebc511ee",
+    "semantic_hash": "bab70e05ba002f68bc871760ebc511ee"
+  },
+  "frontend/src/App.tsx": {
+    "mtime": 1793814029.086354,
+    "seen": 1793899300.1486084,
+    "ast_hash": "e4931f6d58500c8315d8198f9aa64ff0",
+    "semantic_hash": "e4931f6d58500c8315d8198f9aa64ff0"
+  },
+  "frontend/src/main.tsx": {
+    "mtime": 1793814029.0876956,
+    "seen": 1793899300.1486106,
+    "ast_hash": "787e5a07efeb2bf6209d5937195f2f68",
+    "semantic_hash": "787e5a07efeb2bf6209d5937195f2f68"
+  },
+  "frontend/tsconfig.app.json": {
+    "mtime": 1793814029.0876956,
+    "seen": 1793899300.1486123,
+    "ast_hash": "5f2dafd737dea8a4ddcbb10f5113ac5a",
+    "semantic_hash": "5f2dafd737dea8a4ddcbb10f5113ac5a"
+  },
+  "frontend/tsconfig.json": {
+    "mtime": 1793814029.0876956,
+    "seen": 1793899300.1486154,
+    "ast_hash": "a3d39fa780ebff65444de257f291ce6c",
+    "semantic_hash": "a3d39fa780ebff65444de257f291ce6c"
+  },
+  "frontend/tsconfig.node.json": {
+    "mtime": 1793814029.08795,
+    "seen": 1793899300.1486177,
+    "ast_hash": "f9cb81ddcea69ffdab672fc8c48dca66",
+    "semantic_hash": "f9cb81ddcea69ffdab672fc8c48dca66"
+  },
+  "frontend/vite.config.ts": {
+    "mtime": 1793814029.08795,
+    "seen": 1793899300.1486192,
+    "ast_hash": "5d54447744c19ccd28638a5c668d15ea",
+    "semantic_hash": "5d54447744c19ccd28638a5c668d15ea"
+  },
+  "AGENTS.md": {
+    "mtime": 1793896993.9114265,
+    "seen": 1793899300.148621,
+    "ast_hash": "0e14beb9d116c0008f1b228a96005195",
+    "semantic_hash": "0e14beb9d116c0008f1b228a96005195"
+  },
+  "Asset_Finder_Contexto_Claude_Equipo.md": {
+    "mtime": 1793896399.152043,
+    "seen": 1793899300.1486228,
+    "ast_hash": "756f7b4a2161ae97e96d51665f417599",
+    "semantic_hash": "756f7b4a2161ae97e96d51665f417599"
+  },
+  "CONTRATOS_API.md": {
+    "mtime": 1793896991.8993468,
+    "seen": 1793899300.1486244,
+    "ast_hash": "046edc2851be3d74ee04fcd31a5b05d3",
+    "semantic_hash": "046edc2851be3d74ee04fcd31a5b05d3"
+  },
+  "PLAN_EQUIPO.md": {
+    "mtime": 1793897827.8667135,
+    "seen": 1793899300.1486256,
+    "ast_hash": "6749525f0ad695c6aa2138f417c9e38d",
+    "semantic_hash": "6749525f0ad695c6aa2138f417c9e38d"
+  },
+  "README.md": {
+    "mtime": 1793814029.0808895,
+    "seen": 1793899300.148627,
+    "ast_hash": "42a9ef66b5588387d3fce1ea92659268",
+    "semantic_hash": "42a9ef66b5588387d3fce1ea92659268"
+  },
+  "ai/requirements-sam2.txt": {
+    "mtime": 1793814029.0827603,
+    "seen": 1793899300.1486287,
+    "ast_hash": "103752913687465522f94f01f595f707",
+    "semantic_hash": "103752913687465522f94f01f595f707"
+  },
+  "backend/requirements.txt": {
+    "mtime": 1793814029.0833223,
+    "seen": 1793899300.1486306,
+    "ast_hash": "cb14ee362fbe21b750e6aedb32705bde",
+    "semantic_hash": "cb14ee362fbe21b750e6aedb32705bde"
+  },
+  "frontend/README.md": {
+    "mtime": 1793814029.0838935,
+    "seen": 1793899300.148632,
+    "ast_hash": "b81d7c798d385d9081eafb0ab843e15c",
+    "semantic_hash": "b81d7c798d385d9081eafb0ab843e15c"
+  },
+  "frontend/index.html": {
+    "mtime": 1793814029.0838935,
+    "seen": 1793899300.148634,
+    "ast_hash": "33bd262affcefea92f1509cda449a19c",
+    "semantic_hash": "33bd262affcefea92f1509cda449a19c"
+  },
+  "ai/prueba.jpeg": {
+    "mtime": 1793814029.0825157,
+    "seen": 1793899300.1486354,
+    "ast_hash": "20c7c3d549bc46465f9251ba4b1fba2f",
+    "semantic_hash": "20c7c3d549bc46465f9251ba4b1fba2f"
+  },
+  "frontend/public/favicon.svg": {
+    "mtime": 1793814029.0849557,
+    "seen": 1793899300.1486368,
+    "ast_hash": "7e840862161341271697daa99a40d76b",
+    "semantic_hash": "7e840862161341271697daa99a40d76b"
+  },
+  "frontend/public/icons.svg": {
+    "mtime": 1793814029.0856528,
+    "seen": 1793899300.1486385,
+    "ast_hash": "3b4fcfcf393eca4d264dca4a4663bc37",
+    "semantic_hash": "3b4fcfcf393eca4d264dca4a4663bc37"
+  },
+  "frontend/src/assets/hero.png": {
+    "mtime": 1793814029.0869648,
+    "seen": 1793899300.1486404,
+    "ast_hash": "aead493361b27e7510691c5d7072dfc1",
+    "semantic_hash": "aead493361b27e7510691c5d7072dfc1"
+  },
+  "frontend/src/assets/react.svg": {
+    "mtime": 1793814029.0871747,
+    "seen": 1793899300.1486423,
+    "ast_hash": "f0402b67b6ce880f65666bb49e841696",
+    "semantic_hash": "f0402b67b6ce880f65666bb49e841696"
+  },
+  "frontend/src/assets/vite.svg": {
+    "mtime": 1793814029.0873919,
+    "seen": 1793899300.1486435,
+    "ast_hash": "9960a24288958394ac50e57ff638b036",
+    "semantic_hash": "9960a24288958394ac50e57ff638b036"
+  }
+}

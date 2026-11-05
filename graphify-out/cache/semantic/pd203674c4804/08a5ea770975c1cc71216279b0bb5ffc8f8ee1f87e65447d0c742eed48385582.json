@@ -1,0 +1,1 @@
+{"nodes": [{"id": "frontend_index_entrada", "label": "Entrada HTML de frontend", "file_type": "document", "source_file": "frontend/index.html", "source_location": "L2-L11", "rationale": "HTML lang=en, t\u00edtulo frontend, favicon.svg, div root y script /src/main.tsx."}], "edges": [], "hyperedges": []}
