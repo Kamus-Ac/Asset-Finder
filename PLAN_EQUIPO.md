@@ -13,6 +13,11 @@
 | P3 — Backend + servidor | ______ | `backend/`, raíz | API estable, archivos, tareas, Tailscale, arranque repetible |
 | P4 — IA + catálogo | ______ (Manuel sugerido) | `ai/` | SAM + DINO + catálogo indexado (20–30 modelos), medición |
 
+P1:Luis
+P2:Angel
+P3:Manuel
+P4:Brandon
+
 ## 2. Simplificaciones recomendadas para 1 semana ⚠
 Confirmar antes del día 2; si no se acuerda, se usa lo del documento original.
 - **BD:** SQLite en vez de PostgreSQL (migrar después en el proyecto de 4 semanas).
