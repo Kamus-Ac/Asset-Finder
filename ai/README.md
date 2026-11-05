@@ -1,0 +1,77 @@
+# IA y catálogo — Brandon / P4
+
+La base de desarrollo es **`/home/user/projects/Asset-Finder`**.
+El seguimiento paso a paso está en [PLAN_P4_IA.md](PLAN_P4_IA.md).
+El alcance original está en [PLAN_P4.md](../PLAN_P4.md).
+
+## Comparación de las dos carpetas
+
+| Aspecto | `asset-finder` | `Asset-Finder` |
+| --- | --- | --- |
+| Git principal | Rama master sin commits; archivos preparados en staging | Historial del equipo; base inspeccionada `ffb8dd8` |
+| Documentación del equipo | Ausente | AGENTS, PLAN_EQUIPO, PLAN_P4 y contratos |
+| Backend propio | Solo entorno virtual encontrado | `main.py` con `/health` y dependencias |
+| Prueba propia de IA | No está fuera del repositorio externo SAM | `prueba_sam2.py`, imagen y dependencias |
+| Componentes y estilos web | Idénticos a los de la otra carpeta | Idénticos a los de la otra carpeta |
+| Herramientas web | Oxlint y lockfile distinto | ESLint y lockfile del equipo |
+| Recursos locales SAM | Código, pesos y entorno CPU | Código y pesos copiados localmente durante esta preparación |
+
+Decisión: conservar el código y las herramientas de `Asset-Finder`. El instalador
+antiguo `script-intalación2.sh` instala PyTorch CPU, usa la ruta minúscula y ejecuta
+`git pull`; no es el instalador para el servidor CUDA. No se ejecutó.
+La comparación anterior es histórica. La prueba CPU actual usa un entorno nuevo
+en `ai/.venv-sam2`; ya no necesita el código, el intérprete ni los paquetes de la
+carpeta antigua. No se copiaron entornos virtuales ni herramientas de otras áreas.
+
+## Qué quedó preparado
+
+- `sam2/`: copia local del proveedor desde `asset-finder/ai/sam2`, sin su `.git`.
+  Commit de origen: `2b90b9f5ceec907a1c18123530e92e794ad901a4`.
+- `sam2/checkpoints/sam2.1_hiera_tiny.pt`: copia verificada por SHA-256.
+  Ambos recursos quedan ignorados por Git, por lo que no viajan al clonar el proyecto.
+- `requirements-sam2.txt`: lista CPU histórica; solo se corrigió la ruta editable
+  a `./sam2`, que requiere ejecutar una futura instalación desde `ai/`.
+  Se reinstalaron las mismas versiones, con autorización de Brandon, en un
+  entorno nuevo de Python 3.11.18 dentro de esta carpeta.
+- Prueba CPU ejecutada con código, pesos y paquetes de esta carpeta; evidencia y
+  límites en [MEDICIONES.md](MEDICIONES.md). El rectángulo fijo selecciona fondo,
+  por lo que todavía falta implementar la selección de objeto de E2.
+
+## Repetir la prueba CPU local
+
+Desde la raíz de `Asset-Finder`, usar el intérprete propio en modo aislado evita
+heredar `PYTHONPATH` y rutas del directorio de trabajo. No requiere la carpeta
+antigua ni tener activado otro entorno:
+
+```bash
+ai/.venv-sam2/bin/python -I ai/prueba_sam2.py
+```
+
+Genera `mascara.png`, `silla_transparente.png` y `seleccion.png` en `ai/`, ignorados
+por Git. El nombre `silla_transparente.png` viene del script histórico y no
+garantiza que la máscara corresponda a una silla. Abrir `seleccion.png` permite
+revisar lo seleccionado. Se comprobó también la ejecución desde `/tmp`, bloqueando
+accesos Python a la ruta antigua y verificando el origen de los módulos importados.
+
+## Entorno de pruebas propio
+
+```bash
+ai/.venv-tests/bin/python -m py_compile ai/*.py
+ai/.venv-tests/bin/python -m pytest ai/tests -q
+```
+
+`requirements-tests.txt` fija sus versiones. Ambos entornos virtuales, el
+checkpoint y las salidas permanecen fuera de Git. Los intérpretes base son
+instalaciones de Python del sistema/uv, independientes del proyecto antiguo.
+
+## Servidor acordado
+
+La IA correrá en **Ubuntu sobre WSL de la laptop de Angel**. Brandon compartió
+driver NVIDIA 610.78, VRAM total detectada de 8188 MiB y Python 3.12.1. La salida
+incluye WDDM y procesos Windows; aún falta identificar la distribución Ubuntu y
+confirmar Python/memoria dentro del WSL que ejecutará la IA. Evidencia recibida:
+[MEDICIONES.md](MEDICIONES.md#datos-del-servidor-de-angel-recibidos).
+
+El entorno CUDA de ese servidor se preparará por separado mediante T02–T05;
+esta reinstalación CPU no cierra esas tareas. SAM 3D sigue como
+**servicio no disponible**.
