@@ -1,6 +1,7 @@
 # TASKS.md — Lista de tareas de P4 (IA y catálogo), orden estricto, una a la vez
 
-Responsable: Brandon (P4). Carpeta propia: `ai/`. Rama: `feature/ai-<tarea>`.
+Responsable: Brandon (P4). Carpeta propia: `ai/`. Rama acordada con Brandon:
+`feature/ai-exploracion` (trabajo y publicación; instrucción del 5 de noviembre).
 Alcance y criterios de cada etapa: `PLAN_P4.md` (raíz) y `ai/PLAN_P4_IA.md`. Contratos actuales: `CONTRATOS_API.md` (raíz).
 
 Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere algo de Brandon o del equipo (implementa lo posible, anota el bloqueo y sigue con la siguiente tarea que no dependa de él).
@@ -35,22 +36,26 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
   *Aceptación:* `ai/MEDICIONES.md` tiene la salida de `nvidia-smi`, `python --version` y memoria; validación en verde.
   [NEEDS USER] Recibidas las salidas de Angel: driver 610.78, 8188 MiB de VRAM
   y Python 3.12.1. Brandon confirma que la IA correrá en Ubuntu sobre WSL.
-  **Bloqueada solo por evidencia de WSL:** faltan la distribución/versión de
-  Ubuntu, memoria visible y confirmar la versión de Python dentro de ese WSL.
+  **Bloqueada y pospuesta por Brandon el 6 de noviembre:** Angel todavía no
+  tiene WSL/Ubuntu instalado. Primero debe prepararse ese sistema y, después,
+  obtener el diagnóstico. Las salidas recibidas no acreditan un entorno Linux.
   El entorno local de pruebas está en verde. Por solicitud explícita de Brandon,
   se reinstaló el entorno CPU dentro de este proyecto: ya no depende del antiguo.
   Ver `PROGRESS.md`. T01 sigue `[ ]`; Brandon autorizó preparar únicamente la
   propuesta documental T02 el 5 de noviembre, sin instalar ni ejecutar T03.
 
-- [ ] **T02 Propuesta de versiones (E1.2), sin instalar.** Consultar la documentación oficial de PyTorch, SAM 2 y DINOv2. Escribir en `ai/PROPUESTA_ENTORNO.md` la combinación compatible con el driver: versión de PyTorch, CUDA, numpy, pillow y los comandos exactos.
+- [x] **T02 Propuesta de versiones (E1.2), sin instalar.** Consultar la documentación oficial de PyTorch, SAM 2 y DINOv2. Escribir en `ai/PROPUESTA_ENTORNO.md` la combinación compatible con el driver: versión de PyTorch, CUDA, numpy, pillow y los comandos exactos.
   *Aceptación:* propuesta revisada; no se modifica ningún entorno.
-  [NEEDS USER] Aprobación de Brandon y, si cambian dependencias compartidas, de Manuel.
-  **Propuesta elaborada:** `ai/PROPUESTA_ENTORNO.md`, con fuentes oficiales y
-  comandos revisados. Investigación terminada; mantener `[ ]` hasta la revisión
-  y aprobación de la propuesta. No se ejecutaron los comandos de instalación.
+  **Aprobada por Brandon el 6 de noviembre de 2026:** Python 3.12.x,
+  torch 2.14.1 + torchvision 0.29.1/cu126, NumPy 2.4.6, Pillow 13.0.0 y la lista
+  de `ai/PROPUESTA_ENTORNO.md`. No se requiere volver a pedir esa autorización.
+  No se ejecutaron instalaciones GPU. Manuel deberá confirmar solo si se comparte
+  ese entorno con backend. T03 depende del diagnóstico WSL de T01.
 
 - [ ] **T03 Entorno CUDA aislado (E1.2).** Crear `ai/.venv-gpu` (fuera de Git), instalar la combinación aprobada en T02 y generar `ai/requirements-gpu.txt` nuevo. No modificar `requirements-sam2.txt`, que fija PyTorch CPU.
   *Aceptación:* `python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"` muestra `True` y la GPU. Si no hay GPU, la tarea queda `[ ]` y se acuerda CPU con P3.
+  **Bloqueada por T01:** WSL/Ubuntu del servidor aún no está instalado. T02
+  conserva su aprobación; T03–T05 quedan pendientes sin ejecutar instalaciones.
 
 - [ ] **T04 Carga de modelos en GPU y medición (E1.3).** Cargar SAM 2.1 Tiny y DINOv2 ViT-S/14 en CUDA. Medir tiempo de carga, tiempo de inferencia (con calentamiento y `torch.cuda.synchronize()`) y VRAM pico con `torch.cuda.max_memory_allocated()`.
   *Aceptación:* cifras en `ai/MEDICIONES.md` con comando, repeticiones y dispositivo.
@@ -156,7 +161,13 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
 
 ## Bloqueos externos (no son tareas de código)
 
-- [ ] **B01 Credenciales de Git.** `git fetch` falla por HTTPS. Bloquea sincronizar ramas con el equipo.
-  [NEEDS USER] Configurar acceso a GitHub en este equipo.
+- [ ] **B01 Publicación GitHub.** Fetch funciona, pero push CLI falla por
+  credenciales HTTPS. El conector muestra permiso push de la cuenta, pero su
+  intento de crear el árbol devolvió 403 `Resource not accessible by integration`.
+  No hay publicación nueva; falta autenticar Git o habilitar escritura de la integración.
 - [ ] **B02 `graphify-out/` en `.gitignore`.** Lo gestiona P3 (dueño de la raíz).
   [NEEDS USER] Pedir a Manuel que lo agregue.
+- [ ] **B03 Integración con main.** `origin/main` avanzó hasta `c12b19a`.
+  La previsualización de merge detecta conflicto en README compartido y elimina
+  los antiguos planes/contratos de raíz. Coordinar la integración con P3;
+  no se modificaron esos archivos ni se reescribió la rama publicada.

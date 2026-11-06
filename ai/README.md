@@ -72,6 +72,26 @@ incluye WDDM y procesos Windows; aún falta identificar la distribución Ubuntu 
 confirmar Python/memoria dentro del WSL que ejecutará la IA. Evidencia recibida:
 [MEDICIONES.md](MEDICIONES.md#datos-del-servidor-de-angel-recibidos).
 
+**Actualización del 6 de noviembre:** Brandon confirma que Angel aún no tiene
+WSL/Ubuntu instalado y pide dejar esa parte pendiente. El comando de diagnóstico
+de abajo se ejecutará cuando ese sistema esté listo; no hay que ejecutarlo ahora
+en Windows para acreditar Linux. La prueba CPU local sigue disponible.
+
 El entorno CUDA de ese servidor se preparará por separado mediante T02–T05;
 esta reinstalación CPU no cierra esas tareas. SAM 3D sigue como
 **servicio no disponible**.
+
+## Recopilar T01 dentro del WSL de Angel
+
+Desde la raíz del proyecto, sin activar entornos ni instalar paquetes:
+
+```bash
+python3 -I ai/diagnostico_servidor.py --output /tmp/asset-finder-diagnostico.json
+cat /tmp/asset-finder-diagnostico.json
+```
+
+Compartir ese JSON con Brandon. Incluye Ubuntu, kernel, Python, memoria visible,
+indicios WSL2 y la salida/errores de NVIDIA-SMI. Busca también el ejecutable WSL
+fuera de PATH. Datos ausentes quedan `null`; un informe generado no acredita GPU
+operativa. El archivo se guarda fuera del repositorio y no contiene pesos ni imágenes.
+La consulta usa el [formato CSV documentado por NVIDIA](https://docs.nvidia.com/deploy/nvidia-smi/index.html).

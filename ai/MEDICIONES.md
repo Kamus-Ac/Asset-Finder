@@ -175,3 +175,11 @@ Conclusión: la ejecución CPU y el entorno de pruebas ya no dependen de la carp
 antigua. Los registros B0/T01 iniciales describen el estado histórico, no el
 comando actual. Las dos ejecuciones (auditada y directa) no son un promedio de
 rendimiento. La distribución y memoria WSL del servidor aún requieren evidencia.
+
+## Aclaración del servidor · 6 de noviembre de 2026
+
+Brandon confirma que Angel **todavía no tiene WSL/Ubuntu instalado** y pide
+dejar esa preparación pendiente. Las salidas NVIDIA/Python compartidas no son
+evidencia de ejecución en Ubuntu/WSL. T01 y las validaciones GPU posteriores
+siguen pendientes; la aprobación de versiones de T02 se conserva. No se instaló
+WSL, Ubuntu ni el entorno CUDA. Las pruebas locales CPU mantienen su validez.

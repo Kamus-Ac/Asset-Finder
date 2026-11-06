@@ -1,8 +1,11 @@
 # T02 — Propuesta de entorno CUDA para Angel
 
-Fecha: 5 de noviembre de 2026. **Propuesta lista para revisión; no instalada.**
+Fecha: 5 de noviembre de 2026. **Aprobada por Brandon el 6 de noviembre; no instalada.**
 T01 sigue pendiente de la evidencia de Ubuntu/WSL. Brandon autorizó preparar
-T02 ahora; esto no autoriza ejecutar T03 ni cambiar los entornos actuales.
+T02 inicialmente sin instalar. El 6 de noviembre aprobó esta combinación para
+T03; su ejecución sigue pendiente de acceso y diagnóstico del WSL de Angel.
+Brandon confirmó el 6 de noviembre que WSL/Ubuntu aún no está instalado y
+pospuso esa preparación. La aprobación de estas versiones se conserva.
 
 ## Combinación propuesta
 
@@ -121,7 +124,7 @@ No hacer pasar el script actual `prueba_sam2.py`, que fija CPU, como prueba CUDA
 - [x] Ruedas CPython 3.12 Linux verificadas; versiones y comandos escritos.
 - [x] Bloques Python/shell comprobados estáticamente; sin ejecutar instalaciones.
 - [ ] Evidencia de Ubuntu, memoria y Python del WSL objetivo (cierre de T01).
-- [ ] Aprobación de Brandon de esta combinación antes de ejecutar T03.
+- [x] Aprobación explícita de Brandon recibida el 6 de noviembre de 2026.
 - [ ] Confirmación de Manuel solo si decide compartir este entorno con backend.
 
 No se modificaron entornos, pesos, dependencias CPU, backend ni contratos durante

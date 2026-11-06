@@ -90,8 +90,8 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 
 ## T02 — Propuesta de entorno · 2026-11-05
 
-- **Estado:** `queued`, propuesta elaborada y revisada documentalmente;
-  aceptación pendiente de Brandon. No se instalaron dependencias ni modelos.
+- **Estado:** `completed`: propuesta revisada y aprobada expresamente por
+  Brandon el 6 de noviembre de 2026. No se instalaron dependencias ni modelos GPU.
 - **Autorización:** Brandon pidió T02 con límite de 10 minutos y un commit que
   incluya todos los cambios pendientes realizados, también README y plan raíz.
 - **Evidencia:** [PROPUESTA_ENTORNO.md](PROPUESTA_ENTORNO.md). Fuentes oficiales
@@ -121,8 +121,8 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   de Angel y confirmar allí Python 3.12.1. La elección Ubuntu/WSL ya está resuelta.
 - El proyecto actual ya funciona sin la carpeta antigua; T03–T05 siguen pendientes
   para preparar y probar el entorno CUDA del servidor de Angel.
-- Revisar y aprobar T02 antes de cualquier instalación CUDA. Mantener T01/T02
-  pendientes por sus criterios externos; no comenzar T03 sin resolverlos.
+- T02 está aprobada desde el 6 de noviembre; no volver a pedir esta aprobación.
+  T01 aún requiere el informe del WSL de Angel antes de ejecutar T03 allí.
 
 ## Rama de publicación acordada · 2026-11-05
 
@@ -133,3 +133,55 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 - Comando de publicación: `git push -u origin feature/ai-exploracion`.
 - B01 sigue pendiente: el último push falló por credenciales HTTPS; no pedir de
   nuevo autorización para el repositorio o esta rama ya confirmados por Brandon.
+
+## Continuación T01 y aprobación T02 · 2026-11-06
+
+- **Autorización recibida:** Brandon aprueba Python 3.12.x, torch 2.14.1,
+  torchvision 0.29.1/cu126, NumPy 2.4.6, Pillow 13.0.0 y el resto de la propuesta.
+  T02 se marca completada. Brandon puede ejecutar el diagnóstico con Angel;
+  no hay acceso remoto al servidor disponible para esta sesión.
+- **T01:** `queued`, pendiente de evidencia de Angel. Se creó
+  `ai/diagnostico_servidor.py`: solo biblioteca estándar, sin instalar paquetes,
+  con JSON de Ubuntu, kernel, Python, RAM visible y datos/salidas NVIDIA-SMI.
+  Permisos insuficientes, comandos ausentes, timeout y CSV inválido quedan
+  explícitos; los valores desconocidos son null. No se infiere éxito CUDA.
+- **Comandos ejecutados:**
+  ```bash
+  ai/.venv-tests/bin/python -m py_compile ai/*.py
+  ai/.venv-tests/bin/python -m pytest ai/tests -q
+  python3 -I ai/diagnostico_servidor.py --output /tmp/asset-finder-diagnostico-local.json
+  ```
+  Resultado: compilación correcta; **12 passed, 3 subtests passed in 0.04s**.
+  CLI con código 0 y JSON válido. Prueba local: Ubuntu 26.04.1, Python 3.14.4,
+  RAM visible 8,195,334,144 bytes y GPU desconocida (NVIDIA-SMI ausente, 127).
+  Ese resultado pertenece al equipo de desarrollo, no a la laptop de Angel.
+- **Git:** la primera revisión automática de permisos para fetch venció sin
+  ejecutar el comando. El reintento pasó y actualizó origin/main a `c12b19a`.
+  La previsualización con `git merge-tree` detecta conflicto en README compartido,
+  nuevo alcance de candidatos externos y retirada de planes/contratos de raíz.
+  No se hizo rebase, merge, cambios de carpetas ajenas ni reescritura de historial;
+  corresponde coordinar esa integración con P3 (B03).
+- **Commit de continuación:** `ai(T01): agregar diagnostico reproducible de WSL`.
+  Se conserva el historial publicado de T01/T02; esta continuación no cierra T01.
+- **Publicación bloqueada (B01):** push CLI falla por credenciales HTTPS.
+  El conector devolvió `permissions.push=true` para la cuenta, pero `create_tree`
+  fue rechazado con 403 `Resource not accessible by integration`. El permiso de
+  la cuenta no acredita el alcance del token de la integración. No se actualizó
+  ninguna referencia remota, ni se hizo force push o alineación de commits.
+  Se conserva el commit local y el script puede copiarse a Angel como archivo
+  independiente, sin esperar al acceso GitHub ni instalar paquetes.
+- **Siguiente paso:** Angel ejecuta el comando de `ai/README.md` dentro de Ubuntu
+  y Brandon comparte el JSON. Con esa evidencia se podrá cerrar T01 y preparar
+  el entorno GPU aprobado, en el equipo correcto. No se ejecutó T03 localmente.
+
+## WSL del servidor pospuesto por Brandon · 2026-11-06
+
+- Brandon aclara que Angel aún no tiene WSL/Ubuntu instalado y solicita dejar
+  esa parte pendiente. T01 permanece `[ ]`, `queued`, bloqueada por ese requisito
+  externo. El diagnóstico se pedirá cuando Ubuntu/WSL esté disponible.
+- T02 conserva su aprobación explícita; T03–T05 no se ejecutaron ni se marcaron
+  completadas. No se instalará WSL ni CUDA como parte de esta aclaración.
+- Se actualizaron TASKS, plan, README, propuesta y mediciones. El entorno CPU
+  independiente y el recolector estándar siguen listos para usarse.
+- Esta aclaración se incorpora al commit local aún no publicado de T01,
+  conservando el historial remoto y dejando fuera el timestamp local de graphify.

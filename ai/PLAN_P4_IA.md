@@ -11,7 +11,8 @@ simplificaciones que el equipo aún debe acordar.
 - `[ ]` pendiente, `[x]` terminado con evidencia. Estados: `queued`, `running`,
   `completed`, `failed`. Solo marcaré tareas que haya ejecutado y comprobado.
 - Antes de cada sesión leeré este plan y el estado de Git; trabajaré en una rama
-  `feature/ai-<tarea>`. Antes de cambiar dependencias presentaré las versiones y
+  `feature/ai-exploracion`, según la indicación posterior de Brandon. Antes de
+  cambiar dependencias presentaré las versiones y
   pediré aprobación al dueño, sin reutilizar la instalación CPU como entorno CUDA.
 - Cada tarea seguirá: inspección → cambio pequeño → prueba real → registro del
   resultado y limitaciones → actualización de esta lista. Un fallo se anotará
@@ -170,13 +171,20 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
 
 **Cierre:** no basta con código escrito: el módulo se prueba, documenta e integra.
 
-## Última actualización — 5 de noviembre de 2026
+## Última actualización — 6 de noviembre de 2026
 
 - **Terminado:** E0 completo; comparación, copia local de SAM, ruta corregida,
   prueba CPU y validación de archivos. Entorno CPU propio instalado con las
   mismas versiones aprobadas, probado sin accesos a la carpeta antigua.
   Resultados en `MEDICIONES.md`; seguimiento de tareas en `TASKS.md`.
+- **T02 aprobada:** Brandon autoriza la combinación de `PROPUESTA_ENTORNO.md`.
+  No se instaló CUDA. Angel todavía no tiene WSL/Ubuntu; Brandon pidió posponer
+  su preparación y diagnóstico. La aprobación GPU sigue vigente.
+- **Cambio de alcance remoto:** main ahora prioriza candidatos externos y tiene
+  conector Sketchfab. Las etapas de catálogo manual deben revisarse con P3 antes
+  de implementarse; el diagnóstico T01 y la preparación de modelos siguen siendo útiles.
 - **Falta:** entorno propio CUDA, selección correcta, funciones reutilizables,
   DINO, catálogo, búsqueda, integración, caché y evaluación; I1 sin iniciar.
-- **Siguiente tarea:** **T01 / E1.1**, completar la evidencia del Ubuntu/WSL de Angel.
+- **Tarea externa pendiente:** **T01 / E1.1**, preparar Ubuntu/WSL de Angel y
+  después recopilar su diagnóstico. No se marca completada por las pruebas CPU.
   El fallo de autenticación Git también debe resolverse antes de sincronizar ramas.
