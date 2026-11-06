@@ -75,7 +75,7 @@ el modo CPU/GPU y los recursos disponibles quedan explícitos.
 
 ## E2 — Segmentación reutilizable e interfaz temprana (día 2)
 
-- [ ] E2.1 Crear `ai/segmentation.py`: `segment(image, box, points)` sin imagen
+- [x] E2.1 Crear `ai/segmentation.py`: `segment(image, box_xyxy, points)` sin imagen
   ni rectángulo fijos. Acordar tipos de retorno (máscara/puntuación) con P3;
   cargar el modelo una vez por proceso y permitir configurar CPU/CUDA.
 - [ ] E2.2 Validar RGB, dimensiones, coordenadas xyxy, puntos positivos/negativos
@@ -185,6 +185,9 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
   de implementarse; el diagnóstico T01 y la preparación de modelos siguen siendo útiles.
 - **Falta:** entorno propio CUDA, selección correcta, funciones reutilizables,
   DINO, catálogo, búsqueda, integración, caché y evaluación; I1 sin iniciar.
+- **T06 completada en CPU:** módulo reutilizable, modelo en caché y prueba real;
+  validación de entradas y selección visual permanecen en T07/T08.
+- **Siguiente tarea local:** T07, validar entradas; no se ejecutó en esta sesión.
 - **Tarea externa pendiente:** **T01 / E1.1**, preparar Ubuntu/WSL de Angel y
   después recopilar su diagnóstico. No se marca completada por las pruebas CPU.
   El fallo de autenticación Git también debe resolverse antes de sincronizar ramas.

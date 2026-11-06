@@ -183,3 +183,31 @@ dejar esa preparación pendiente. Las salidas NVIDIA/Python compartidas no son
 evidencia de ejecución en Ubuntu/WSL. T01 y las validaciones GPU posteriores
 siguen pendientes; la aprobación de versiones de T02 se conserva. No se instaló
 WSL, Ubuntu ni el entorno CUDA. Las pruebas locales CPU mantienen su validez.
+
+## Evidencia adicional de Luis · 6 de noviembre de 2026
+
+Se revisó `ai/Pruebas/Prueba1_Laptop Luis.json`, aportado por Brandon. Contiene
+una transcripción de terminal alrededor de JSON; se extrajo el objeto para
+leerlo sin alterar ni versionar el archivo original.
+Reporta Ubuntu 26.04.1 en WSL2, Python 3.14.4, glibc 2.43, `/dev/dxg` presente,
+RAM visible 16,728,621,056 bytes, RTX 4060 con 8188 MiB y driver 610.88.
+No acredita PyTorch/CUDA instalado, inferencia real ni el estado de la laptop
+de Angel. Se mantiene la asignación de servidor acordada; T01 sigue pendiente.
+
+## T06 — Segmentación reutilizable en CPU · 6 de noviembre de 2026
+
+- `ai/segmentation.py` usa los mismos pesos SAM y dependencias CPU existentes;
+  no se instalaron paquetes. `prueba_sam2.py` llama a `segment()`.
+- Validación: `ai/.venv-tests/bin/python -m py_compile ai/*.py` y
+  `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **19 passed, 3 subtests
+  passed in 12.63s**. Incluye pruebas sintéticas explícitas y prueba SAM real.
+- En la prueba real, dos llamadas CPU produjeron máscaras booleanas H×W
+  idénticas y puntuación finita; la construcción del modelo ocurrió una vez.
+- También se ejecutó desde `/tmp` el comando con rutas absolutas equivalente a
+  `ai/.venv-sam2/bin/python -I ai/prueba_sam2.py`: salida 0, imagen 1024 × 631,
+  tiempo de primera llamada 5.51 s y score bruto SAM 0.4343.
+- Ese tiempo incluye la primera carga y se obtuvo mientras corría pytest;
+  no es un benchmark ni es comparable con los 2.00/2.17 s que excluían carga.
+- Se generaron los tres archivos locales habituales, ignorados por Git.
+  El ejemplo conserva su caja fija: no se declara selección correcta de un
+  objeto ni precisión por esa puntuación. T07, T08 y la validación GPU siguen pendientes.

@@ -185,3 +185,31 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   independiente y el recolector estándar siguen listos para usarse.
 - Esta aclaración se incorpora al commit local aún no publicado de T01,
   conservando el historial remoto y dejando fuera el timestamp local de graphify.
+
+## T06 — Segmentación reutilizable · 2026-11-06
+
+- **Estado:** `completed` en CPU. T01 y T03–T05 dependen del WSL pospuesto de
+  Angel; según la regla de tareas sin esa dependencia se ejecutó únicamente
+  T06. No se inició T07 ni se instaló CUDA o alguna dependencia nueva.
+- **Código:** `ai/segmentation.py` devuelve máscara bool y score float; acepta
+  PIL/ndarray RGB, caja xyxy y puntos. Caché por dispositivo/ruta, carga única
+  incluso ante llamadas concurrentes y selección protegida por candado.
+  Pesos o CUDA ausentes devuelven error explícito «servicio no disponible».
+- **Extracción:** `prueba_sam2.py` importa la función sin duplicar inferencia.
+  Conserva su entrada/salidas y caja fija; el tiempo ahora incluye primera carga.
+- **Pruebas:** `ai/.venv-tests/bin/python -m py_compile ai/*.py` y
+  `ai/.venv-tests/bin/python -m pytest ai/tests -q`, código 0: **19 passed,
+  3 subtests passed in 12.63s**. Caché concurrente, reintento de carga fallida,
+  paso de prompts, errores de recursos y SAM real. Los subprocesos CPU usan su
+  propio Python 3.11; no se mezclaron paquetes con pytest Python 3.14.
+- **Arranque real:** prueba aislada desde `/tmp`, código 0; se generaron máscara,
+  recorte y superposición locales. Tiempo 5.51 s con primera carga y pruebas
+  concurrentes; score bruto 0.4343. No es una medición de precisión o benchmark.
+- **Evidencia adicional:** el reporte nuevo corresponde a Luis (RTX 4060,
+  Ubuntu/WSL2, Python 3.14.4), no a Angel. Se conserva sin modificaciones ni
+  incluirlo en este commit; su resumen está en `MEDICIONES.md`.
+- **Git:** fetch pasó y origin/main llegó a `350a42e`. La integración con main
+  sigue pendiente de coordinación por B03; no se editó ninguna carpeta ajena.
+  Commit: `ai(T06): extraer segmentacion SAM reutilizable` en
+  `feature/ai-exploracion`. Reporte de Luis y timestamp de graphify quedan fuera.
+- **Siguiente tarea local:** T07. T06 está terminada; el servidor GPU no lo está.

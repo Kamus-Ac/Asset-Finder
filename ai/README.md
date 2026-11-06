@@ -64,6 +64,28 @@ ai/.venv-tests/bin/python -m pytest ai/tests -q
 checkpoint y las salidas permanecen fuera de Git. Los intérpretes base son
 instalaciones de Python del sistema/uv, independientes del proyecto antiguo.
 
+## Segmentación reutilizable (T06)
+
+Desde otro módulo del proyecto se puede importar `from ai.segmentation import segment`.
+Recibe una imagen RGB PIL o ndarray, caja xyxy en píxeles y puntos `{x, y, label}`;
+devuelve `(mask, score)`: máscara booleana H×W y puntuación bruta del modelo.
+Usar `device="cpu"` o `device="cuda"`. No guarda archivos ni redimensiona la imagen.
+La validación exhaustiva de entradas se implementará en T07.
+
+El predictor se carga una vez por dispositivo/ruta de pesos durante el proceso;
+reiniciar el proceso si se sustituyen los pesos. Se serializa cada selección
+porque el predictor conserva estado de imagen. Pesos/CUDA ausentes producen
+`ServiceUnavailableError` con el mensaje «servicio no disponible».
+`prueba_sam2.py` ya usa esta función; el comando aislado `-I` sigue funcionando
+mediante una carga explícita del módulo hermano, sin añadir `ai/` a `sys.path`.
+La primera llamada incluye carga del modelo en su tiempo y no es comparable
+directamente con las mediciones antiguas que excluían esa carga.
+
+Las pruebas numéricas usan el intérprete de `ai/.venv-sam2` como subproceso,
+sin mezclar sus paquetes Python 3.11 con el entorno pytest Python 3.14. Si falta
+ese entorno o sus pesos, las pruebas de integración correspondientes se omiten
+explícitamente; no descargan ni instalan recursos automáticamente.
+
 ## Servidor acordado
 
 La IA correrá en **Ubuntu sobre WSL de la laptop de Angel**. Brandon compartió

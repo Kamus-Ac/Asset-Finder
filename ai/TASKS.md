@@ -67,8 +67,11 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
 
 ## FASE 2 — Segmentación reutilizable (E2)
 
-- [ ] **T06 `segment()` reutilizable (E2.1).** Crear `ai/segmentation.py` con `segment(image, box_xyxy, points)` → máscara y puntuación. Cargar el modelo una sola vez por proceso y permitir elegir CPU o CUDA. Extraerlo de `prueba_sam2.py` sin copiar la lógica dos veces.
+- [x] **T06 `segment()` reutilizable (E2.1).** Crear `ai/segmentation.py` con `segment(image, box_xyxy, points)` → máscara y puntuación. Cargar el modelo una sola vez por proceso y permitir elegir CPU o CUDA. Extraerlo de `prueba_sam2.py` sin copiar la lógica dos veces.
   *Aceptación:* `ai/tests/test_segmentation.py` pasa; otro script importa `segment` sin copiar código.
+  **Completada en CPU el 6 de noviembre:** 19 pruebas pasan, incluida inferencia
+  SAM real y caché de modelo. CUDA es seleccionable y falla explícitamente si no
+  está disponible; todavía no está validada en GPU. T07/T08 siguen pendientes.
 
 - [ ] **T07 Validación de entradas (E2.2).** Rechazar: imagen que no sea RGB, cajas con `x1 >= x2` o `y1 >= y2`, coordenadas fuera de la imagen, puntos con `label` distinto de 0 o 1, y listas vacías de selección.
   *Aceptación:* pruebas para cada caso, con error claro.
@@ -167,7 +170,7 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
   No hay publicación nueva; falta autenticar Git o habilitar escritura de la integración.
 - [ ] **B02 `graphify-out/` en `.gitignore`.** Lo gestiona P3 (dueño de la raíz).
   [NEEDS USER] Pedir a Manuel que lo agregue.
-- [ ] **B03 Integración con main.** `origin/main` avanzó hasta `c12b19a`.
+- [ ] **B03 Integración con main.** `origin/main` avanzó hasta `350a42e`.
   La previsualización de merge detecta conflicto en README compartido y elimina
   los antiguos planes/contratos de raíz. Coordinar la integración con P3;
   no se modificaron esos archivos ni se reescribió la rama publicada.
