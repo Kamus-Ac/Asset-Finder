@@ -1,18 +1,24 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
-
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
-
-SplashScreen.preventAutoHideAsync();
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
-  );
+import { Stack, ThemeProvider, DarkTheme, DefaultTheme } from 'expo-router';
+import { DemoSessionProvider } from '@/mocks/session';
+import { StatusBar } from 'expo-status-bar';
+import { AppTheme, useAppTheme } from '@/theme';
+export const unstable_settings = { initialRouteName: '(tabs)' };
+function Navigation() {
+  const { colors, dark } = useAppTheme();
+  const base = dark ? DarkTheme : DefaultTheme;
+  return <ThemeProvider value={{ ...base, colors: { ...base.colors, primary: colors.accent, background: colors.background, card: colors.surface, text: colors.text, border: colors.border } }}>
+    <StatusBar style={dark ? 'light' : 'dark'} />
+    <Stack screenOptions={{ headerStyle: { backgroundColor: colors.background }, headerTintColor: colors.text, headerShadowVisible: false, contentStyle: { backgroundColor: colors.background } }}>
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="explore" options={{ headerShown: false }} />
+    </Stack>
+  </ThemeProvider>;
+}
+export default function RootLayout() {
+  return <AppTheme>
+    <DemoSessionProvider>
+      <Navigation />
+    </DemoSessionProvider>
+  </AppTheme>;
 }
