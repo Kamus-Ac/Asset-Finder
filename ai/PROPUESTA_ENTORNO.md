@@ -7,6 +7,10 @@ T03; su ejecución sigue pendiente de acceso y diagnóstico del WSL de Angel.
 Brandon confirmó el 6 de noviembre que WSL/Ubuntu aún no está instalado y
 pospuso esa preparación. La aprobación de estas versiones se conserva.
 
+**9 de noviembre:** Brandon informa que la laptop ya está preparada para
+pruebas. Se retoma T01; falta recibir el diagnóstico de Ubuntu/WSL. La aprobación
+de T02 sigue vigente y no acredita todavía una instalación GPU validada.
+
 ## Combinación propuesta
 
 | Componente | Selección para el entorno nuevo |

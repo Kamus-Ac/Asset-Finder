@@ -27,7 +27,7 @@ simplificaciones que el equipo aún debe acordar.
 | Etapa | Estado | Resultado para cerrar |
 | --- | --- | --- |
 | E0 · Elegir base y auditar CPU | completed | Comparación, recursos recuperados y prueba documentada |
-| E1 · Entorno del servidor | queued | SAM/DINO ejecutables en CUDA, o alternativa CPU documentada |
+| E1 · Entorno del servidor | running | Laptop reportada preparada; falta diagnóstico WSL y validación CUDA |
 | E2 · Segmentación e interfaz temprana | running | Código probado; falta confirmación de tipos por P3 |
 | E3 · Recorte y embedding | queued | `embed` real y preparación consistente |
 | E4 · Catálogo e índice | queued | 20–30 assets con metadatos y vectores versionados |
@@ -180,8 +180,8 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
   mismas versiones aprobadas, probado sin accesos a la carpeta antigua.
   Resultados en `MEDICIONES.md`; seguimiento de tareas en `TASKS.md`.
 - **T02 aprobada:** Brandon autoriza la combinación de `PROPUESTA_ENTORNO.md`.
-  No se instaló CUDA. Angel todavía no tiene WSL/Ubuntu; Brandon pidió posponer
-  su preparación y diagnóstico. La aprobación GPU sigue vigente.
+  El 9 de noviembre Brandon informa que la laptop de Angel ya está preparada.
+  Falta recibir el diagnóstico WSL y validar CUDA. La aprobación GPU sigue vigente.
 - **Cambio de alcance remoto:** main ahora prioriza candidatos externos y tiene
   conector Sketchfab. Las etapas de catálogo manual deben revisarse con P3 antes
   de implementarse; el diagnóstico T01 y la preparación de modelos siguen siendo útiles.
@@ -198,6 +198,7 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
   `NOTAS_SAM3D.md`; generación 3D no disponible, sin instalaciones nuevas.
 - **FASE 2:** trabajo local terminado; falta aceptación escrita de T09 por Manuel
   y publicación. No se inicia FASE 3 en esta sesión.
-- **Tarea externa pendiente:** **T01 / E1.1**, preparar Ubuntu/WSL de Angel y
-  después recopilar su diagnóstico. No se marca completada por las pruebas CPU.
-  El fallo de autenticación Git también debe resolverse antes de sincronizar ramas.
+- **Tarea retomada:** **T01 / E1.1**, recibir el diagnóstico dentro del Ubuntu/WSL
+  de Angel. Preparación reportada por Brandon; validación técnica aún pendiente.
+  No se marca completada por las pruebas CPU. Main ya se integró; el bloqueo
+  histórico de autenticación para publicar sigue pendiente de resolver.

@@ -306,3 +306,27 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   según la regla de trabajo 3. B01 (autenticación histórica) y B03 (conflicto
   compartido con main) continúan pendientes; todos los commits se conservan
   en `feature/ai-exploracion`. No se modificaron otras carpetas.
+
+## T01 — Retomada con la laptop de Angel preparada · 2026-11-09
+
+- **Estado:** `running`, aceptación pendiente. Brandon informa que Angel ya
+  tiene la laptop preparada para pruebas. Se sustituye el bloqueo anterior por
+  la solicitud de evidencia: diagnóstico ejecutado dentro de Ubuntu/WSL de Angel.
+  No se considera que el anuncio confirme por sí solo GPU/CUDA operativas.
+- **Siguiente acción en ese equipo:** desde la raíz del proyecto,
+  `python3 -I ai/diagnostico_servidor.py`, y compartir el JSON completo.
+  También se puede copiar solo el script y ejecutarlo de forma independiente.
+  No instala paquetes. El informe de Luis no reemplaza esta evidencia.
+- **Validación local del recolector:**
+  `ai/.venv-tests/bin/python -m pytest ai/tests/test_diagnostico_servidor.py ai/tests/test_smoke.py -q`,
+  código 0: **12 passed, 3 subtests passed in 0.04s**. Casos sintéticos;
+  no son una prueba del servidor ni completan T01. No cambió código ejecutable.
+- **Instalación:** T02 mantiene su aprobación; no se pide de nuevo para las
+  mismas versiones. T03–T05 esperan el diagnóstico y acceso/ejecución en Angel;
+  no se instala nada en esta sesión ni se usa el entorno CPU como prueba CUDA.
+- **Git:** fetch pasó y `origin/main` ya es ancestro de esta rama. B03 resuelto
+  por merge `4425c62` y restauración documental `7390afa`; se actualiza su estado.
+  Los archivos generados de graphify quedan fuera del commit. No corresponde
+  push de cierre: FASE 1 aún no aceptada. T09 sigue esperando a Manuel y no
+  bloquea esta reanudación de FASE 1.
+- **Commit:** `ai(T01): retomar diagnostico del servidor de Angel`.

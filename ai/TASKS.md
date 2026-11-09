@@ -36,9 +36,11 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
   *Aceptación:* `ai/MEDICIONES.md` tiene la salida de `nvidia-smi`, `python --version` y memoria; validación en verde.
   [NEEDS USER] Recibidas las salidas de Angel: driver 610.78, 8188 MiB de VRAM
   y Python 3.12.1. Brandon confirma que la IA correrá en Ubuntu sobre WSL.
-  **Bloqueada y pospuesta por Brandon el 6 de noviembre:** Angel todavía no
-  tiene WSL/Ubuntu instalado. Primero debe prepararse ese sistema y, después,
-  obtener el diagnóstico. Las salidas recibidas no acreditan un entorno Linux.
+  **Historial del 6 de noviembre:** Brandon pospuso T01 porque Angel aún no
+  tenía WSL/Ubuntu. Las salidas Windows no acreditaban un entorno Linux.
+  **Retomada el 9 de noviembre:** Brandon informa que la laptop ya está
+  preparada para pruebas. Falta recibir el JSON de `diagnostico_servidor.py`
+  ejecutado dentro del Ubuntu/WSL de Angel para verificar GPU, Python y memoria.
   El entorno local de pruebas está en verde. Por solicitud explícita de Brandon,
   se reinstaló el entorno CPU dentro de este proyecto: ya no depende del antiguo.
   Ver `PROGRESS.md`. T01 sigue `[ ]`; Brandon autorizó preparar únicamente la
@@ -54,8 +56,8 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
 
 - [ ] **T03 Entorno CUDA aislado (E1.2).** Crear `ai/.venv-gpu` (fuera de Git), instalar la combinación aprobada en T02 y generar `ai/requirements-gpu.txt` nuevo. No modificar `requirements-sam2.txt`, que fija PyTorch CPU.
   *Aceptación:* `python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"` muestra `True` y la GPU. Si no hay GPU, la tarea queda `[ ]` y se acuerda CPU con P3.
-  **Bloqueada por T01:** WSL/Ubuntu del servidor aún no está instalado. T02
-  conserva su aprobación; T03–T05 quedan pendientes sin ejecutar instalaciones.
+  **Pendiente de T01:** verificar el diagnóstico WSL del equipo ya reportado
+  como preparado. T02 conserva su aprobación; T03–T05 aún no están validadas.
 
 - [ ] **T04 Carga de modelos en GPU y medición (E1.3).** Cargar SAM 2.1 Tiny y DINOv2 ViT-S/14 en CUDA. Medir tiempo de carga, tiempo de inferencia (con calentamiento y `torch.cuda.synchronize()`) y VRAM pico con `torch.cuda.max_memory_allocated()`.
   *Aceptación:* cifras en `ai/MEDICIONES.md` con comando, repeticiones y dispositivo.
@@ -103,8 +105,8 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
 
 **Cierre de trabajo local de FASE 2:** T06–T08 y T10 completas; T09 implementada
 y probada, pendiente de aceptación escrita de Manuel. La fase sigue sin aceptación
-total; no se inicia T11 ni se declara integración con backend. Publicación y
-sincronización con main conservan sus bloqueos B01/B03.
+total; no se inicia T11 ni se declara integración con backend. La publicación
+conserva su bloqueo B01; B03 fue resuelto al integrar main.
 
 ---
 
@@ -190,7 +192,7 @@ sincronización con main conservan sus bloqueos B01/B03.
   No hay publicación nueva; falta autenticar Git o habilitar escritura de la integración.
 - [ ] **B02 `graphify-out/` en `.gitignore`.** Lo gestiona P3 (dueño de la raíz).
   [NEEDS USER] Pedir a Manuel que lo agregue.
-- [ ] **B03 Integración con main.** `origin/main` avanzó hasta `350a42e`.
-  La previsualización de merge detecta conflicto en README compartido y elimina
-  los antiguos planes/contratos de raíz. Coordinar la integración con P3;
-  no se modificaron esos archivos ni se reescribió la rama publicada.
+- [x] **B03 Integración con main.** Resuelta el 9 de noviembre: merge `4425c62`
+  integra `350a42e` y conserva el README propio por indicación de Brandon.
+  `7390afa` recupera los planes/contratos de raíz. `origin/main` es ancestro
+  de la rama actual; no se reescribió el historial. Publicación pendiente en B01.

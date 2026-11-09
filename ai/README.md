@@ -115,6 +115,10 @@ El entorno CUDA de ese servidor se preparará por separado mediante T02–T05;
 esta reinstalación CPU no cierra esas tareas. SAM 3D sigue como
 **servicio no disponible**.
 
+**Actualización del 9 de noviembre:** Brandon informa que la laptop de Angel
+ya está preparada para pruebas. Se retoma T01 con el comando siguiente; aún
+falta su JSON de Ubuntu/WSL para confirmar el entorno y continuar con CUDA.
+
 ## Recopilar T01 dentro del WSL de Angel
 
 Desde la raíz del proyecto, sin activar entornos ni instalar paquetes:
