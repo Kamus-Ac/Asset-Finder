@@ -22,6 +22,11 @@ y dispositivos NVIDIA antes de decidir instalaciones; no se cambió la propuesta
 Confirmar servidor antes de instalar. Esta propuesta CUDA no queda validada
 por las salidas de la Dell; la aprobación original no cambia el equipo por sí sola.
 
+Brandon aclara después que ejecutaron las pruebas en la laptop equivocada.
+Se conserva la MSI/RTX 4070 como servidor; faltan sus salidas reales de WSL.
+Python 3.14.4 y los archivos NVIDIA ausentes corresponden al equipo Dell probado,
+no se atribuyen a la MSI sin evidencia nueva.
+
 ## Combinación propuesta
 
 | Componente | Selección para el entorno nuevo |

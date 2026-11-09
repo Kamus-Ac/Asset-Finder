@@ -395,3 +395,18 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 - **Validación:** salida textual y enlaces locales revisados;
   `git diff --check` limpio. Sin cambios de código ni nuevas pruebas de modelo.
 - **Commit:** `ai(T01): distinguir equipo Dell de servidor MSI previsto`.
+
+## T01 — Brandon confirma laptop equivocada; servidor MSI se mantiene · 2026-11-09
+
+- Brandon aclara que las pruebas anteriores se ejecutaron en la laptop
+  equivocada y que las repetirá en la correcta. Se mantiene la MSI/RTX 4070.
+  No se acuerda ni se instala una alternativa CPU en la Dell.
+- Los informes Dell se conservan como evidencia de otro equipo; su Python,
+  memoria y ausencia de archivos NVIDIA no se trasladan al servidor MSI.
+- README actualizado con un único bloque PowerShell, sin depender de la rama
+  ni de archivos locales del proyecto. Consulta modelo, Windows NVIDIA, WSL,
+  Ubuntu, arquitectura, glibc, NVIDIA/Python y memoria dentro de Ubuntu.
+- T01 sigue `running`, `[ ]`, a la espera de las nuevas salidas. Sin cambios
+  de dependencias o código y sin ejecutar T03. Validación documental:
+  `git diff --check`; se conservan los informes originales sin alterarlos.
+- Commit: `ai(T01): confirmar MSI y separar evidencia de la Dell`.

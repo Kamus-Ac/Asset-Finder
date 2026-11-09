@@ -140,9 +140,28 @@ La consulta usa el [formato CSV documentado por NVIDIA](https://docs.nvidia.com/
 Dell Latitude 3410 e Intel UHD presente, OK. No coincide con la MSI/RTX 4070
 comunicada inicialmente. La consulta PnP de errores no devolvió coincidencias;
 su mensaje no demuestra una avería ni la presencia/ausencia física de una RTX.
-Confirmar con Brandon el servidor definitivo antes de instalar o cambiar modos.
-Si sigue siendo la MSI, ejecutar el recolector allí. Si será la Dell, acordar
-CPU con P3 y revisar el entorno; estas pruebas no acreditan CUDA.
+Brandon confirmó después el error: se mantiene la MSI/RTX 4070 como servidor.
+Ejecutar el recolector o las comprobaciones siguientes allí; los resultados de
+la Dell, incluido Python 3.14.4, no validan el estado de la MSI.
+
+Bloque para pegar **solo en PowerShell de la MSI**; no requiere el repositorio:
+
+```powershell
+Get-CimInstance Win32_ComputerSystem | Format-List Manufacturer, Model
+nvidia-smi
+wsl -l -v
+wsl -d Ubuntu -- cat /etc/os-release
+wsl -d Ubuntu -- uname -m
+wsl -d Ubuntu -- getconf GNU_LIBC_VERSION
+wsl -d Ubuntu -- /usr/lib/wsl/lib/nvidia-smi
+wsl -d Ubuntu -- python3 --version
+wsl -d Ubuntu -- python3.12 --version
+wsl -d Ubuntu -- free -h
+```
+
+Pegar toda la salida, incluidos errores. No instala ni cambia configuración.
+Si Ubuntu tiene otro nombre en `wsl -l -v`, revisar ese nombre antes de repetir
+las líneas `wsl -d Ubuntu`; un fallo de selección de distribución no prueba su GPU.
 
 Evidencia: [JSON recibido](Pruebas/Diagnostico_Angel_2026-11-09.json). Python del
 sistema: 3.14.4; RAM visible para WSL: 7.64 GiB. `/dev/dxg` existe, pero el
