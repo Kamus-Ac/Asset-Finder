@@ -73,8 +73,12 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
   SAM real y caché de modelo. CUDA es seleccionable y falla explícitamente si no
   está disponible; todavía no está validada en GPU. T07/T08 siguen pendientes.
 
-- [ ] **T07 Validación de entradas (E2.2).** Rechazar: imagen que no sea RGB, cajas con `x1 >= x2` o `y1 >= y2`, coordenadas fuera de la imagen, puntos con `label` distinto de 0 o 1, y listas vacías de selección.
+- [x] **T07 Validación de entradas (E2.2).** Rechazar: imagen que no sea RGB, cajas con `x1 >= x2` o `y1 >= y2`, coordenadas fuera de la imagen, puntos con `label` distinto de 0 o 1, y listas vacías de selección.
   *Aceptación:* pruebas para cada caso, con error claro.
+  **Completada el 9 de noviembre:** 28 pruebas pasan, con casos inválidos que
+  comprueban que no se carga SAM. RGB uint8; cajas dentro de [0, ancho/alto],
+  puntos dentro de [0, ancho/alto); label entero 0/1; se requiere caja o puntos.
+  `points=[]` es opcional si hay caja válida; `box_xyxy=[]` siempre es inválido.
 
 - [ ] **T08 Prueba de selección real (E2.3).** Probar con `ai/prueba.jpeg`: un rectángulo sobre la silla y una selección con puntos positivos y negativos. Verificar que la máscara no esté vacía, que su forma coincida con la imagen y guardar una visualización de la superposición.
   *Aceptación:* imágenes de resultado en `ai/resultados/` (fuera de Git) y una línea en `PROGRESS.md` con lo observado, incluido si falla.

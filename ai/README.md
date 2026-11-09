@@ -70,7 +70,19 @@ Desde otro módulo del proyecto se puede importar `from ai.segmentation import s
 Recibe una imagen RGB PIL o ndarray, caja xyxy en píxeles y puntos `{x, y, label}`;
 devuelve `(mask, score)`: máscara booleana H×W y puntuación bruta del modelo.
 Usar `device="cpu"` o `device="cuda"`. No guarda archivos ni redimensiona la imagen.
-La validación exhaustiva de entradas se implementará en T07.
+Las entradas inválidas lanzan `ValueError` antes de cargar el predictor (T07):
+
+- Imagen PIL en modo RGB o ndarray `uint8` H×W×3, con ancho/alto positivos.
+  No se convierte automáticamente escala de grises, RGBA ni arrays flotantes.
+- Caja con cuatro números finitos: `0 <= x1 < x2 <= ancho` y
+  `0 <= y1 < y2 <= alto`; no acepta strings, booleanos ni cajas vacías.
+- Cada punto contiene `x`, `y`, `label`: coordenadas finitas con
+  `0 <= x < ancho`, `0 <= y < alto`; label entero 0/1, excluyendo booleanos.
+- Debe haber una caja válida o puntos. Omitir puntos o usar `points=[]` es válido
+  junto a una caja; sin caja ni puntos se rechaza como selección vacía.
+
+Las coordenadas se refieren a la imagen recibida, sin cambio de tamaño, unidades
+ni corrección automática de orientación EXIF. El llamador prepara su imagen RGB.
 
 El predictor se carga una vez por dispositivo/ruta de pesos durante el proceso;
 reiniciar el proceso si se sustituyen los pesos. Se serializa cada selección

@@ -213,3 +213,31 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   Commit: `ai(T06): extraer segmentacion SAM reutilizable` en
   `feature/ai-exploracion`. Reporte de Luis y timestamp de graphify quedan fuera.
 - **Siguiente tarea local:** T07. T06 está terminada; el servidor GPU no lo está.
+
+## T07 — Validación de entradas · 2026-11-09
+
+- **Estado:** `completed`. T01/T03–T05 mantienen el bloqueo del servidor;
+  se ejecutó solo T07, siguiente tarea local independiente. T08 no se inició.
+- **Cambio:** imágenes PIL RGB o ndarray uint8 H×W×3 con dimensiones positivas;
+  cajas xyxy de cuatro números finitos y orden/rangos correctos; puntos con
+  claves x/y/label, coordenadas interiores y label entero 0/1. Se rechazan
+  booleanos, strings, NaN/Inf y ausencia de selección. Una lista de puntos vacía
+  es válida si hay caja, pero una caja vacía es inválida.
+- **Errores:** ValueError en español que identifica imagen, box_xyxy o punto.
+  La validación ocurre antes de importar PyTorch y solicitar/cargar el predictor.
+  No se cambian coordenadas, orientación ni colores silenciosamente.
+- **Validación ejecutada:**
+  ```bash
+  ai/.venv-tests/bin/python -m py_compile ai/*.py
+  ai/.venv-tests/bin/python -m pytest ai/tests -q
+  ```
+  Resultado: compilación correcta; **28 passed, 3 subtests passed in 18.57s**.
+  Casos negativos verifican que el predictor no se solicite. Casos positivos
+  cubren caja hasta el borde, solo puntos, caja+puntos y ndarray de solo lectura;
+  las pruebas SAM reales de T06 también pasan. Sin dependencias nuevas.
+- **Git:** fetch pasó sin novedades. B03 sigue pendiente: no se integró main
+  por el conflicto compartido ya registrado; no se reescribió la rama publicada.
+  Commit: `ai(T07): validar entradas antes de cargar SAM`, en
+  `feature/ai-exploracion`. No corresponde push de cierre de FASE 2 todavía.
+- **Siguiente tarea local:** T08. La elección de objeto y la GPU no se declaran
+  validadas por estas pruebas de entradas.

@@ -1,4 +1,4 @@
-"""T06: caché sin modelos y pruebas CPU reales en el entorno local existente."""
+"""Caché, validación T07 e integración CPU en el entorno local existente."""
 
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -65,6 +65,100 @@ spec.loader.exec_module(module)
                                  str(AI / "segmentation.py"), str(AI / "prueba.jpeg")],
                                 capture_output=True, text=True, timeout=90)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def assert_rejected(self, cases):
+        self.run_cpu("cases = " + cases + """
+from unittest.mock import patch
+with patch.object(module, '_get_predictor', side_effect=AssertionError('No debe cargar SAM')) as loader:
+    for image, box, points, message in cases:
+        try:
+            module.segment(image, box, points)
+        except ValueError as error:
+            assert message in str(error), (message, str(error))
+        else:
+            raise AssertionError(('No rechazó entrada inválida', box, points))
+    loader.assert_not_called()
+""")
+
+    def test_non_rgb_images_are_rejected(self):
+        self.assert_rejected("""[
+            (image, [0, 0, 8, 6], None, 'imagen') for image in (
+                Image.new('L', (8, 6)), Image.new('RGBA', (8, 6)),
+                np.zeros((6, 8), dtype=np.uint8), np.zeros((6, 8, 4), dtype=np.uint8),
+                np.zeros((6, 8, 3), dtype=np.float32), 'no es una imagen', None)
+        ]""")
+
+    def test_empty_image_dimensions_are_rejected(self):
+        self.assert_rejected("""[
+            (np.zeros(shape, dtype=np.uint8), [0, 0, 1, 1], None, 'imagen')
+            for shape in ((0, 8, 3), (6, 0, 3))
+        ]""")
+
+    def test_box_order_and_bounds_are_rejected(self):
+        self.assert_rejected("""[
+            (np.zeros((6, 8, 3), dtype=np.uint8), box, None, 'box_xyxy')
+            for box in ([2, 1, 2, 5], [3, 1, 2, 5], [1, 2, 6, 2], [1, 3, 6, 2],
+                        [-1, 0, 8, 6], [0, -1, 8, 6], [0, 0, 9, 6], [0, 0, 8, 7])
+        ]""")
+
+    def test_box_shape_types_and_nonfinite_coordinates_are_rejected(self):
+        self.assert_rejected("""[
+            (np.zeros((6, 8, 3), dtype=np.uint8), box, None, 'box_xyxy')
+            for box in ([], [0, 0, 8], [0, 0, 8, 6, 1], [[0, 0, 8, 6]],
+                        ['0', 0, 8, 6], [False, 0, 8, 6],
+                        [float('nan'), 0, 8, 6], [0, 0, float('inf'), 6])
+        ]""")
+
+    def test_point_bounds_types_and_nonfinite_values_are_rejected(self):
+        self.assert_rejected("""[
+            (np.zeros((6, 8, 3), dtype=np.uint8), None,
+             [{'x': x, 'y': y, 'label': 1}], 'points')
+            for x, y in ((-1, 0), (0, -1), (8, 0), (0, 6), ('1', 0), (True, 0),
+                         (float('nan'), 0), (0, float('inf')))
+        ]""")
+
+    def test_labels_must_be_integer_zero_or_one(self):
+        self.assert_rejected("""[
+            (np.zeros((6, 8, 3), dtype=np.uint8), None,
+             [{'x': 1, 'y': 1, 'label': label}], 'label')
+            for label in (-1, 2, 0.5, 1.0, '1', True, np.bool_(False), float('nan'))
+        ]""")
+
+    def test_malformed_points_are_rejected(self):
+        self.assert_rejected("""[
+            (np.zeros((6, 8, 3), dtype=np.uint8), [0, 0, 8, 6], points, 'points')
+            for points in ({}, 'punto', [None], [{}], [{'x': 1, 'y': 1}])
+        ]""")
+
+    def test_missing_selection_is_rejected(self):
+        self.assert_rejected("""[
+            (np.zeros((6, 8, 3), dtype=np.uint8), None, points, 'selección vacía')
+            for points in (None, [], ())
+        ]""")
+
+    def test_valid_box_edges_and_points_only_remain_supported(self):
+        self.run_cpu("""
+class FakePredictor:
+    def set_image(self, pixels):
+        assert pixels.flags.writeable
+        self.shape = pixels.shape[:2]
+    def predict(self, **kwargs):
+        assert kwargs['multimask_output'] is False
+        assert kwargs['box'] is not None or kwargs['point_coords'] is not None
+        mask = np.zeros((1, *self.shape), dtype=bool)
+        mask[0, 0, 0] = True
+        return mask, np.array([0.5]), None
+module._build_predictor = lambda *args: FakePredictor()
+image = np.zeros((6, 8, 3), dtype=np.uint8)
+image.setflags(write=False)
+points = [{'x': np.float32(0), 'y': 0, 'label': np.int64(1)},
+          {'x': 7, 'y': 5, 'label': 0}]
+for box, prompts in (([0, 0, 8, 6], None), ([0, 0, 8, 6], []),
+                     (None, points), ([0, 0, 8, 6], points)):
+    mask, score = module.segment(image, box, prompts)
+    assert mask.shape == (6, 8) and mask.dtype == bool and score == 0.5
+assert image.sum() == 0 and not image.flags.writeable
+""")
 
     def test_prompts_and_output_with_explicit_fake_predictor(self):
         self.run_cpu("""
