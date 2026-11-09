@@ -1,8 +1,14 @@
 from fastapi import FastAPI, Query
 
-from connectors.sketchfab import search_sketchfab
+if __package__:
+    from .connectors.sketchfab import search_sketchfab
+    from .media import router as media_router
+else:
+    from connectors.sketchfab import search_sketchfab
+    from media import router as media_router
 
 app = FastAPI()
+app.include_router(media_router)
 
 
 @app.get("/health")
