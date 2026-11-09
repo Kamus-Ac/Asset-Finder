@@ -41,7 +41,7 @@ Entregar la **comprensión y comparación visual**, dentro de `ai/`:
   sin integración visual. No se probó Sketchfab en vivo en esta revisión.
 - **Web:** tarjetas y cubos Three.js de demostración. Móvil y flujo completo pendientes.
 - **Servidor:** Ubuntu/WSL2 de Angel confirmado, Python 3.14.4 y 7.64 GiB RAM
-  visibles. `nvidia-smi` ausente: GPU/CUDA aún sin validar; comprobar Python 3.12.
+  visibles. Windows solo enumera Intel; NVIDIA/CUDA sin validar y `python3.12` no accesible.
   El diagnóstico de Luis corresponde a otro equipo.
 
 ## Alcance y siguiente paso

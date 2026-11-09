@@ -260,3 +260,21 @@ T01 sigue parcial; T03 no se ejecuta. Se solicitan las comprobaciones de
 PowerShell/WSL del README. Python 3.14.4 es el valor real de `python3`, distinto
 del 3.12 aprobado en T02; falta comprobar si `python3.12` está instalado.
 No se cambian paquetes ni se instala un driver NVIDIA Linux en WSL.
+
+### Comprobación adicional desde PowerShell
+
+Salida compartida por Brandon:
+[Angel_GPU_Windows_2026-11-09.txt](Pruebas/Angel_GPU_Windows_2026-11-09.txt).
+La consulta `Win32_VideoController` enumera únicamente **Intel(R) UHD Graphics**,
+driver **31.0.101.2134**, estado **OK**. No enumera NVIDIA; esto no demuestra
+ausencia física ni determina si hay un dispositivo deshabilitado o sin controlador.
+
+Los comandos `wsl -d Ubuntu -- ...` sí se ejecutaron dentro de Linux:
+`/dev/dxg` existe, `/usr/lib/wsl/lib/nvidia-smi` y `libcuda.so.1` no existen,
+y `python3.12` no está accesible por nombre. La salida anterior de PowerShell
+que intentaba usar directamente `ls -l` no servía para comprobar esos archivos.
+También se recibió WSL 3.0.3.0 y distribución Ubuntu en versión WSL 2.
+
+Se piden modelo exacto y dispositivos PnP para aclarar la discrepancia con la
+RTX 4070 reportada inicialmente. T01 parcial y T03 sin ejecutar; no se cambian
+dependencias ni se atribuye la causa automáticamente al driver o a MSI Center.

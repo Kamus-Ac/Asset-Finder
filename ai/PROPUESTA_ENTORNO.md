@@ -13,6 +13,10 @@ parcial. La aprobación de T02 sigue vigente para **Python 3.12**, no autoriza
 cambiar automáticamente a 3.14. Primero comprobar si `python3.12` ya existe y
 la exposición de NVIDIA a WSL; no ejecutar todavía el bloque de instalación.
 
+**Comprobación adicional:** `wsl -d Ubuntu -- python3.12 --version` devuelve
+`command not found`; Windows solo enumera Intel UHD. Falta identificar modelo
+y dispositivos NVIDIA antes de decidir instalaciones; no se cambió la propuesta.
+
 ## Combinación propuesta
 
 | Componente | Selección para el entorno nuevo |

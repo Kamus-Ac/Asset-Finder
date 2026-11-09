@@ -356,3 +356,24 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   de T02 se conserva para la combinación original. T01 continúa `[ ]` hasta
   aclarar la evidencia NVIDIA; no se avanza a otra tarea por este informe parcial.
 - **Commit:** `ai(T01): registrar diagnostico WSL de Angel y pendientes NVIDIA`.
+
+## T01 — Windows solo enumera Intel; comprobación PnP pendiente · 2026-11-09
+
+- **Estado:** `running`, pendiente de evidencia externa. Recibida consulta real
+  de Windows y ejecución explícita dentro de Ubuntu mediante `wsl -d Ubuntu --`.
+  Evidencia: `ai/Pruebas/Angel_GPU_Windows_2026-11-09.txt`.
+- **Resultado:** Intel UHD, driver 31.0.101.2134, OK; NVIDIA no enumerada por
+  `Win32_VideoController`. En WSL faltan `nvidia-smi` y `libcuda.so.1` en su ruta
+  estándar; `python3.12` devuelve `command not found`. No es prueba de ausencia
+  física de una RTX, ni permite afirmar una causa concreta.
+- **Próximo paso:** modelo exacto con `Win32_ComputerSystem`, dispositivos
+  Display presentes y dispositivos PnP con errores, todo desde PowerShell.
+  README actualizado para evitar copiar comandos Linux directamente en Windows.
+  Microsoft documenta las consultas PnP; MSI documenta un modo integrado que
+  desactiva NVIDIA, pero no sabemos si aplica a esta laptop. Fuentes en README.
+- **Validación:** evidencia textual y enlaces locales revisados;
+  `git diff --check` limpio. Sin cambios de código ni pruebas CUDA simuladas.
+  No se instalaron paquetes, drivers o MSI Center ni se modificó firmware.
+- **Continuidad:** T01 sigue `[ ]`; T03 no se ejecuta hasta resolver NVIDIA
+  y preparar un intérprete aprobado. Commit:
+  `ai(T01): registrar deteccion Intel y comprobaciones de hardware pendientes`.

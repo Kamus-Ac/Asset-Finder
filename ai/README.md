@@ -141,19 +141,15 @@ sistema: 3.14.4; RAM visible para WSL: 7.64 GiB. `/dev/dxg` existe, pero el
 script no encuentra `nvidia-smi` en PATH ni como ejecutable en la ruta estándar
 WSL. No se concluye que la GPU física falte ni que CUDA haya sido probada.
 
-Pedir estas salidas **sin instalar paquetes**. En PowerShell de Windows:
+Primeras comprobaciones, **todas desde PowerShell de Windows**. `wsl -d Ubuntu --`
+ejecuta las líneas indicadas dentro de Ubuntu sin cambiar de terminal:
 
 ```powershell
 nvidia-smi
 wsl --version
 wsl -l -v
-```
-
-En Ubuntu/WSL:
-
-```bash
-ls -l /dev/dxg /usr/lib/wsl/lib/nvidia-smi /usr/lib/wsl/lib/libcuda.so.1
-python3.12 --version
+wsl -d Ubuntu -- ls -l /dev/dxg /usr/lib/wsl/lib/nvidia-smi /usr/lib/wsl/lib/libcuda.so.1
+wsl -d Ubuntu -- python3.12 --version
 ```
 
 Compartir errores tal como aparezcan. El último comando solo comprueba si ya
@@ -161,6 +157,22 @@ existe el intérprete aprobado; no reemplaza Python 3.14. Según la
 [guía oficial NVIDIA para WSL](https://docs.nvidia.com/cuda/wsl-user-guide/index.html),
 WSL usa el driver NVIDIA de Windows; no instalar un driver de pantalla NVIDIA
 Linux para intentar resolver este diagnóstico. La causa sigue sin determinar.
+
+**Resultado recibido:** Windows solo enumera Intel UHD; los dos archivos NVIDIA
+no existen en WSL y `python3.12` no se encuentra. Esto no prueba que no haya
+una RTX física. Identificar equipo y dispositivos actuales en PowerShell:
+
+```powershell
+Get-CimInstance Win32_ComputerSystem | Format-List Manufacturer, Model
+Get-PnpDevice -PresentOnly -Class Display | Format-Table Status, FriendlyName -AutoSize
+Get-PnpDevice -PresentOnly -Status ERROR,DEGRADED,UNKNOWN | Format-Table Status, Class, FriendlyName -AutoSize
+```
+
+Los comandos solo consultan datos ([Get-PnpDevice, Microsoft](https://learn.microsoft.com/en-us/powershell/module/pnpdevice/get-pnpdevice)).
+Si el equipo es MSI, la [guía del fabricante](https://us.msi.com/faq/faq-2712)
+explica que Integrated Graphics Mode puede deshabilitar la GPU dedicada.
+Es una posibilidad pendiente de comprobar en este equipo, no la causa confirmada.
+No se instala MSI Center, drivers ni Python como parte de estas comprobaciones.
 
 ## Servicio Python para P3 (T09)
 
