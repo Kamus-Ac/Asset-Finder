@@ -158,3 +158,10 @@ Genera `caja_*`, `puntos_*` y `metrics.json` en `ai/resultados/T08/`, ignorado p
 `ai/.gitignore`. Revisar ambos `*_overlay.png` y los recortes; las partes ocultas
 no se reconstruyen. Los scores no miden precisión. Si cambia la imagen de
 prueba, deben revisarse sus prompts; no son un detector automático de sillas.
+
+## Investigación SAM 3D (T10)
+
+[NOTAS_SAM3D.md](NOTAS_SAM3D.md) registra requisitos oficiales, licencia,
+hardware y alternativas. La configuración oficial pide 32 GB VRAM, por encima
+de los 8 GB documentados: **servicio no disponible** para generación 3D.
+No se instaló ni ejecutó SAM 3D. Esto no bloquea las pruebas SAM 2 CPU.

@@ -280,3 +280,29 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   Commit: `ai(T09): exponer servicio IA y propuesta de tipos para P3`.
 - **Continuación autorizada:** T10 es documental e independiente; se continúa
   para completar el trabajo local de FASE 2 sin declarar aceptada la fase.
+
+## T10 — Investigación SAM 3D y cierre local de FASE 2 · 2026-11-09
+
+- **Estado T10:** `completed`. Investigación documental dentro del límite de
+  2 horas; evidencia y fuentes primarias en `ai/NOTAS_SAM3D.md`.
+- **Resultado:** guía oficial de SAM 3D Objects pide Linux64 y GPU NVIDIA con
+  al menos 32 GB VRAM. Angel/Luis tienen 8188 MiB documentados. No se cumple
+  la configuración oficial; generación 3D: **servicio no disponible**.
+  Sin instalaciones, descargas de pesos ni pruebas de inferencia SAM 3D.
+- **Licencia:** código y pesos bajo SAM License (19/11/2025), con obligaciones
+  de redistribución y uso; no se asume la licencia de SAM 2. Se documentan las
+  alternativas y no se promete una optimización para 8 GB sin validarla.
+- **Comprobación local:** `ai/.venv-sam2/bin/python -I -c 'import torch;
+  print(torch.__version__); print(torch.cuda.is_available())'`, código 0:
+  `2.15.0+cpu`, `False`. No acredita GPU del servidor de Angel.
+- **Validación:** revisión de setup, README, licencia completa, entorno y código
+  de inferencia oficiales; enlaces incluidos en el documento. `git diff --check`
+  limpio. Suite del último cambio de código: 31 pruebas y 5 subtests en verde.
+- **Commit:** `ai(T10): documentar viabilidad y licencia de SAM 3D`.
+- **FASE 2:** T06, T07, T08 y T10 completas; implementación T09 lista, pero su
+  aceptación requiere la confirmación escrita de Manuel sobre `INTERFAZ_P3.md`.
+  No se marca la fase totalmente aceptada ni se inicia T11. No se probó backend.
+- **Publicación:** no se ejecuta push de cierre mientras falte aceptación T09,
+  según la regla de trabajo 3. B01 (autenticación histórica) y B03 (conflicto
+  compartido con main) continúan pendientes; todos los commits se conservan
+  en `feature/ai-exploracion`. No se modificaron otras carpetas.

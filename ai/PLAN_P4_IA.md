@@ -34,7 +34,7 @@ simplificaciones que el equipo aún debe acordar.
 | E5 · Ranking y evaluación | queued | `search` real, top-k por asset y métricas |
 | E6 · Integración y caché | queued | Flujo real con P3, errores y caché verificados |
 | E7 · Cierre y demo | queued | Arranque reproducible y pruebas por otro integrante |
-| I1 · Investigación SAM 3D | queued | Conclusión documentada en un máximo de 2 horas |
+| I1 · Investigación SAM 3D | completed | Requisito oficial 32 GB VRAM; servicio no disponible en los equipos de 8 GB |
 
 ## E0 — Base correcta y punto de partida
 
@@ -154,9 +154,9 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
 
 ## I1 — SAM 3D: investigación, no dependencia del MVP (día 2)
 
-- [ ] I1.1 Revisar requisitos y licencias oficiales actuales; contrastar con
+- [x] I1.1 Revisar requisitos y licencias oficiales actuales; contrastar con
   el servidor real y posibles alternativas, en un máximo de 2 horas.
-- [ ] I1.2 Guardar fuentes, hardware y conclusión en `ai/NOTAS_SAM3D.md`.
+- [x] I1.2 Guardar fuentes, hardware y conclusión en `ai/NOTAS_SAM3D.md`.
   No instalar ni descargar recursos grandes sin revisar viabilidad y aprobación.
   Mientras no haya validación: **servicio no disponible**.
 
@@ -186,7 +186,7 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
   conector Sketchfab. Las etapas de catálogo manual deben revisarse con P3 antes
   de implementarse; el diagnóstico T01 y la preparación de modelos siguen siendo útiles.
 - **Falta:** entorno propio CUDA, confirmación de interfaz por Manuel,
-  DINO, catálogo, búsqueda, integración, caché y evaluación; I1 sin iniciar.
+  DINO, catálogo, búsqueda, integración, caché y evaluación. I1 completada.
 - **T06 completada en CPU:** módulo reutilizable, modelo en caché y prueba real.
 - **T07 completada:** RGB, cajas, puntos y selección vacía se validan antes de
   cargar el predictor; 28 pruebas pasan, incluida regresión SAM real en CPU.
@@ -194,7 +194,10 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
   revisada visualmente; artefactos locales ignorados por Git.
 - **T09 implementada:** interfaz Python y codificador PNG probados con SAM real;
   31 pruebas pasan. La aceptación escrita de Manuel sigue pendiente.
-- **Siguiente tarea local:** T10, investigación SAM 3D independiente de ese acuerdo.
+- **T10 completada:** requisitos/licencia y alternativas documentados en
+  `NOTAS_SAM3D.md`; generación 3D no disponible, sin instalaciones nuevas.
+- **FASE 2:** trabajo local terminado; falta aceptación escrita de T09 por Manuel
+  y publicación. No se inicia FASE 3 en esta sesión.
 - **Tarea externa pendiente:** **T01 / E1.1**, preparar Ubuntu/WSL de Angel y
   después recopilar su diagnóstico. No se marca completada por las pruebas CPU.
   El fallo de autenticación Git también debe resolverse antes de sincronizar ramas.

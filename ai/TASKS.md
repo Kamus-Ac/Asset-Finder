@@ -95,8 +95,16 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
   [NEEDS USER] Solo falta la confirmación escrita de Manuel para cerrar T09;
   no se probó ni modificó backend. Se continúa con T10, que es independiente.
 
-- [ ] **T10 Investigación SAM 3D (I1), máximo 2 horas.** Revisar los requisitos oficiales actuales y las licencias. Documentar en `ai/NOTAS_SAM3D.md`: requisitos, hardware disponible, posibles alternativas y conclusión.
+- [x] **T10 Investigación SAM 3D (I1), máximo 2 horas.** Revisar los requisitos oficiales actuales y las licencias. Documentar en `ai/NOTAS_SAM3D.md`: requisitos, hardware disponible, posibles alternativas y conclusión.
   *Aceptación:* conclusión escrita con fuentes; sin instalar nada pesado. Resultado válido: «no viable con 8 GB; servicio no disponible».
+  **Completada el 9 de noviembre:** fuentes oficiales piden Linux64 y 32 GB VRAM;
+  hardware documentado de 8 GB fuera de esa configuración. SAM License revisada;
+  no se descargaron pesos ni se midió inferencia SAM 3D. Ver `NOTAS_SAM3D.md`.
+
+**Cierre de trabajo local de FASE 2:** T06–T08 y T10 completas; T09 implementada
+y probada, pendiente de aceptación escrita de Manuel. La fase sigue sin aceptación
+total; no se inicia T11 ni se declara integración con backend. Publicación y
+sincronización con main conservan sus bloqueos B01/B03.
 
 ---
 
