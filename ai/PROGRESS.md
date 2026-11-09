@@ -241,3 +241,21 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   `feature/ai-exploracion`. No corresponde push de cierre de FASE 2 todavía.
 - **Siguiente tarea local:** T08. La elección de objeto y la GPU no se declaran
   validadas por estas pruebas de entradas.
+
+## T08 — Selección real · 2026-11-09
+
+- **Estado:** `completed`. `ai/prueba_seleccion.py` ejecutó SAM real en CPU con
+  una caja y una selección de tres puntos positivos/tres negativos sobre la silla.
+- **Comando:** `ai/.venv-sam2/bin/python -I ai/prueba_seleccion.py`, código 0.
+  Caja: 17,425 píxeles, score 0.878883, 6.633 s con carga; puntos: 17,086 píxeles,
+  score 0.848000, 1.889 s con modelo cargado. Una ejecución por caso, sin benchmark.
+- **Evidencia:** `ai/resultados/T08/`: máscaras, recortes RGBA, superposiciones
+  y `metrics.json`. Dimensiones/valores binarios/alfa validados. Revisé ambas
+  imágenes: seleccionan la silla amarilla visible y excluyen los bancos grises;
+  no se evalúan las partes ocultas ni precisión con ground truth.
+- **Validación de módulo:** compilación código 0; pytest: **28 passed,
+  3 subtests passed in 14.03s**; evidencia real
+  y revisión visual completadas. `ai/.gitignore` excluye `/resultados/`; ninguna
+  imagen, peso o entorno se incluye en el commit.
+- **Commit:** `ai(T08): verificar seleccion real con caja y puntos`.
+  No se probó backend ni se modificó otra área. La siguiente tarea es T09.

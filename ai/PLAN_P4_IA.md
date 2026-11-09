@@ -81,7 +81,7 @@ el modo CPU/GPU y los recursos disponibles quedan explícitos.
 - [x] E2.2 Validar RGB, dimensiones, coordenadas xyxy, puntos positivos/negativos
   y selecciones inválidas según el contrato; conservar la correspondencia con
   la imagen normalizada por orientación. No cambiar unidades silenciosamente.
-- [ ] E2.3 Probar selección manual de un objeto identificable con rectángulo
+- [x] E2.3 Probar selección manual de un objeto identificable con rectángulo
   y con puntos. Verificar máscara no vacía, forma, recorte y superposición visual.
 - [ ] E2.4 Publicar temprano `ai/service.py` con firmas estables para P3.
   Operaciones no implementadas: error explícito «servicio no disponible».
@@ -188,7 +188,9 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
 - **T06 completada en CPU:** módulo reutilizable, modelo en caché y prueba real.
 - **T07 completada:** RGB, cajas, puntos y selección vacía se validan antes de
   cargar el predictor; 28 pruebas pasan, incluida regresión SAM real en CPU.
-- **Siguiente tarea local:** T08, selección visual real; no se ejecutó en esta sesión.
+- **T08 completada:** selección visible de la silla amarilla con caja y puntos,
+  revisada visualmente; artefactos locales ignorados por Git.
+- **Siguiente tarea local:** T09, servicio temprano y acuerdo de tipos con P3.
 - **Tarea externa pendiente:** **T01 / E1.1**, preparar Ubuntu/WSL de Angel y
   después recopilar su diagnóstico. No se marca completada por las pruebas CPU.
   El fallo de autenticación Git también debe resolverse antes de sincronizar ramas.

@@ -211,3 +211,22 @@ de Angel. Se mantiene la asignación de servidor acordada; T01 sigue pendiente.
 - Se generaron los tres archivos locales habituales, ignorados por Git.
   El ejemplo conserva su caja fija: no se declara selección correcta de un
   objeto ni precisión por esa puntuación. T07, T08 y la validación GPU siguen pendientes.
+
+## T08 — Selección real de silla amarilla · 9 de noviembre de 2026
+
+Comando: `ai/.venv-sam2/bin/python -I ai/prueba_seleccion.py`. CPU, SAM 2.1 Tiny,
+misma imagen/pesos de las pruebas anteriores. Imagen procesada: 1024×631.
+Entrada SHA-256: `c66ec024c699b44be7a6b8d1cdb0127716ee9a375b81a2af0daf75a5f49ff741`.
+
+| Selección | Score bruto | Píxeles | Tiempo de llamada |
+| --- | --- | --- | --- |
+| Caja [222,355,430,562] | 0.878883 | 17,425 | 6.633 s, incluye primera carga |
+| Tres puntos positivos y tres negativos | 0.848000 | 17,086 | 1.889 s, modelo ya cargado |
+
+Prompts exactos, límites de máscara y valores completos: `ai/resultados/T08/metrics.json`.
+Se verificaron máscaras binarias 0/255, dimensiones y canal alfa de cada recorte.
+Revisión visual de ambas superposiciones: seleccionan respaldo, brazos y partes
+visibles amarillas de la silla; excluyen los bancos grises y el resto principal
+de la escena. No se inferían partes ocultas. No hay ground truth ni IoU de
+precisión; son dos pruebas de selección manual, no un benchmark de recuperación.
+Las imágenes y métricas son locales, ignoradas; no se instalaron dependencias.

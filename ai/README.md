@@ -129,3 +129,16 @@ indicios WSL2 y la salida/errores de NVIDIA-SMI. Busca también el ejecutable WS
 fuera de PATH. Datos ausentes quedan `null`; un informe generado no acredita GPU
 operativa. El archivo se guarda fuera del repositorio y no contiene pesos ni imágenes.
 La consulta usa el [formato CSV documentado por NVIDIA](https://docs.nvidia.com/deploy/nvidia-smi/index.html).
+
+## Prueba visual T08
+
+```bash
+ai/.venv-sam2/bin/python -I ai/prueba_seleccion.py
+```
+
+Usa la imagen `prueba.jpeg` a 1024×631 y dos selecciones documentadas dentro del
+script: caja alrededor de la silla amarilla y puntos positivos/negativos.
+Genera `caja_*`, `puntos_*` y `metrics.json` en `ai/resultados/T08/`, ignorado por
+`ai/.gitignore`. Revisar ambos `*_overlay.png` y los recortes; las partes ocultas
+no se reconstruyen. Los scores no miden precisión. Si cambia la imagen de
+prueba, deben revisarse sus prompts; no son un detector automático de sillas.

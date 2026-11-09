@@ -80,8 +80,11 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
   puntos dentro de [0, ancho/alto); label entero 0/1; se requiere caja o puntos.
   `points=[]` es opcional si hay caja válida; `box_xyxy=[]` siempre es inválido.
 
-- [ ] **T08 Prueba de selección real (E2.3).** Probar con `ai/prueba.jpeg`: un rectángulo sobre la silla y una selección con puntos positivos y negativos. Verificar que la máscara no esté vacía, que su forma coincida con la imagen y guardar una visualización de la superposición.
+- [x] **T08 Prueba de selección real (E2.3).** Probar con `ai/prueba.jpeg`: un rectángulo sobre la silla y una selección con puntos positivos y negativos. Verificar que la máscara no esté vacía, que su forma coincida con la imagen y guardar una visualización de la superposición.
   *Aceptación:* imágenes de resultado en `ai/resultados/` (fuera de Git) y una línea en `PROGRESS.md` con lo observado, incluido si falla.
+  **Completada el 9 de noviembre:** `prueba_seleccion.py` produjo ambas máscaras,
+  recortes y superposiciones en `ai/resultados/T08/`. Revisión visual: silla
+  amarilla visible seleccionada, bancos grises excluidos; sin métricas de precisión.
 
 - [ ] **T09 Servicio temprano para Manuel (E2.4).** Crear `ai/service.py` con firmas estables. Lo no implementado responde con error explícito «servicio no disponible». Si Manuel necesita datos de prueba, usar fixtures separados con `stub: true`.
   *Aceptación:* `ai/service.py` importable; Manuel confirma por escrito los tipos de entrada y salida.
