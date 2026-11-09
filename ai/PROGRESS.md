@@ -433,3 +433,21 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   se reconsultaron índices oficiales cu126/cp312, sin instalar paquetes.
 - **Git:** commit `ai(T01): cerrar diagnostico del servidor MSI con RTX 4070`.
   No corresponde push de cierre: FASE 1 aún requiere T03–T05.
+
+## T03 — Preparación pendiente de Python 3.12 en MSI · 2026-11-09
+
+- **Estado:** `queued`, instalación aún no ejecutada. T01 cerrada en `13f5d18`.
+  En el equipo correcto, `python3.12 --version` devuelve `command not found`.
+  No se deduce que falten uv o SAM: el usuario encadenó con `&&` y esas
+  comprobaciones no llegaron a ejecutarse.
+- **Siguiente evidencia solicitada:** `command -v uv` con aviso si no existe y
+  `ls -ld ai ai/sam2 ai/.venv-gpu`, desde Ubuntu/raíz de la MSI. Sin instalaciones.
+- **Preparación independiente:** índices oficiales confirman ruedas cu126/cp312
+  para la pareja aprobada; documentación de uv permite Python gestionado.
+  Metadatos locales de uv ofrecen CPython 3.12.16 Linux x86_64 GNU, sin descarga
+  ni instalación. Esa consulta no es evidencia del estado de la MSI.
+- **Límites:** se mantiene Python 3.12.x aprobado; no se propone cambiar a 3.14
+  ni instalar uv sin revisar si existe. No se creó `.venv-gpu`, no se instaló
+  PyTorch y no se ejecutó una prueba CUDA. Validación: revisión documental y
+  `git diff --check`. La suite T01 ya pasó; no se repite por estos cambios documentales.
+- **Commit:** `ai(T03): registrar comprobaciones previas de Python y entorno`.

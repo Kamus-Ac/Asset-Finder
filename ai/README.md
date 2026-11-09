@@ -151,6 +151,18 @@ no una instalación fallida. El resultado de `python3.12` en la Dell no se aplic
 a esta MSI. Si no existe el intérprete o el código SAM, preparar esos requisitos
 antes del bloque aprobado en `PROPUESTA_ENTORNO.md`; no usar el entorno CPU.
 
+**Resultado MSI recibido:** `python3.12` no está accesible por nombre. La cadena
+con `&&` se detuvo antes de comprobar uv y los directorios. Para completar solo
+esas comprobaciones, desde la raíz en Ubuntu:
+
+```bash
+command -v uv || echo "uv no encontrado"
+ls -ld ai ai/sam2 ai/.venv-gpu
+```
+
+El resultado permitirá preparar el intérprete aprobado antes de instalar T03.
+La confirmación de NVIDIA mediante NVIDIA-SMI ya quedó cubierta por T01.
+
 ### Historial T01: pruebas iniciales en otra laptop (Dell)
 
 **Evidencia histórica de otro equipo:** [modelo](Pruebas/Equipo_Dell_2026-11-09.txt):

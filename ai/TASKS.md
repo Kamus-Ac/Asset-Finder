@@ -59,6 +59,10 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
   directorios existentes en la MSI antes de instalar. `python3` es 3.14.4;
   se conserva la combinación aprobada para 3.12. No se reutiliza ni sobrescribe
   un entorno GPU sin revisar su estado. T03–T05 aún no están validadas.
+  **Preflight recibido:** `python3.12` no se encuentra por nombre en la MSI.
+  La cadena con `&&` se detuvo ahí: no hay resultado de uv ni de los directorios.
+  [NEEDS USER] Consultar esos dos datos del README para preparar Python 3.12
+  con la aprobación vigente, sin asumir que el entorno o el código SAM existen.
 
 - [ ] **T04 Carga de modelos en GPU y medición (E1.3).** Cargar SAM 2.1 Tiny y DINOv2 ViT-S/14 en CUDA. Medir tiempo de carga, tiempo de inferencia (con calentamiento y `torch.cuda.synchronize()`) y VRAM pico con `torch.cuda.max_memory_allocated()`.
   *Aceptación:* cifras en `ai/MEDICIONES.md` con comando, repeticiones y dispositivo.

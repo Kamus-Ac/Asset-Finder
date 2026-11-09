@@ -9,6 +9,9 @@ Fuente: `Pruebas/Diagnostico_MSI_Angel_2026-11-09.json`.
 La combinación aprobada conserva **Python 3.12**. Falta comprobar si ese
 intérprete ya existe en la MSI y revisar los directorios antes de ejecutar T03.
 No se cambia automáticamente a Python 3.14 ni se sobrescriben entornos.
+El preflight posterior sí confirma `python3.12: command not found` en la MSI.
+Las comprobaciones de uv/directorios no se ejecutaron porque se encadenaron
+con `&&`; se solicitan por separado antes de elegir el método de preparación.
 Los índices oficiales torch/torchvision cu126 con ruedas CPython 3.12 Linux
 se volvieron a consultar el 9 de noviembre; no se instalaron paquetes.
 
@@ -98,6 +101,13 @@ antes del bloque anterior, sin sobrescribir copias existentes. Pesos fuera de Gi
 No se ejecutará `requirements-sam2.txt`: conserva las versiones CPU históricas.
 Las dependencias transitivas quedarán resueltas y registradas durante T03;
 esta tabla fija dependencias directas, no es un lockfile de GPU ya validado.
+
+Si uv ya está instalado en la MSI, puede gestionar Python 3.12 separado del
+Python del sistema ([documentación oficial](https://docs.astral.sh/uv/guides/install-python/)).
+La consulta **local de metadatos**, sin descargar un intérprete, ofrece CPython
+3.12.16 para Linux x86_64 GNU, dentro de la serie 3.12.x aprobada. Esto no prueba
+que uv o ese intérprete existan en la MSI. No se instaló uv ni Python; el método
+definitivo depende de las dos comprobaciones pendientes.
 
 Comprobación propuesta para T03, sin descargar modelos:
 
