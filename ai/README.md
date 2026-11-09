@@ -55,6 +55,10 @@ accesos Python a la ruta antigua y verificando el origen de los módulos importa
 
 ## Entorno de pruebas propio
 
+Política de análisis: `graphify-out/` puede versionarse en `feature/ai-exploracion`,
+con commits separados. Antes de un PR a `main`, preparar una rama sin esos cambios
+y comprobar el diff, según la regla 6 de `TASKS.md`.
+
 ```bash
 ai/.venv-tests/bin/python -m py_compile ai/*.py
 ai/.venv-tests/bin/python -m pytest ai/tests -q

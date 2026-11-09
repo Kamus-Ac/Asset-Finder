@@ -18,8 +18,13 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
    - Push al terminar cada FASE, con sus tareas aceptadas y validación en verde.
      Si falla la autenticación de Git, conservar los commits locales y no subir.
 4. **Nunca instalar dependencias** sin presentar versiones y recibir aprobación (ver T02).
-5. **Nada fuera de `ai/`.** Si una tarea necesita otra carpeta (`backend/`, `.gitignore`, contratos), se pide el cambio a su dueño y no se hace.
-6. **Datos y pesos fuera de Git:** checkpoints, `.venv*`, renders, `graphify-out/`, imágenes privadas.
+5. **Trabajo de P4 en `ai/`.** Si una tarea necesita otra carpeta (`backend/`, `.gitignore`, contratos), se pide el cambio a su dueño. Excepción autorizada por Brandon: `graphify-out/`, según la regla 6.
+6. **Datos y pesos fuera de Git:** checkpoints, `.venv*`, renders e imágenes privadas.
+   **Graphify:** se permite versionar y subir `graphify-out/` a `feature/ai-exploracion`.
+   **No debe integrarse a `main`.** Mantener sus cambios en commits separados;
+   antes de un PR a main, preparar una rama de integración sin esos archivos y
+   comprobar que `git diff --name-only origin/main...HEAD -- graphify-out/` esté vacío.
+   Añadirlos a `.gitignore` no excluye archivos que ya están versionados.
 7. **Resultados reales o explícitamente marcados.** Nada de datos de ejemplo presentados como salida de modelo. Errores esperados: «servicio no disponible».
 
 ---
@@ -198,9 +203,12 @@ conserva su bloqueo B01; B03 fue resuelto al integrar main.
   credenciales HTTPS. El conector muestra permiso push de la cuenta, pero su
   intento de crear el árbol devolvió 403 `Resource not accessible by integration`.
   No hay publicación nueva; falta autenticar Git o habilitar escritura de la integración.
-- [ ] **B02 `graphify-out/` en `.gitignore`.** Lo gestiona P3 (dueño de la raíz).
-  [NEEDS USER] Pedir a Manuel que lo agregue.
+- [x] **B02 Política Graphify aclarada.** Brandon autoriza subirlo a su rama,
+  pero no a main. Regla 6 actualizada; no se pide ignorarlo en la rama de IA.
+  Los PR a main deben excluir estos cambios mediante una rama de integración.
 - [x] **B03 Integración con main.** Resuelta el 9 de noviembre: merge `4425c62`
   integra `350a42e` y conserva el README propio por indicación de Brandon.
-  `7390afa` recupera los planes/contratos de raíz. `origin/main` es ancestro
-  de la rama actual; no se reescribió el historial. Publicación pendiente en B01.
+  `7390afa` recupera los planes/contratos de raíz. `350a42e` es ancestro
+  de la rama actual; no se reescribió el historial. El fetch posterior detectó
+  main en `116f440`, aún no integrado; no forma parte del push solicitado.
+  Publicación pendiente en B01.

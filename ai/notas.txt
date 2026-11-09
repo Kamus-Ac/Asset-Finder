@@ -1,3 +1,3 @@
-En la rama feature/ai-plan-inicio si debe de aparecer graphify-out/
-
-Cuando se haga algune merge que vaya a main hay que agregar en git ignore a graphify-out/
+En feature/ai-exploracion se permite versionar y subir graphify-out/.
+No integrar graphify-out/ a main: preparar el PR en una rama sin esos cambios.
+.gitignore no retira los archivos que ya están versionados; revisar el diff del PR.

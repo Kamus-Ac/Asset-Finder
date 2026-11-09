@@ -496,3 +496,23 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 - **Publicación:** Brandon solicita ahora commit y push de los cambios pendientes
   en `feature/ai-exploracion`, sin esperar al cierre de fase. Se incluyen código,
   documentación e historial local; graphify generado permanece fuera del commit.
+
+## Publicación solicitada y política Graphify corregida · 2026-11-09
+
+- El ajuste de T03 quedó en `ee03343`, con 35 pruebas y 5 subtests en verde.
+  Fetch pasó; la rama remota IA no divergió. Había 24 commits locales pendientes.
+- `git push origin HEAD:refs/heads/feature/ai-exploracion` falló:
+  `could not read Username for 'https://github.com': No such device or address`.
+  No hay GitHub CLI, token GitHub en entorno, agente SSH ni identidad SSH
+  predeterminada disponibles. Falta autenticar GitHub en esta sesión; no se
+  publicó ningún commit ni se solicitó de nuevo autorización del destino.
+- Brandon aclara la regla: **graphify-out/ sí puede subirse a su rama y no a
+  main**. TASKS y notas actualizados; B02 resuelto. Se autoriza expresamente
+  esa carpeta fuera del área ai/. Sus salidas se guardan en un commit separado
+  para excluirlo al preparar el PR a main; `.gitignore` no basta para archivos
+  ya versionados. No se cambiaron reglas globales ni archivos de main.
+- El fetch vio `origin/main` en `116f440`; no se fusiona en este trabajo de
+  publicación. El merge anterior de `350a42e` sigue conservado.
+- Validación de esta aclaración: `git diff --check`; contenido documental.
+  Publicación sigue pendiente por autenticación, aunque los cambios quedan
+  guardados localmente en la rama acordada.
