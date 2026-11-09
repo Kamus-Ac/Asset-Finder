@@ -230,3 +230,33 @@ visibles amarillas de la silla; excluyen los bancos grises y el resto principal
 de la escena. No se inferían partes ocultas. No hay ground truth ni IoU de
 precisión; son dos pruebas de selección manual, no un benchmark de recuperación.
 Las imágenes y métricas son locales, ignoradas; no se instalaron dependencias.
+
+## T01 — Primer diagnóstico Ubuntu/WSL de Angel · 9 de noviembre de 2026
+
+Brandon atribuye este informe a Angel. JSON original recibido, sin completar
+campos ausentes: [Diagnostico_Angel_2026-11-09.json](Pruebas/Diagnostico_Angel_2026-11-09.json).
+Recopilación: `2026-11-09T18:01:49.751695+00:00`; host `DESKTOP-N56N5FO`.
+Comando del recolector: `python3 -I diagnostico_servidor.py`, copiable sin repo.
+
+| Campo | Evidencia recibida |
+| --- | --- |
+| Sistema | Ubuntu 26.04.1 LTS, Linux x86_64 |
+| Kernel | 6.18.54.1-microsoft-standard-WSL2 |
+| Python | 3.14.4 en `/usr/bin/python3` |
+| glibc | 2.43 |
+| RAM visible para WSL | 8,203,730,944 bytes ≈ 7.64 GiB |
+| Swap según `free -b` | 2,147,483,648 bytes = 2 GiB |
+| Interfaz WSL GPU | `/dev/dxg` presente |
+| NVIDIA-SMI | Ejecutable no localizado; consulta y salida completa: código 127 |
+| GPU, driver y VRAM dentro de Linux | `null`; no disponibles en este informe |
+
+La RAM visible en WSL no equivale a la RAM física de Windows ni a la VRAM.
+El recolector ya intenta `/usr/lib/wsl/lib/nvidia-smi` si no está en PATH; ese
+fallback no encontró un archivo ejecutable. No es evidencia suficiente para
+atribuir la causa a PATH, al driver o a la ausencia de una GPU NVIDIA física.
+`/dev/dxg` presente tampoco acredita inferencia CUDA.
+
+T01 sigue parcial; T03 no se ejecuta. Se solicitan las comprobaciones de
+PowerShell/WSL del README. Python 3.14.4 es el valor real de `python3`, distinto
+del 3.12 aprobado en T02; falta comprobar si `python3.12` está instalado.
+No se cambian paquetes ni se instala un driver NVIDIA Linux en WSL.

@@ -330,3 +330,29 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   push de cierre: FASE 1 aún no aceptada. T09 sigue esperando a Manuel y no
   bloquea esta reanudación de FASE 1.
 - **Commit:** `ai(T01): retomar diagnostico del servidor de Angel`.
+
+## T01 — Evidencia WSL recibida; NVIDIA aún pendiente · 2026-11-09
+
+- **Estado:** `running`, aceptación parcial. Brandon comparte el JSON de Angel,
+  conservado en `ai/Pruebas/Diagnostico_Angel_2026-11-09.json`. No se sustituyen
+  los `null` por los datos de Luis ni por la captura Windows anterior.
+- **Confirmado por el informe:** Ubuntu 26.04.1 en WSL2, Linux x86_64,
+  glibc 2.43, Python 3.14.4, 7.64 GiB RAM visibles, `/dev/dxg` presente.
+  **No confirmado:** modelo NVIDIA, driver/VRAM en Linux e inferencia CUDA.
+  `nvidia-smi` no se encontró y ambas consultas devolvieron 127.
+- **Análisis:** el recolector ya comprueba la ruta estándar
+  `/usr/lib/wsl/lib/nvidia-smi`; no se presupone un simple problema de PATH.
+  Python 3.14.4 no es el Python 3.12 aprobado; falta consultar `python3.12`.
+- **Siguiente evidencia solicitada:** PowerShell: `nvidia-smi`, `wsl --version`,
+  `wsl -l -v`. Ubuntu: rutas de `/dev/dxg`, `nvidia-smi`, `libcuda.so.1` y
+  `python3.12 --version`. Comandos completos y fuente NVIDIA en el README.
+  Son de lectura; la causa no se diagnostica por suposición ni se instalan drivers Linux.
+- **Validación:** JSON parseado, campos de sistema/WSL/errores comprobados,
+  cálculo de RAM y enlaces a evidencia revisados; `git diff --check` limpio.
+  Solo documentación/evidencia; sin cambios de código ni repetición de pruebas
+  de modelo. La suite local de diagnóstico anterior pasó 12 pruebas/3 subtests;
+  ese resultado no acredita el equipo de Angel.
+- **Alcance:** no se ejecutó T03 ni se cambiaron dependencias; la aprobación
+  de T02 se conserva para la combinación original. T01 continúa `[ ]` hasta
+  aclarar la evidencia NVIDIA; no se avanza a otra tarea por este informe parcial.
+- **Commit:** `ai(T01): registrar diagnostico WSL de Angel y pendientes NVIDIA`.

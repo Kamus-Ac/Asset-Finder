@@ -7,16 +7,18 @@ T03; su ejecución sigue pendiente de acceso y diagnóstico del WSL de Angel.
 Brandon confirmó el 6 de noviembre que WSL/Ubuntu aún no está instalado y
 pospuso esa preparación. La aprobación de estas versiones se conserva.
 
-**9 de noviembre:** Brandon informa que la laptop ya está preparada para
-pruebas. Se retoma T01; falta recibir el diagnóstico de Ubuntu/WSL. La aprobación
-de T02 sigue vigente y no acredita todavía una instalación GPU validada.
+**Diagnóstico recibido el 9 de noviembre:** Ubuntu 26.04.1 en WSL2, glibc 2.43,
+Python 3.14.4 y 7.64 GiB de RAM visibles; `nvidia-smi` no disponible. T01 sigue
+parcial. La aprobación de T02 sigue vigente para **Python 3.12**, no autoriza
+cambiar automáticamente a 3.14. Primero comprobar si `python3.12` ya existe y
+la exposición de NVIDIA a WSL; no ejecutar todavía el bloque de instalación.
 
 ## Combinación propuesta
 
 | Componente | Selección para el entorno nuevo |
 | --- | --- |
 | Plataforma | Ubuntu en WSL2, Linux x86_64; glibc ≥2.28 para las ruedas elegidas |
-| Python | CPython 3.12.x de Ubuntu/WSL; 3.12.1 fue reportado, falta verificar allí |
+| Python | CPython 3.12.x aprobado; `python3` real en WSL es 3.14.4, falta comprobar `python3.12` |
 | Entorno | `ai/.venv-gpu`, separado de `.venv-sam2` y `.venv-tests` |
 | PyTorch | `torch==2.14.1`, rueda `+cu126` |
 | torchvision | `torchvision==0.29.1`, rueda `+cu126` de la misma pareja oficial |
@@ -127,7 +129,8 @@ No hacer pasar el script actual `prueba_sam2.py`, que fija CPU, como prueba CUDA
 - [x] Fuentes primarias revisadas; pareja CUDA/PyTorch/torchvision publicada.
 - [x] Ruedas CPython 3.12 Linux verificadas; versiones y comandos escritos.
 - [x] Bloques Python/shell comprobados estáticamente; sin ejecutar instalaciones.
-- [ ] Evidencia de Ubuntu, memoria y Python del WSL objetivo (cierre de T01).
+- [x] Evidencia recibida de Ubuntu, memoria y Python del WSL objetivo.
+- [ ] NVIDIA accesible en WSL y Python 3.12 comprobado antes de instalar T03.
 - [x] Aprobación explícita de Brandon recibida el 6 de noviembre de 2026.
 - [ ] Confirmación de Manuel solo si decide compartir este entorno con backend.
 

@@ -39,8 +39,12 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
   **Historial del 6 de noviembre:** Brandon pospuso T01 porque Angel aún no
   tenía WSL/Ubuntu. Las salidas Windows no acreditaban un entorno Linux.
   **Retomada el 9 de noviembre:** Brandon informa que la laptop ya está
-  preparada para pruebas. Falta recibir el JSON de `diagnostico_servidor.py`
-  ejecutado dentro del Ubuntu/WSL de Angel para verificar GPU, Python y memoria.
+  preparada para pruebas. **JSON recibido ese mismo día:** Ubuntu 26.04.1,
+  WSL2, Python 3.14.4, glibc 2.43 y 7.64 GiB de RAM visibles. `/dev/dxg` existe,
+  pero `nvidia-smi` no se encuentra (127); GPU/driver/VRAM en Linux quedan `null`.
+  Evidencia: `Pruebas/Diagnostico_Angel_2026-11-09.json` y `MEDICIONES.md`.
+  [NEEDS USER] Comprobar NVIDIA desde Windows y las bibliotecas GPU en WSL con
+  los comandos del README. El recolector ya revisó la ruta estándar WSL.
   El entorno local de pruebas está en verde. Por solicitud explícita de Brandon,
   se reinstaló el entorno CPU dentro de este proyecto: ya no depende del antiguo.
   Ver `PROGRESS.md`. T01 sigue `[ ]`; Brandon autorizó preparar únicamente la
@@ -56,8 +60,9 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
 
 - [ ] **T03 Entorno CUDA aislado (E1.2).** Crear `ai/.venv-gpu` (fuera de Git), instalar la combinación aprobada en T02 y generar `ai/requirements-gpu.txt` nuevo. No modificar `requirements-sam2.txt`, que fija PyTorch CPU.
   *Aceptación:* `python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"` muestra `True` y la GPU. Si no hay GPU, la tarea queda `[ ]` y se acuerda CPU con P3.
-  **Pendiente de T01:** verificar el diagnóstico WSL del equipo ya reportado
-  como preparado. T02 conserva su aprobación; T03–T05 aún no están validadas.
+  **Pendiente de T01:** aclarar NVIDIA no accesible mediante `nvidia-smi` en WSL
+  y comprobar si existe Python 3.12, ya que `python3` es 3.14.4. La combinación
+  aprobada conserva Python 3.12; T03–T05 aún no están validadas.
 
 - [ ] **T04 Carga de modelos en GPU y medición (E1.3).** Cargar SAM 2.1 Tiny y DINOv2 ViT-S/14 en CUDA. Medir tiempo de carga, tiempo de inferencia (con calentamiento y `torch.cuda.synchronize()`) y VRAM pico con `torch.cuda.max_memory_allocated()`.
   *Aceptación:* cifras en `ai/MEDICIONES.md` con comando, repeticiones y dispositivo.

@@ -27,7 +27,7 @@ simplificaciones que el equipo aún debe acordar.
 | Etapa | Estado | Resultado para cerrar |
 | --- | --- | --- |
 | E0 · Elegir base y auditar CPU | completed | Comparación, recursos recuperados y prueba documentada |
-| E1 · Entorno del servidor | running | Laptop reportada preparada; falta diagnóstico WSL y validación CUDA |
+| E1 · Entorno del servidor | running | WSL confirmado; NVIDIA y Python 3.12 pendientes de comprobar |
 | E2 · Segmentación e interfaz temprana | running | Código probado; falta confirmación de tipos por P3 |
 | E3 · Recorte y embedding | queued | `embed` real y preparación consistente |
 | E4 · Catálogo e índice | queued | 20–30 assets con metadatos y vectores versionados |
@@ -58,8 +58,9 @@ simplificaciones que el equipo aún debe acordar.
 
 - [ ] E1.1 Con P3, identificar el servidor donde correrá la IA y comprobar
   GPU, driver, sistema operativo, Python y memoria. Brandon confirma la laptop
-  de Angel con Ubuntu/WSL; salida NVIDIA y Python recibidas. Falta identificar
-  la distribución Ubuntu y comprobar memoria/Python dentro del WSL objetivo.
+  de Angel con Ubuntu/WSL; salida NVIDIA y Python recibidas. Falta verificar
+  NVIDIA dentro de WSL; diagnóstico recibido: Ubuntu 26.04.1, Python 3.14.4,
+  7.64 GiB RAM visibles, `/dev/dxg` presente y `nvidia-smi` ausente.
 - [ ] E1.2 Consultar fuentes oficiales de PyTorch/SAM/DINO; proponer versiones
   compatibles y comandos antes de instalar. Con aprobación, crear entorno nuevo
   bajo `ai/`, separado de CPU; registrar dependencias reproducibles sin rutas personales.
@@ -181,7 +182,8 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
   Resultados en `MEDICIONES.md`; seguimiento de tareas en `TASKS.md`.
 - **T02 aprobada:** Brandon autoriza la combinación de `PROPUESTA_ENTORNO.md`.
   El 9 de noviembre Brandon informa que la laptop de Angel ya está preparada.
-  Falta recibir el diagnóstico WSL y validar CUDA. La aprobación GPU sigue vigente.
+  El JSON confirma Ubuntu/WSL, pero no hay `nvidia-smi`; falta validar NVIDIA
+  y comprobar Python 3.12. La aprobación GPU sigue vigente para la combinación original.
 - **Cambio de alcance remoto:** main ahora prioriza candidatos externos y tiene
   conector Sketchfab. Las etapas de catálogo manual deben revisarse con P3 antes
   de implementarse; el diagnóstico T01 y la preparación de modelos siguen siendo útiles.
@@ -198,7 +200,7 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
   `NOTAS_SAM3D.md`; generación 3D no disponible, sin instalaciones nuevas.
 - **FASE 2:** trabajo local terminado; falta aceptación escrita de T09 por Manuel
   y publicación. No se inicia FASE 3 en esta sesión.
-- **Tarea retomada:** **T01 / E1.1**, recibir el diagnóstico dentro del Ubuntu/WSL
-  de Angel. Preparación reportada por Brandon; validación técnica aún pendiente.
+- **Tarea retomada:** **T01 / E1.1**, diagnóstico WSL recibido de Angel;
+  faltan las comprobaciones NVIDIA y de Python 3.12 del README.
   No se marca completada por las pruebas CPU. Main ya se integró; el bloqueo
   histórico de autenticación para publicar sigue pendiente de resolver.

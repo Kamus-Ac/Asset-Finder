@@ -116,8 +116,8 @@ esta reinstalación CPU no cierra esas tareas. SAM 3D sigue como
 **servicio no disponible**.
 
 **Actualización del 9 de noviembre:** Brandon informa que la laptop de Angel
-ya está preparada para pruebas. Se retoma T01 con el comando siguiente; aún
-falta su JSON de Ubuntu/WSL para confirmar el entorno y continuar con CUDA.
+ya está preparada para pruebas y comparte el diagnóstico. Ubuntu/WSL2 está
+confirmado; falta aclarar `nvidia-smi` ausente y comprobar Python 3.12.
 
 ## Recopilar T01 dentro del WSL de Angel
 
@@ -133,6 +133,34 @@ indicios WSL2 y la salida/errores de NVIDIA-SMI. Busca también el ejecutable WS
 fuera de PATH. Datos ausentes quedan `null`; un informe generado no acredita GPU
 operativa. El archivo se guarda fuera del repositorio y no contiene pesos ni imágenes.
 La consulta usa el [formato CSV documentado por NVIDIA](https://docs.nvidia.com/deploy/nvidia-smi/index.html).
+
+### T01: NVIDIA no encontrada en el diagnóstico de Angel
+
+Evidencia: [JSON recibido](Pruebas/Diagnostico_Angel_2026-11-09.json). Python del
+sistema: 3.14.4; RAM visible para WSL: 7.64 GiB. `/dev/dxg` existe, pero el
+script no encuentra `nvidia-smi` en PATH ni como ejecutable en la ruta estándar
+WSL. No se concluye que la GPU física falte ni que CUDA haya sido probada.
+
+Pedir estas salidas **sin instalar paquetes**. En PowerShell de Windows:
+
+```powershell
+nvidia-smi
+wsl --version
+wsl -l -v
+```
+
+En Ubuntu/WSL:
+
+```bash
+ls -l /dev/dxg /usr/lib/wsl/lib/nvidia-smi /usr/lib/wsl/lib/libcuda.so.1
+python3.12 --version
+```
+
+Compartir errores tal como aparezcan. El último comando solo comprueba si ya
+existe el intérprete aprobado; no reemplaza Python 3.14. Según la
+[guía oficial NVIDIA para WSL](https://docs.nvidia.com/cuda/wsl-user-guide/index.html),
+WSL usa el driver NVIDIA de Windows; no instalar un driver de pantalla NVIDIA
+Linux para intentar resolver este diagnóstico. La causa sigue sin determinar.
 
 ## Servicio Python para P3 (T09)
 
