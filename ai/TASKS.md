@@ -88,7 +88,12 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
 
 - [ ] **T09 Servicio temprano para Manuel (E2.4).** Crear `ai/service.py` con firmas estables. Lo no implementado responde con error explícito «servicio no disponible». Si Manuel necesita datos de prueba, usar fixtures separados con `stub: true`.
   *Aceptación:* `ai/service.py` importable; Manuel confirma por escrito los tipos de entrada y salida.
-  [NEEDS USER] Acordar con Manuel el formato de máscara (PNG o arreglo) y de errores.
+  **Implementación validada el 9 de noviembre:** `service.py` expone segmentación
+  real, conversión a PNG y errores explícitos para embed/search pendientes.
+  31 pruebas pasan. Brandon autorizó usar criterio: máscara interna bool NumPy,
+  PNG en bytes para persistencia; propuesta en `ai/INTERFAZ_P3.md`.
+  [NEEDS USER] Solo falta la confirmación escrita de Manuel para cerrar T09;
+  no se probó ni modificó backend. Se continúa con T10, que es independiente.
 
 - [ ] **T10 Investigación SAM 3D (I1), máximo 2 horas.** Revisar los requisitos oficiales actuales y las licencias. Documentar en `ai/NOTAS_SAM3D.md`: requisitos, hardware disponible, posibles alternativas y conclusión.
   *Aceptación:* conclusión escrita con fuentes; sin instalar nada pesado. Resultado válido: «no viable con 8 GB; servicio no disponible».

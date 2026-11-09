@@ -1,0 +1,72 @@
+# Propuesta de interfaz Python para Manuel — T09
+
+Fecha: 9 de noviembre de 2026. Brandon autorizó usar criterio al no haber acuerdo.
+**Implementada y probada en IA; pendiente de confirmación escrita de Manuel.**
+Esta propuesta no cambia el contrato HTTP ni acredita integración con backend.
+
+## Decisión de P4
+
+Trabajar con imágenes y máscaras en memoria evita acoplar SAM al almacenamiento
+de P3. La máscara interna será NumPy bool; `mask_to_png` permitirá entregarla
+como bytes PNG sin rutas locales, base64 ni archivos temporales obligatorios.
+
+Importar desde la raíz del proyecto, usando el entorno CPU documentado:
+
+```python
+from PIL import Image
+from ai.service import ServiceUnavailableError, segment, mask_to_png
+
+image = Image.open("ai/prueba.jpeg").convert("RGB")
+image.thumbnail((1024, 1024))  # Solo esta prueba usa estas coordenadas.
+mask, score = segment(image, box_xyxy=[222, 355, 430, 562], device="cpu")
+png_bytes = mask_to_png(mask)
+```
+
+El ejemplo llama SAM real; necesita pesos y dependencias del README. No se debe
+añadir `ai/` a `sys.path`: puede ocultar el paquete instalado `sam2`.
+
+## Firmas y tipos
+
+| Operación | Entrada | Salida actual |
+| --- | --- | --- |
+| `segment(image, box_xyxy=None, points=None, *, device="cpu", checkpoint=None)` | PIL RGB o ndarray uint8 H×W×3; caja xyxy o puntos | Tupla `(mask, score)`: ndarray bool H×W y float bruto de SAM |
+| `mask_to_png(mask)` | ndarray bool H×W, dimensiones positivas | `bytes` PNG, modo L; 0 fondo, 255 objeto, mismo tamaño |
+| `embed(image, *, device="cpu")` | Reservada: misma representación RGB, preprocesado de T11/T12 | Siempre `ServiceUnavailableError` hasta T12 |
+| `search(vector, k=5)` | Reservada: vector normalizado y entero k | Siempre `ServiceUnavailableError` hasta T18 |
+
+Las coordenadas son píxeles de **la imagen recibida por `segment`**. No hay
+redimensionado ni corrección EXIF implícitos. P3 debe preparar la orientación
+y mantener la correspondencia con la selección del cliente antes de llamar IA.
+La caja admite `0 <= x1 < x2 <= ancho`, análogo para y. Cada punto tiene
+`{"x": número, "y": número, "label": 0 o 1}`: 1 incluye, 0 excluye; los puntos
+deben estar dentro de la imagen. Hace falta caja o al menos un punto.
+
+`device` admite `cpu` o `cuda`; CUDA aún no está validada en el servidor.
+`checkpoint` opcional es ruta de pesos controlada por el servidor, nunca una ruta
+del cliente. Hay caché y exclusión mutua por predictor dentro de cada proceso;
+varios procesos siguen cargando copias propias del modelo.
+
+El score no es porcentaje de acierto. `mask_to_png` también permite máscaras
+vacías o completas: solo codifica, no decide si una selección es útil.
+
+## Errores y responsabilidades
+
+- Entrada inválida: `ValueError`, con el campo en el mensaje.
+- Pesos, dependencias o CUDA ausentes: `ServiceUnavailableError`, subclase de
+  `RuntimeError`, con «servicio no disponible». Embedding y búsqueda usan el mismo tipo.
+- Otros fallos de ejecución se propagan; no se convierten en resultados exitosos.
+  Todavía no se simuló ni validó agotamiento de memoria GPU.
+
+P3 conserva la propiedad de endpoints, autenticación, persistencia del PNG,
+`mask_url`, estados de tarea y traducción de excepciones al contrato HTTP.
+No serializar ndarray directamente como JSON ni exponer rutas internas mediante
+los mensajes de error. No hay fixtures falsos ni cambios en contratos compartidos.
+
+## Aceptación pendiente
+
+- [ ] Manuel confirma imágenes RGB en memoria y tupla máscara bool/score.
+- [ ] Manuel confirma bytes PNG para persistencia y los dos tipos de excepción.
+
+Prueba local: `ai/.venv-tests/bin/python -m pytest ai/tests/test_service.py -q`.
+Incluye inferencia SAM CPU real si existen entorno y pesos; no llama al backend.
+La prueba conjunta y el adaptador HTTP corresponden a P3/T21, previa coordinación.

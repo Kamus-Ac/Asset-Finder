@@ -28,7 +28,7 @@ simplificaciones que el equipo aún debe acordar.
 | --- | --- | --- |
 | E0 · Elegir base y auditar CPU | completed | Comparación, recursos recuperados y prueba documentada |
 | E1 · Entorno del servidor | queued | SAM/DINO ejecutables en CUDA, o alternativa CPU documentada |
-| E2 · Segmentación e interfaz temprana | queued | `segment` reutilizable y selección correcta |
+| E2 · Segmentación e interfaz temprana | running | Código probado; falta confirmación de tipos por P3 |
 | E3 · Recorte y embedding | queued | `embed` real y preparación consistente |
 | E4 · Catálogo e índice | queued | 20–30 assets con metadatos y vectores versionados |
 | E5 · Ranking y evaluación | queued | `search` real, top-k por asset y métricas |
@@ -87,6 +87,8 @@ el modo CPU/GPU y los recursos disponibles quedan explícitos.
   Operaciones no implementadas: error explícito «servicio no disponible».
   Si P3 requiere stubs, usar fixtures separados y `stub: true`, nunca resultados
   ficticios presentados como inferencia real ni cambios silenciosos del contrato.
+  Implementación local validada; propuesta en `INTERFAZ_P3.md`. Falta confirmación
+  escrita de Manuel y publicación GitHub (B01); no se declara integración real.
 
 **Cierre:** otro script importa y usa `segment` sin copiar código; los casos
 inválidos tienen errores claros. Ejecutar I1 durante el día 2 con tiempo acotado.
@@ -183,14 +185,16 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
 - **Cambio de alcance remoto:** main ahora prioriza candidatos externos y tiene
   conector Sketchfab. Las etapas de catálogo manual deben revisarse con P3 antes
   de implementarse; el diagnóstico T01 y la preparación de modelos siguen siendo útiles.
-- **Falta:** entorno propio CUDA, selección correcta, funciones reutilizables,
+- **Falta:** entorno propio CUDA, confirmación de interfaz por Manuel,
   DINO, catálogo, búsqueda, integración, caché y evaluación; I1 sin iniciar.
 - **T06 completada en CPU:** módulo reutilizable, modelo en caché y prueba real.
 - **T07 completada:** RGB, cajas, puntos y selección vacía se validan antes de
   cargar el predictor; 28 pruebas pasan, incluida regresión SAM real en CPU.
 - **T08 completada:** selección visible de la silla amarilla con caja y puntos,
   revisada visualmente; artefactos locales ignorados por Git.
-- **Siguiente tarea local:** T09, servicio temprano y acuerdo de tipos con P3.
+- **T09 implementada:** interfaz Python y codificador PNG probados con SAM real;
+  31 pruebas pasan. La aceptación escrita de Manuel sigue pendiente.
+- **Siguiente tarea local:** T10, investigación SAM 3D independiente de ese acuerdo.
 - **Tarea externa pendiente:** **T01 / E1.1**, preparar Ubuntu/WSL de Angel y
   después recopilar su diagnóstico. No se marca completada por las pruebas CPU.
   El fallo de autenticación Git también debe resolverse antes de sincronizar ramas.

@@ -130,6 +130,22 @@ fuera de PATH. Datos ausentes quedan `null`; un informe generado no acredita GPU
 operativa. El archivo se guarda fuera del repositorio y no contiene pesos ni imágenes.
 La consulta usa el [formato CSV documentado por NVIDIA](https://docs.nvidia.com/deploy/nvidia-smi/index.html).
 
+## Servicio Python para P3 (T09)
+
+Importar `segment`, `mask_to_png`, `embed`, `search` y `ServiceUnavailableError`
+desde `ai.service`. SAM devuelve máscara NumPy bool y score; `mask_to_png`
+la convierte a bytes PNG L sin guardar archivos. `embed` y `search` lanzan
+«servicio no disponible» hasta sus tareas. Importar no carga modelos ni requiere
+PyTorch; ejecutar segmentación sí necesita el entorno CPU documentado.
+
+Tipos, ejemplo ejecutable, errores y responsabilidades:
+[INTERFAZ_P3.md](INTERFAZ_P3.md). Propuesta pendiente de confirmación de Manuel;
+no acredita integración HTTP. Prueba solo de IA:
+
+```bash
+ai/.venv-tests/bin/python -m pytest ai/tests/test_service.py -q
+```
+
 ## Prueba visual T08
 
 ```bash

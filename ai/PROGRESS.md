@@ -259,3 +259,24 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   imagen, peso o entorno se incluye en el commit.
 - **Commit:** `ai(T08): verificar seleccion real con caja y puntos`.
   No se probó backend ni se modificó otra área. La siguiente tarea es T09.
+
+## T09 — Interfaz temprana, aceptación externa pendiente · 2026-11-09
+
+- **Estado:** `queued` para aceptación; implementación local validada. Brandon
+  confirma que aún no hay acuerdo con Manuel y autoriza usar criterio.
+- **Decisión:** `ai/service.py` exporta `segment` real con su caché y errores;
+  máscara NumPy bool H×W/score float, y `mask_to_png` devuelve bytes PNG L 0/255.
+  `embed` y `search` lanzan `ServiceUnavailableError` con «servicio no disponible».
+  Importar el servicio no importa NumPy/PyTorch ni carga modelos.
+- **Propuesta:** `ai/INTERFAZ_P3.md` describe tipos, orientación/coordenadas,
+  excepciones y responsabilidades de P3. No modifica el contrato HTTP, no envía
+  mensajes al equipo ni introduce dependencias o fixtures ficticios.
+- **Validación:** `ai/.venv-tests/bin/python -m py_compile ai/*.py` código 0;
+  `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **31 passed,
+  5 subtests passed in 19.63s**. Incluye SAM CPU real desde el servicio,
+  codificación/decodificación PNG exacta, errores y ausencia de resultados falsos.
+- **Bloqueo:** T09 conserva `[ ]` hasta confirmación escrita de Manuel; no se
+  ejecutó ninguna prueba en backend. Publicación también pendiente de B01.
+  Commit: `ai(T09): exponer servicio IA y propuesta de tipos para P3`.
+- **Continuación autorizada:** T10 es documental e independiente; se continúa
+  para completar el trabajo local de FASE 2 sin declarar aceptada la fase.
