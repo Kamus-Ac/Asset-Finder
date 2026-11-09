@@ -451,3 +451,26 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   PyTorch y no se ejecutó una prueba CUDA. Validación: revisión documental y
   `git diff --check`. La suite T01 ya pasó; no se repite por estos cambios documentales.
 - **Commit:** `ai(T03): registrar comprobaciones previas de Python y entorno`.
+
+## T03 — Python 3.12.16 creado; instalador GPU listo · 2026-11-09
+
+- **Estado:** `running`, pendiente de ejecución en MSI. El usuario confirma uv
+  en `/home/tobias/.local/bin/uv` y crea `.venv-gpu` en la raíz con Python 3.12.16.
+  También confirma `ai/` y `ai/sam2/`. Evidencia recibida en
+  `ai/Pruebas/Preparacion_MSI_T03_2026-11-09.txt`.
+- **Ubicación:** se adopta el entorno que creó el usuario, sin moverlo ni crear
+  otro bajo ai/. Código, documentación y futuro lock permanecen en `ai/`.
+  `.gitignore` ya excluye `.venv-*/`; no se modificó ningún archivo de raíz.
+- **Implementación:** `ai/preparar_gpu.sh` autocontenido, copiable a la MSI.
+  Rechaza intérprete ajeno, paquetes previos no acordados, otra GPU y revisión
+  SAM no confirmada antes de instalar. Usa las versiones aprobadas, sin extensión
+  CUDA SAM. Solo genera lock e informe después de `pip check` y operación CUDA real.
+- **Validación local:** `bash -n`; dos bloques Python analizados con `ast.parse`;
+  comprobación real en repo temporal: rechaza entorno ausente y Python CPU 3.11
+  antes de instalar. Compilación ai/*.py código 0; suite pytest: **31 passed,
+  5 subtests passed in 22.36s**. No se instalaron paquetes aquí ni en la MSI.
+- **Pendiente:** pasar el script y ejecutar `bash ai/preparar_gpu.sh .venv-gpu`
+  en Ubuntu de la MSI. Recibir JSON y lock reales; no se inventa un freeze.
+  Si falla, revisar el error/estado parcial antes de reintentar. T03 sigue `[ ]`;
+  no se inicia T04 ni se declara SAM/DINO funcionando en GPU.
+- **Commit:** `ai(T03): preparar instalador GPU para entorno existente`.

@@ -134,34 +134,27 @@ fuera de PATH. Datos ausentes quedan `null`; un informe generado no acredita GPU
 operativa. El archivo se guarda fuera del repositorio y no contiene pesos ni imágenes.
 La consulta usa el [formato CSV documentado por NVIDIA](https://docs.nvidia.com/deploy/nvidia-smi/index.html).
 
-## Antes de instalar T03 en la MSI
+## Instalar y comprobar T03 en la MSI
 
-La propuesta aprobada usa Python 3.12; el `python3` del sistema es 3.14.4.
-Comprobar **en Ubuntu de la MSI**, sin instalar ni sobrescribir nada:
-
-```bash
-cd ~/projects/Asset-Finder
-python3.12 --version
-command -v uv
-ls -ld ai ai/sam2 ai/.venv-gpu
-```
-
-Compartir también los errores: un directorio ausente es información de preparación,
-no una instalación fallida. El resultado de `python3.12` en la Dell no se aplica
-a esta MSI. Si no existe el intérprete o el código SAM, preparar esos requisitos
-antes del bloque aprobado en `PROPUESTA_ENTORNO.md`; no usar el entorno CPU.
-
-**Resultado MSI recibido:** `python3.12` no está accesible por nombre. La cadena
-con `&&` se detuvo antes de comprobar uv y los directorios. Para completar solo
-esas comprobaciones, desde la raíz en Ubuntu:
+El usuario ya creó `.venv-gpu` **en la raíz** con uv/Python 3.12.16 y confirmó
+`ai/sam2/`. Se usa esa ubicación, separada de los entornos CPU/pruebas.
+Copiar [preparar_gpu.sh](preparar_gpu.sh) dentro de `ai/` de la MSI y ejecutar,
+desde `~/projects/Asset-Finder` en Ubuntu:
 
 ```bash
-command -v uv || echo "uv no encontrado"
-ls -ld ai ai/sam2 ai/.venv-gpu
+bash ai/preparar_gpu.sh .venv-gpu
 ```
 
-El resultado permitirá preparar el intérprete aprobado antes de instalar T03.
-La confirmación de NVIDIA mediante NVIDIA-SMI ya quedó cubierta por T01.
+No requiere la rama actual si se copia el script. Primero verifica entorno
+vacío (o solo herramientas con versiones aprobadas), RTX 4070 y SAM en la
+revisión fijada, sin cambios locales. Si algo difiere, se detiene para revisarlo.
+No mueve carpetas, recrea entornos ni descarga pesos. Instala las versiones
+ya aprobadas y prueba una suma real en CUDA, sin cargar SAM/DINO todavía.
+
+Si termina: compartir el JSON final (`/tmp/asset-finder-T03-MSI.json`) y
+`ai/requirements-gpu.txt`. Si falla: compartir el error antes de repetir;
+una instalación parcial necesita revisar los paquetes existentes. T03 permanece
+pendiente hasta recibir y validar esa evidencia. Detalles en `PROPUESTA_ENTORNO.md`.
 
 ### Historial T01: pruebas iniciales en otra laptop (Dell)
 

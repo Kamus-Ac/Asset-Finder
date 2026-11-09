@@ -12,6 +12,11 @@ No se cambia automáticamente a Python 3.14 ni se sobrescriben entornos.
 El preflight posterior sí confirma `python3.12: command not found` en la MSI.
 Las comprobaciones de uv/directorios no se ejecutaron porque se encadenaron
 con `&&`; se solicitan por separado antes de elegir el método de preparación.
+
+**Actualización T03:** el usuario confirmó uv y creó con él **Python 3.12.16**
+en `.venv-gpu` de la raíz de la MSI. También existen `ai/` y `ai/sam2/`.
+Se adopta la ubicación que eligió el usuario; no se crea un segundo entorno.
+Paquetes, revisión exacta de SAM y CUDA aún pendientes de la ejecución del instalador.
 Los índices oficiales torch/torchvision cu126 con ruedas CPython 3.12 Linux
 se volvieron a consultar el 9 de noviembre; no se instalaron paquetes.
 
@@ -23,8 +28,8 @@ el error de laptop. Su ausencia de NVIDIA/Python 3.12 no se atribuye a la MSI.
 | Componente | Selección para el entorno nuevo |
 | --- | --- |
 | Plataforma | Ubuntu en WSL2, Linux x86_64; glibc ≥2.28 para las ruedas elegidas |
-| Python | CPython 3.12.x aprobado; `python3` real en WSL es 3.14.4, falta comprobar `python3.12` |
-| Entorno | `ai/.venv-gpu`, separado de `.venv-sam2` y `.venv-tests` |
+| Python | CPython 3.12.16 confirmado en el entorno creado por el usuario; sistema 3.14.4 separado |
+| Entorno | `.venv-gpu` en la raíz de la MSI, elegido por el usuario; separado de entornos CPU/pruebas |
 | PyTorch | `torch==2.14.1`, rueda `+cu126` |
 | torchvision | `torchvision==0.29.1`, rueda `+cu126` de la misma pareja oficial |
 | Runtime CUDA | 12.6, canal oficial `https://download.pytorch.org/whl/cu126` |
@@ -69,7 +74,30 @@ Las versiones auxiliares conservan la base CPU existente, sin modificarla.
   nested tensors ni xFormers. **La combinación completa SAM+DINO no está probada**:
   T04 debe cargar los dos modelos y comprobar inferencia real con estos paquetes.
 
-## Comandos propuestos — ejecutar solo después de aprobar T02
+## Ejecución actual de T03 en la MSI
+
+Pasar [preparar_gpu.sh](preparar_gpu.sh) a `ai/` de la MSI. Desde el proyecto:
+
+```bash
+bash ai/preparar_gpu.sh .venv-gpu
+```
+
+El script inspecciona el intérprete/paquetes, NVIDIA y la revisión de SAM antes
+de instalar. Si hay paquetes ajenos o fuente SAM distinta, se detiene sin
+sobrescribirlos. No crea entornos ni descarga pesos. Con la aprobación vigente,
+instala herramientas fijadas, dependencias comunes, la pareja CUDA y SAM sin
+compilar su extensión. Usa explícitamente el intérprete del entorno elegido.
+
+Solo tras `pip check`, versiones correctas y una suma CUDA real escribe
+`ai/requirements-gpu.txt` y `/tmp/asset-finder-T03-MSI.json`. Compartir ambos.
+Un fallo puede dejar paquetes parcialmente instalados: conservar el error para
+revisar el estado antes de reintentar. T03 no se acepta por haber escrito el script.
+
+## Comandos originales T02 — referencia para un entorno nuevo
+
+**No ejecutar este bloque en la MSI actual:** ya se creó `.venv-gpu` en la raíz;
+para ese equipo se usa el script anterior. El bloque conserva la receta aprobada
+inicialmente para `ai/.venv-gpu` y documenta los mismos paquetes.
 
 Desde la raíz de este proyecto en **Ubuntu/WSL de Angel**. No ejecutar en
 PowerShell ni en el entorno CPU local. Si falta Python 3.12 o su módulo venv,

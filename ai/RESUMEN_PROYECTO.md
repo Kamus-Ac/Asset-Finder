@@ -51,7 +51,7 @@ video opcional. SAM 3D: **servicio no disponible**, investigación T10 terminada
 Adaptar con P3 los planes antiguos de catálogo manual al enfoque de fuentes externas.
 
 Siguiente: confirmar interfaz con Manuel → recorte/DINO → ranking e integración.
-FASE 1: siguiente T03; comprobar Python 3.12 y preparar el entorno GPU aprobado.
+FASE 1: T03 en curso; entorno Python 3.12.16 creado en la MSI, falta instalar y probar CUDA.
 
 Seguimiento: [TASKS](TASKS.md) · [Interfaz P3](INTERFAZ_P3.md) ·
 [Mediciones](MEDICIONES.md) · [SAM 3D](NOTAS_SAM3D.md).

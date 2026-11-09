@@ -41,7 +41,7 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
   `Pruebas/Diagnostico_MSI_Angel_2026-11-09.json`; cifras en `MEDICIONES.md`.
   Compilación y suite local: 31 pruebas/5 subtests en verde. Esto cierra el
   diagnóstico, no acredita PyTorch CUDA ni inferencia GPU (T03/T04).
-  Python 3.12 aprobado para T03 aún debe comprobarse en esta MSI.
+  Después se confirmó Python 3.12.16 en el entorno creado por el usuario para T03.
   Los informes anteriores de la Dell y Luis se conservan separados; no son
   evidencia del servidor. Historial y comandos completos en `PROGRESS.md`.
 
@@ -55,14 +55,14 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
 
 - [ ] **T03 Entorno CUDA aislado (E1.2).** Crear `ai/.venv-gpu` (fuera de Git), instalar la combinación aprobada en T02 y generar `ai/requirements-gpu.txt` nuevo. No modificar `requirements-sam2.txt`, que fija PyTorch CPU.
   *Aceptación:* `python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"` muestra `True` y la GPU. Si no hay GPU, la tarea queda `[ ]` y se acuerda CPU con P3.
-  **Siguiente tras T01 completada:** comprobar `python3.12`, herramientas y
-  directorios existentes en la MSI antes de instalar. `python3` es 3.14.4;
-  se conserva la combinación aprobada para 3.12. No se reutiliza ni sobrescribe
-  un entorno GPU sin revisar su estado. T03–T05 aún no están validadas.
-  **Preflight recibido:** `python3.12` no se encuentra por nombre en la MSI.
-  La cadena con `&&` se detuvo ahí: no hay resultado de uv ni de los directorios.
-  [NEEDS USER] Consultar esos dos datos del README para preparar Python 3.12
-  con la aprobación vigente, sin asumir que el entorno o el código SAM existen.
+  **Preparación recibida:** uv disponible; el usuario creó `.venv-gpu` en la
+  raíz de la MSI con Python 3.12.16 y confirmó `ai/` y `ai/sam2/`. Se adopta ese
+  entorno existente en vez de crear otro bajo `ai/`; código/lock siguen en `ai/`.
+  `ai/preparar_gpu.sh` instala solo las versiones aprobadas, comprueba SAM y
+  valida CUDA real antes de generar el lock. Pruebas locales del instalador y
+  suite en verde; todavía no se ejecutó en la MSI.
+  [NEEDS USER] Pasar el script a la MSI, ejecutarlo y compartir el JSON final
+  y `ai/requirements-gpu.txt`. T03 sigue `[ ]` hasta esa evidencia GPU real.
 
 - [ ] **T04 Carga de modelos en GPU y medición (E1.3).** Cargar SAM 2.1 Tiny y DINOv2 ViT-S/14 en CUDA. Medir tiempo de carga, tiempo de inferencia (con calentamiento y `torch.cuda.synchronize()`) y VRAM pico con `torch.cuda.max_memory_allocated()`.
   *Aceptación:* cifras en `ai/MEDICIONES.md` con comando, repeticiones y dispositivo.

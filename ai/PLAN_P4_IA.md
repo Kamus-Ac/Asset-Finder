@@ -203,5 +203,7 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
 - **T01 completada:** recibido el diagnóstico de la MSI/RTX correcta y
   validación local en verde. Los informes de la Dell y Luis quedan separados.
 - **Siguiente tarea:** T03, comprobar Python 3.12/directorios en MSI y después
-  instalar/validar CUDA con las versiones aprobadas. Main ya se integró;
+  instalar/validar CUDA con las versiones aprobadas. El usuario ya creó
+  `.venv-gpu` raíz con Python 3.12.16; instalador preparado, ejecución GPU pendiente.
+  Main ya se integró;
   la publicación conserva el bloqueo histórico de autenticación.
