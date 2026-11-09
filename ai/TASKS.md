@@ -63,6 +63,9 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
   suite en verde; todavía no se ejecutó en la MSI.
   [NEEDS USER] Pasar el script a la MSI, ejecutarlo y compartir el JSON final
   y `ai/requirements-gpu.txt`. T03 sigue `[ ]` hasta esa evidencia GPU real.
+  **Reanudación:** recibido inventario de 14 dependencias comunes, sin torch;
+  el instalador permite esas versiones exactas y sigue rechazando paquetes o
+  versiones ajenos. Copiar la versión actualizada a la MSI antes de reintentar.
 
 - [ ] **T04 Carga de modelos en GPU y medición (E1.3).** Cargar SAM 2.1 Tiny y DINOv2 ViT-S/14 en CUDA. Medir tiempo de carga, tiempo de inferencia (con calentamiento y `torch.cuda.synchronize()`) y VRAM pico con `torch.cuda.max_memory_allocated()`.
   *Aceptación:* cifras en `ai/MEDICIONES.md` con comando, repeticiones y dispositivo.

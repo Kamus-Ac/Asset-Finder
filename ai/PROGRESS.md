@@ -474,3 +474,25 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   Si falla, revisar el error/estado parcial antes de reintentar. T03 sigue `[ ]`;
   no se inicia T04 ni se declara SAM/DINO funcionando en GPU.
 - **Commit:** `ai(T03): preparar instalador GPU para entorno existente`.
+
+## T03 — Reanudar con dependencias comunes ya presentes · 2026-11-09
+
+- **Estado:** `running`, GPU aún pendiente. El instalador encontró 14 paquetes
+  comunes, sin torch, y se detuvo antes de instalar por su comprobación inicial.
+  Evidencia en `ai/Pruebas/Inventario_MSI_T03_2026-11-09.txt`.
+- **Corrección:** se permite ese inventario exacto, compatible con la base
+  aprobada; se rechazan versiones distintas y paquetes ajenos, incluido torch CPU.
+  No se quita la comprobación de Python, revisión SAM, NVIDIA ni CUDA real.
+- **Rutas:** las consultas manuales fallaron porque se ejecutaron desde `ai/`
+  con rutas de la raíz. El instalador sí localiza el entorno correcto mediante
+  la raíz Git. No se recrea ni mueve `.venv-gpu`.
+- **Validación:** `bash -n`, compilación y suite pytest código 0: **35 passed,
+  5 subtests passed in 29.95s**. Cuatro regresiones prueban el inventario recibido,
+  entorno vacío y rechazo de numpy incompatible/torch CPU. Son pruebas de política
+  con metadata controlada; no se presentan como CUDA real.
+- **Pendiente MSI:** reemplazar el script y ejecutar desde la raíz, conservando
+  los paquetes revisados. T03 sigue `[ ]`; no hay JSON CUDA ni lock real todavía.
+- **Commit:** `ai(T03): permitir reanudar con la base comun revisada`.
+- **Publicación:** Brandon solicita ahora commit y push de los cambios pendientes
+  en `feature/ai-exploracion`, sin esperar al cierre de fase. Se incluyen código,
+  documentación e historial local; graphify generado permanece fuera del commit.

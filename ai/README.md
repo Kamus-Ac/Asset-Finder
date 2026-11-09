@@ -146,7 +146,7 @@ bash ai/preparar_gpu.sh .venv-gpu
 ```
 
 No requiere la rama actual si se copia el script. Primero verifica entorno
-vacío (o solo herramientas con versiones aprobadas), RTX 4070 y SAM en la
+vacío o con la base común revisada en sus versiones exactas, RTX 4070 y SAM en la
 revisión fijada, sin cambios locales. Si algo difiere, se detiene para revisarlo.
 No mueve carpetas, recrea entornos ni descarga pesos. Instala las versiones
 ya aprobadas y prueba una suma real en CUDA, sin cargar SAM/DINO todavía.
@@ -155,6 +155,18 @@ Si termina: compartir el JSON final (`/tmp/asset-finder-T03-MSI.json`) y
 `ai/requirements-gpu.txt`. Si falla: compartir el error antes de repetir;
 una instalación parcial necesita revisar los paquetes existentes. T03 permanece
 pendiente hasta recibir y validar esa evidencia. Detalles en `PROPUESTA_ENTORNO.md`.
+
+El inventario recibido de la MSI ya contiene 14 paquetes comunes, sin torch.
+Se permite continuar con esas versiones exactas; paquetes distintos o versiones
+incompatibles siguen deteniendo el script. Reemplazar en la MSI el instalador
+por esta versión antes de reintentar. Desde cualquier carpeta:
+
+```bash
+cd ~/projects/Asset-Finder && bash ai/preparar_gpu.sh .venv-gpu
+```
+
+Las rutas de consultas manuales son relativas: desde `ai/`, el intérprete está
+en `../.venv-gpu/bin/python`. No crear otro entorno por ese error de ruta.
 
 ### Historial T01: pruebas iniciales en otra laptop (Dell)
 

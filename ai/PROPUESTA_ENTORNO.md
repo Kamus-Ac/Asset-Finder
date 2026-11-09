@@ -83,7 +83,8 @@ bash ai/preparar_gpu.sh .venv-gpu
 ```
 
 El script inspecciona el intérprete/paquetes, NVIDIA y la revisión de SAM antes
-de instalar. Si hay paquetes ajenos o fuente SAM distinta, se detiene sin
+de instalar. Admite los 14 paquetes comunes del inventario MSI revisado en
+sus versiones exactas. Si hay paquetes ajenos, versiones distintas o fuente SAM distinta, se detiene sin
 sobrescribirlos. No crea entornos ni descarga pesos. Con la aprobación vigente,
 instala herramientas fijadas, dependencias comunes, la pareja CUDA y SAM sin
 compilar su extensión. Usa explícitamente el intérprete del entorno elegido.
