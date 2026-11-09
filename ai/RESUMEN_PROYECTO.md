@@ -40,8 +40,8 @@ Entregar la **comprensión y comparación visual**, dentro de `ai/`:
 - **Backend:** `/health` y búsqueda textual Sketchfab en `/catalog/search`;
   sin integración visual. No se probó Sketchfab en vivo en esta revisión.
 - **Web:** tarjetas y cubos Three.js de demostración. Móvil y flujo completo pendientes.
-- **Servidor:** MSI/RTX 4070 confirmada. Las pruebas se hicieron por error en
-  una Dell/Intel; se repetirá el diagnóstico en la MSI. CUDA aún sin validar.
+- **Servidor:** T01 completa en MSI: Ubuntu/WSL2, RTX 4070/8188 MiB detectada,
+  driver 610.78, Python 3.14.4 y 7.61 GiB RAM visibles. PyTorch CUDA aún sin validar.
   El diagnóstico de Luis corresponde a otro equipo.
 
 ## Alcance y siguiente paso
@@ -51,7 +51,7 @@ video opcional. SAM 3D: **servicio no disponible**, investigación T10 terminada
 Adaptar con P3 los planes antiguos de catálogo manual al enfoque de fuentes externas.
 
 Siguiente: confirmar interfaz con Manuel → recorte/DINO → ranking e integración.
-FASE 1: recibir diagnóstico de la MSI antes de instalar el entorno.
+FASE 1: siguiente T03; comprobar Python 3.12 y preparar el entorno GPU aprobado.
 
 Seguimiento: [TASKS](TASKS.md) · [Interfaz P3](INTERFAZ_P3.md) ·
 [Mediciones](MEDICIONES.md) · [SAM 3D](NOTAS_SAM3D.md).

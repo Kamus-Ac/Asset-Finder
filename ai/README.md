@@ -100,11 +100,11 @@ explícitamente; no descargan ni instalan recursos automáticamente.
 
 ## Servidor acordado
 
-La IA correrá en **Ubuntu sobre WSL de la laptop de Angel**. Brandon compartió
-driver NVIDIA 610.78, VRAM total detectada de 8188 MiB y Python 3.12.1. La salida
-incluye WDDM y procesos Windows; aún falta identificar la distribución Ubuntu y
-confirmar Python/memoria dentro del WSL que ejecutará la IA. Evidencia recibida:
-[MEDICIONES.md](MEDICIONES.md#datos-del-servidor-de-angel-recibidos).
+La IA correrá en **Ubuntu/WSL2 de la MSI de Angel**. Diagnóstico real recibido:
+Ubuntu 26.04.1, x86_64, glibc 2.43, Python 3.14.4, RAM visible 7.61 GiB;
+NVIDIA-SMI detecta RTX 4070 Laptop, driver 610.78 y 8188 MiB VRAM.
+[Evidencia MSI](Pruebas/Diagnostico_MSI_Angel_2026-11-09.json) y
+[mediciones](MEDICIONES.md). T01 completa; PyTorch CUDA aún no está validado.
 
 **Actualización del 6 de noviembre:** Brandon confirma que Angel aún no tiene
 WSL/Ubuntu instalado y pide dejar esa parte pendiente. El comando de diagnóstico
@@ -116,8 +116,8 @@ esta reinstalación CPU no cierra esas tareas. SAM 3D sigue como
 **servicio no disponible**.
 
 **Actualización del 9 de noviembre:** Brandon informa que la laptop de Angel
-ya está preparada para pruebas y comparte el diagnóstico. Ubuntu/WSL2 está
-confirmado; falta aclarar `nvidia-smi` ausente y comprobar Python 3.12.
+ya está preparada y comparte finalmente el diagnóstico de la MSI correcta.
+NVIDIA visible en WSL; siguiente tarea T03: comprobar Python 3.12 y entorno GPU.
 
 ## Recopilar T01 dentro del WSL de Angel
 
@@ -134,9 +134,26 @@ fuera de PATH. Datos ausentes quedan `null`; un informe generado no acredita GPU
 operativa. El archivo se guarda fuera del repositorio y no contiene pesos ni imágenes.
 La consulta usa el [formato CSV documentado por NVIDIA](https://docs.nvidia.com/deploy/nvidia-smi/index.html).
 
-### T01: equipo diagnosticado distinto del servidor previsto
+## Antes de instalar T03 en la MSI
 
-**Última evidencia:** [modelo del equipo](Pruebas/Equipo_Dell_2026-11-09.txt):
+La propuesta aprobada usa Python 3.12; el `python3` del sistema es 3.14.4.
+Comprobar **en Ubuntu de la MSI**, sin instalar ni sobrescribir nada:
+
+```bash
+cd ~/projects/Asset-Finder
+python3.12 --version
+command -v uv
+ls -ld ai ai/sam2 ai/.venv-gpu
+```
+
+Compartir también los errores: un directorio ausente es información de preparación,
+no una instalación fallida. El resultado de `python3.12` en la Dell no se aplica
+a esta MSI. Si no existe el intérprete o el código SAM, preparar esos requisitos
+antes del bloque aprobado en `PROPUESTA_ENTORNO.md`; no usar el entorno CPU.
+
+### Historial T01: pruebas iniciales en otra laptop (Dell)
+
+**Evidencia histórica de otro equipo:** [modelo](Pruebas/Equipo_Dell_2026-11-09.txt):
 Dell Latitude 3410 e Intel UHD presente, OK. No coincide con la MSI/RTX 4070
 comunicada inicialmente. La consulta PnP de errores no devolvió coincidencias;
 su mensaje no demuestra una avería ni la presencia/ausencia física de una RTX.

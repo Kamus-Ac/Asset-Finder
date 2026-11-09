@@ -32,30 +32,18 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
 
 ## FASE 1 — Entorno del servidor (E1)
 
-- [ ] **T01 Diagnóstico del servidor (E1.1).** Crear `ai/tests/` con una prueba mínima que pase (`test_smoke.py`) para fijar la validación. Registrar en `ai/MEDICIONES.md`: GPU, driver, sistema operativo, versión de Python, RAM y VRAM. Confirmar con Manuel en qué equipo correrá la IA.
+- [x] **T01 Diagnóstico del servidor (E1.1).** Crear `ai/tests/` con una prueba mínima que pase (`test_smoke.py`) para fijar la validación. Registrar en `ai/MEDICIONES.md`: GPU, driver, sistema operativo, versión de Python, RAM y VRAM. Confirmar con Manuel en qué equipo correrá la IA.
   *Aceptación:* `ai/MEDICIONES.md` tiene la salida de `nvidia-smi`, `python --version` y memoria; validación en verde.
-  [NEEDS USER] Recibidas las salidas de Angel: driver 610.78, 8188 MiB de VRAM
-  y Python 3.12.1. Brandon confirma que la IA correrá en Ubuntu sobre WSL.
-  **Historial del 6 de noviembre:** Brandon pospuso T01 porque Angel aún no
-  tenía WSL/Ubuntu. Las salidas Windows no acreditaban un entorno Linux.
-  **Retomada el 9 de noviembre:** Brandon informa que la laptop ya está
-  preparada para pruebas. **JSON recibido ese mismo día:** Ubuntu 26.04.1,
-  WSL2, Python 3.14.4, glibc 2.43 y 7.64 GiB de RAM visibles. `/dev/dxg` existe,
-  pero `nvidia-smi` no se encuentra (127); GPU/driver/VRAM en Linux quedan `null`.
-  Evidencia: `Pruebas/Diagnostico_Angel_2026-11-09.json` y `MEDICIONES.md`.
-  **Comprobación adicional recibida:** Windows solo enumera Intel UHD Graphics
-  (31.0.101.2134, OK); faltan los archivos NVIDIA en WSL y `python3.12` no se
-  encuentra dentro de Ubuntu. Evidencia en `Pruebas/Angel_GPU_Windows_2026-11-09.txt`.
-  **Modelo identificado:** Dell Inc. Latitude 3410, Display presente: Intel UHD,
-  OK; no hay coincidencias PnP para ERROR/DEGRADED/UNKNOWN. Evidencia en
-  `Pruebas/Equipo_Dell_2026-11-09.txt`. No coincide con la MSI/RTX 4070 prevista.
-  **Aclaración de Brandon:** se equivocaron de laptop al ejecutar las pruebas;
-  se mantiene la MSI/RTX 4070 y repetirá allí el diagnóstico. Estas salidas de
-  la Dell no validan el servidor. [NEEDS USER] Recibir la evidencia de la MSI.
-  El entorno local de pruebas está en verde. Por solicitud explícita de Brandon,
-  se reinstaló el entorno CPU dentro de este proyecto: ya no depende del antiguo.
-  Ver `PROGRESS.md`. T01 sigue `[ ]`; Brandon autorizó preparar únicamente la
-  propuesta documental T02 el 5 de noviembre, sin instalar ni ejecutar T03.
+  **Completada el 9 de noviembre:** diagnóstico real dentro de la MSI de Angel,
+  servidor confirmado por Brandon. Ubuntu 26.04.1/WSL2, Linux x86_64, glibc 2.43,
+  Python 3.14.4 y 7.61 GiB RAM visibles. NVIDIA-SMI funciona dentro de WSL:
+  RTX 4070 Laptop GPU, driver 610.78, 8188 MiB de VRAM. Evidencia original:
+  `Pruebas/Diagnostico_MSI_Angel_2026-11-09.json`; cifras en `MEDICIONES.md`.
+  Compilación y suite local: 31 pruebas/5 subtests en verde. Esto cierra el
+  diagnóstico, no acredita PyTorch CUDA ni inferencia GPU (T03/T04).
+  Python 3.12 aprobado para T03 aún debe comprobarse en esta MSI.
+  Los informes anteriores de la Dell y Luis se conservan separados; no son
+  evidencia del servidor. Historial y comandos completos en `PROGRESS.md`.
 
 - [x] **T02 Propuesta de versiones (E1.2), sin instalar.** Consultar la documentación oficial de PyTorch, SAM 2 y DINOv2. Escribir en `ai/PROPUESTA_ENTORNO.md` la combinación compatible con el driver: versión de PyTorch, CUDA, numpy, pillow y los comandos exactos.
   *Aceptación:* propuesta revisada; no se modifica ningún entorno.
@@ -63,13 +51,14 @@ Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere
   torch 2.14.1 + torchvision 0.29.1/cu126, NumPy 2.4.6, Pillow 13.0.0 y la lista
   de `ai/PROPUESTA_ENTORNO.md`. No se requiere volver a pedir esa autorización.
   No se ejecutaron instalaciones GPU. Manuel deberá confirmar solo si se comparte
-  ese entorno con backend. T03 depende del diagnóstico WSL de T01.
+  ese entorno con backend. T01 ya tiene evidencia WSL real; T03 es la siguiente tarea.
 
 - [ ] **T03 Entorno CUDA aislado (E1.2).** Crear `ai/.venv-gpu` (fuera de Git), instalar la combinación aprobada en T02 y generar `ai/requirements-gpu.txt` nuevo. No modificar `requirements-sam2.txt`, que fija PyTorch CPU.
   *Aceptación:* `python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"` muestra `True` y la GPU. Si no hay GPU, la tarea queda `[ ]` y se acuerda CPU con P3.
-  **Pendiente de T01:** diagnóstico de la MSI/RTX confirmada. Las pruebas
-  Dell/Intel, incluida la ausencia de Python 3.12, no se trasladan a la MSI. La combinación
-  aprobada conserva Python 3.12; T03–T05 aún no están validadas.
+  **Siguiente tras T01 completada:** comprobar `python3.12`, herramientas y
+  directorios existentes en la MSI antes de instalar. `python3` es 3.14.4;
+  se conserva la combinación aprobada para 3.12. No se reutiliza ni sobrescribe
+  un entorno GPU sin revisar su estado. T03–T05 aún no están validadas.
 
 - [ ] **T04 Carga de modelos en GPU y medición (E1.3).** Cargar SAM 2.1 Tiny y DINOv2 ViT-S/14 en CUDA. Medir tiempo de carga, tiempo de inferencia (con calentamiento y `torch.cuda.synchronize()`) y VRAM pico con `torch.cuda.max_memory_allocated()`.
   *Aceptación:* cifras en `ai/MEDICIONES.md` con comando, repeticiones y dispositivo.

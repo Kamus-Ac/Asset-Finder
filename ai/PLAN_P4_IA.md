@@ -27,7 +27,7 @@ simplificaciones que el equipo aún debe acordar.
 | Etapa | Estado | Resultado para cerrar |
 | --- | --- | --- |
 | E0 · Elegir base y auditar CPU | completed | Comparación, recursos recuperados y prueba documentada |
-| E1 · Entorno del servidor | running | MSI/RTX confirmada; repetir allí las pruebas hechas por error en Dell |
+| E1 · Entorno del servidor | running | T01 completada en MSI/RTX; siguiente: entorno CUDA T03 |
 | E2 · Segmentación e interfaz temprana | running | Código probado; falta confirmación de tipos por P3 |
 | E3 · Recorte y embedding | queued | `embed` real y preparación consistente |
 | E4 · Catálogo e índice | queued | 20–30 assets con metadatos y vectores versionados |
@@ -56,11 +56,11 @@ simplificaciones que el equipo aún debe acordar.
 
 ## E1 — Entorno real del servidor (día 1 orientativo)
 
-- [ ] E1.1 Con P3, identificar el servidor donde correrá la IA y comprobar
+- [x] E1.1 Con P3, identificar el servidor donde correrá la IA y comprobar
   GPU, driver, sistema operativo, Python y memoria. Brandon confirma la laptop
-  de Angel con Ubuntu/WSL; salida NVIDIA y Python recibidas. Falta verificar
-  NVIDIA dentro de WSL; diagnóstico recibido: Ubuntu 26.04.1, Python 3.14.4,
-  7.64 GiB RAM visibles, `/dev/dxg` presente y `nvidia-smi` ausente.
+  de Angel. Diagnóstico MSI real: Ubuntu 26.04.1/WSL2, Python 3.14.4,
+  7.61 GiB RAM visibles; NVIDIA-SMI detecta RTX 4070 Laptop/8188 MiB/610.78.
+  Todavía no acredita PyTorch CUDA; eso corresponde a E1.2/E1.3.
 - [ ] E1.2 Consultar fuentes oficiales de PyTorch/SAM/DINO; proponer versiones
   compatibles y comandos antes de instalar. Con aprobación, crear entorno nuevo
   bajo `ai/`, separado de CPU; registrar dependencias reproducibles sin rutas personales.
@@ -182,8 +182,8 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
   Resultados en `MEDICIONES.md`; seguimiento de tareas en `TASKS.md`.
 - **T02 aprobada:** Brandon autoriza la combinación de `PROPUESTA_ENTORNO.md`.
   El 9 de noviembre Brandon informa que la laptop de Angel ya está preparada.
-  El JSON confirma Ubuntu/WSL, pero no hay `nvidia-smi`; falta validar NVIDIA
-  y comprobar Python 3.12. La aprobación GPU sigue vigente para la combinación original.
+  El diagnóstico de la MSI confirma NVIDIA en WSL. Falta comprobar Python 3.12
+  e instalar/validar el entorno; la aprobación original sigue vigente.
 - **Cambio de alcance remoto:** main ahora prioriza candidatos externos y tiene
   conector Sketchfab. Las etapas de catálogo manual deben revisarse con P3 antes
   de implementarse; el diagnóstico T01 y la preparación de modelos siguen siendo útiles.
@@ -200,9 +200,8 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
   `NOTAS_SAM3D.md`; generación 3D no disponible, sin instalaciones nuevas.
 - **FASE 2:** trabajo local terminado; falta aceptación escrita de T09 por Manuel
   y publicación. No se inicia FASE 3 en esta sesión.
-- **Tarea retomada:** **T01 / E1.1**, diagnóstico WSL recibido de Angel;
-  las últimas salidas identifican Dell Latitude 3410/Intel, distinta de la
-  MSI/RTX prevista. Brandon aclara el error de laptop y mantiene la MSI;
-  repetirá allí las pruebas antes de continuar instalaciones.
-  No se marca completada por las pruebas CPU. Main ya se integró; el bloqueo
-  histórico de autenticación para publicar sigue pendiente de resolver.
+- **T01 completada:** recibido el diagnóstico de la MSI/RTX correcta y
+  validación local en verde. Los informes de la Dell y Luis quedan separados.
+- **Siguiente tarea:** T03, comprobar Python 3.12/directorios en MSI y después
+  instalar/validar CUDA con las versiones aprobadas. Main ya se integró;
+  la publicación conserva el bloqueo histórico de autenticación.

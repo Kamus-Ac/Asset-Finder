@@ -292,3 +292,39 @@ evidencia previa sin renombrarla ni completar sus campos; no debe presentarse
 como validación de la MSI. Brandon debe confirmar el equipo definitivo: si es
 la MSI, diagnosticar allí; si es esta Dell, acordar una alternativa CPU con P3.
 No se instala nada ni se modifican modos gráficos mientras se aclara el equipo.
+
+## T01 completada — Diagnóstico real de la MSI de Angel · 9 de noviembre de 2026
+
+Brandon comparte la salida de la laptop correcta. JSON original conservado:
+[Diagnostico_MSI_Angel_2026-11-09.json](Pruebas/Diagnostico_MSI_Angel_2026-11-09.json).
+Host `MSI`; recopilación `2026-11-09T18:28:09.100424+00:00`.
+Comando recibido: `python3 -I diagnostico_servidor.py`, con una copia independiente
+del script. El primer intento falló porque no estaba en esa ruta; el segundo
+produjo el informe completo. En el repo, la ruta del archivo es `ai/diagnostico_servidor.py`.
+
+| Campo | Evidencia MSI |
+| --- | --- |
+| Sistema | Ubuntu 26.04.1 LTS; Linux x86_64; WSL2 |
+| Kernel | 6.18.54.1-microsoft-standard-WSL2 |
+| Python | 3.14.4 en `/usr/bin/python3` |
+| glibc | 2.43 |
+| RAM visible WSL | 8,172,498,944 bytes ≈ 7.61 GiB |
+| Swap | 2 GiB |
+| GPU | NVIDIA GeForce RTX 4070 Laptop GPU |
+| Driver consultado | 610.78 |
+| VRAM total | 8188 MiB |
+| NVIDIA-SMI | `/usr/lib/wsl/lib/nvidia-smi`; ambas consultas devuelven 0 |
+| Dispositivo WSL GPU | `/dev/dxg` presente |
+
+NVIDIA-SMI muestra versión de herramienta 610.55, KMD 610.78 y CUDA UMD 13.3;
+esa etiqueta no identifica el runtime de PyTorch instalado. No se ejecutó
+PyTorch CUDA ni SAM/DINO en esta GPU. T03/T04 siguen pendientes.
+
+Validación local: `ai/.venv-tests/bin/python -m py_compile ai/*.py` código 0;
+`ai/.venv-tests/bin/python -m pytest ai/tests -q`: **31 passed, 5 subtests passed
+in 22.39s**. Son pruebas locales CPU/contratos Python, no inferencia GPU remota.
+Con el informe del servidor y esa validación se cierra T01.
+
+Siguiente: comprobar si también existe `python3.12` y los directorios SAM/entorno
+en la MSI. No se instala nada todavía. Los informes de la Dell y Luis permanecen
+separados y no sustituyen esta evidencia del servidor.

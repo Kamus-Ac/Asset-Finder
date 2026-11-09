@@ -1,31 +1,19 @@
 # T02 — Propuesta de entorno CUDA para Angel
 
 Fecha: 5 de noviembre de 2026. **Aprobada por Brandon el 6 de noviembre; no instalada.**
-T01 sigue pendiente de la evidencia de Ubuntu/WSL. Brandon autorizó preparar
-T02 inicialmente sin instalar. El 6 de noviembre aprobó esta combinación para
-T03; su ejecución sigue pendiente de acceso y diagnóstico del WSL de Angel.
-Brandon confirmó el 6 de noviembre que WSL/Ubuntu aún no está instalado y
-pospuso esa preparación. La aprobación de estas versiones se conserva.
+**Estado actual, 9 de noviembre:** T01 completada con evidencia de la MSI real:
+Ubuntu 26.04.1 en WSL2, x86_64, glibc 2.43, Python 3.14.4, 7.61 GiB RAM visibles,
+RTX 4070 Laptop/8188 MiB y driver 610.78 accesibles mediante NVIDIA-SMI.
+Fuente: `Pruebas/Diagnostico_MSI_Angel_2026-11-09.json`.
 
-**Diagnóstico recibido el 9 de noviembre:** Ubuntu 26.04.1 en WSL2, glibc 2.43,
-Python 3.14.4 y 7.64 GiB de RAM visibles; `nvidia-smi` no disponible. T01 sigue
-parcial. La aprobación de T02 sigue vigente para **Python 3.12**, no autoriza
-cambiar automáticamente a 3.14. Primero comprobar si `python3.12` ya existe y
-la exposición de NVIDIA a WSL; no ejecutar todavía el bloque de instalación.
+La combinación aprobada conserva **Python 3.12**. Falta comprobar si ese
+intérprete ya existe en la MSI y revisar los directorios antes de ejecutar T03.
+No se cambia automáticamente a Python 3.14 ni se sobrescriben entornos.
+Los índices oficiales torch/torchvision cu126 con ruedas CPython 3.12 Linux
+se volvieron a consultar el 9 de noviembre; no se instalaron paquetes.
 
-**Comprobación adicional:** `wsl -d Ubuntu -- python3.12 --version` devuelve
-`command not found`; Windows solo enumera Intel UHD. Falta identificar modelo
-y dispositivos NVIDIA antes de decidir instalaciones; no se cambió la propuesta.
-
-**Equipo identificado después:** las pruebas actuales corresponden a una
-**Dell Latitude 3410 con Intel UHD**, distinta de la MSI/RTX 4070 prevista.
-Confirmar servidor antes de instalar. Esta propuesta CUDA no queda validada
-por las salidas de la Dell; la aprobación original no cambia el equipo por sí sola.
-
-Brandon aclara después que ejecutaron las pruebas en la laptop equivocada.
-Se conserva la MSI/RTX 4070 como servidor; faltan sus salidas reales de WSL.
-Python 3.14.4 y los archivos NVIDIA ausentes corresponden al equipo Dell probado,
-no se atribuyen a la MSI sin evidencia nueva.
+Los informes previos de la Dell se conservaron separados: Brandon confirmó
+el error de laptop. Su ausencia de NVIDIA/Python 3.12 no se atribuye a la MSI.
 
 ## Combinación propuesta
 
@@ -144,7 +132,8 @@ No hacer pasar el script actual `prueba_sam2.py`, que fija CPU, como prueba CUDA
 - [x] Ruedas CPython 3.12 Linux verificadas; versiones y comandos escritos.
 - [x] Bloques Python/shell comprobados estáticamente; sin ejecutar instalaciones.
 - [x] Evidencia recibida de Ubuntu, memoria y Python del WSL objetivo.
-- [ ] NVIDIA accesible en WSL y Python 3.12 comprobado antes de instalar T03.
+- [x] NVIDIA accesible en WSL de la MSI (diagnóstico real, sin PyTorch todavía).
+- [ ] Python 3.12 y directorios existentes comprobados antes de instalar T03.
 - [x] Aprobación explícita de Brandon recibida el 6 de noviembre de 2026.
 - [ ] Confirmación de Manuel solo si decide compartir este entorno con backend.
 

@@ -410,3 +410,26 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   de dependencias o código y sin ejecutar T03. Validación documental:
   `git diff --check`; se conservan los informes originales sin alterarlos.
 - Commit: `ai(T01): confirmar MSI y separar evidencia de la Dell`.
+
+## T01 — Completada con diagnóstico MSI/RTX real · 2026-11-09
+
+- **Estado:** `completed`. Brandon identifica la laptop correcta y comparte el
+  informe del host MSI, WSL2/Ubuntu 26.04.1, x86_64, glibc 2.43, Python 3.14.4,
+  7.61 GiB RAM visibles. NVIDIA-SMI funciona: RTX 4070 Laptop/8188 MiB/610.78.
+- **Evidencia:** `ai/Pruebas/Diagnostico_MSI_Angel_2026-11-09.json`, conservada
+  sin completar ni modificar los datos. `MEDICIONES.md` registra salida y límites.
+  La primera ejecución no encontró el archivo; la segunda, con copia disponible,
+  sí produjo el JSON. No implica dependencia de una ruta de la carpeta antigua.
+- **Validación:** `ai/.venv-tests/bin/python -m py_compile ai/*.py` código 0;
+  `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **31 passed,
+  5 subtests passed in 22.39s**. JSON parseado y campos GPU/driver/VRAM revisados.
+  La suite usa CPU local; no se declara PyTorch CUDA ni inferencia GPU validada.
+- **T01:** marcada `[x]` con evidencia del equipo confirmado; se actualizaron
+  TASKS, plan, resumen, propuesta y README para dejar atrás el bloqueo Dell.
+  No se alteraron los informes históricos de otras laptops.
+- **Siguiente tarea T03:** se solicita comprobar `python3.12`, presencia de uv y
+  directorios `ai/sam2`/`ai/.venv-gpu` en Ubuntu de la MSI. No se infiere que falte
+  Python 3.12 en ella por el resultado de la Dell. La aprobación de T02 permanece;
+  se reconsultaron índices oficiales cu126/cp312, sin instalar paquetes.
+- **Git:** commit `ai(T01): cerrar diagnostico del servidor MSI con RTX 4070`.
+  No corresponde push de cierre: FASE 1 aún requiere T03–T05.
