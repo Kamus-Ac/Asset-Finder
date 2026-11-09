@@ -17,6 +17,11 @@ la exposición de NVIDIA a WSL; no ejecutar todavía el bloque de instalación.
 `command not found`; Windows solo enumera Intel UHD. Falta identificar modelo
 y dispositivos NVIDIA antes de decidir instalaciones; no se cambió la propuesta.
 
+**Equipo identificado después:** las pruebas actuales corresponden a una
+**Dell Latitude 3410 con Intel UHD**, distinta de la MSI/RTX 4070 prevista.
+Confirmar servidor antes de instalar. Esta propuesta CUDA no queda validada
+por las salidas de la Dell; la aprobación original no cambia el equipo por sí sola.
+
 ## Combinación propuesta
 
 | Componente | Selección para el entorno nuevo |

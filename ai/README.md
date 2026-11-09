@@ -134,7 +134,15 @@ fuera de PATH. Datos ausentes quedan `null`; un informe generado no acredita GPU
 operativa. El archivo se guarda fuera del repositorio y no contiene pesos ni imágenes.
 La consulta usa el [formato CSV documentado por NVIDIA](https://docs.nvidia.com/deploy/nvidia-smi/index.html).
 
-### T01: NVIDIA no encontrada en el diagnóstico de Angel
+### T01: equipo diagnosticado distinto del servidor previsto
+
+**Última evidencia:** [modelo del equipo](Pruebas/Equipo_Dell_2026-11-09.txt):
+Dell Latitude 3410 e Intel UHD presente, OK. No coincide con la MSI/RTX 4070
+comunicada inicialmente. La consulta PnP de errores no devolvió coincidencias;
+su mensaje no demuestra una avería ni la presencia/ausencia física de una RTX.
+Confirmar con Brandon el servidor definitivo antes de instalar o cambiar modos.
+Si sigue siendo la MSI, ejecutar el recolector allí. Si será la Dell, acordar
+CPU con P3 y revisar el entorno; estas pruebas no acreditan CUDA.
 
 Evidencia: [JSON recibido](Pruebas/Diagnostico_Angel_2026-11-09.json). Python del
 sistema: 3.14.4; RAM visible para WSL: 7.64 GiB. `/dev/dxg` existe, pero el
@@ -169,10 +177,10 @@ Get-PnpDevice -PresentOnly -Status ERROR,DEGRADED,UNKNOWN | Format-Table Status,
 ```
 
 Los comandos solo consultan datos ([Get-PnpDevice, Microsoft](https://learn.microsoft.com/en-us/powershell/module/pnpdevice/get-pnpdevice)).
-Si el equipo es MSI, la [guía del fabricante](https://us.msi.com/faq/faq-2712)
-explica que Integrated Graphics Mode puede deshabilitar la GPU dedicada.
-Es una posibilidad pendiente de comprobar en este equipo, no la causa confirmada.
-No se instala MSI Center, drivers ni Python como parte de estas comprobaciones.
+La hipótesis anterior sobre modos gráficos de MSI no aplica a la Dell identificada.
+No instalar MSI Center ni cambiar firmware para intentar resolver esta diferencia
+de equipos. Los archivos previos conservan la atribución recibida; no prueban
+el entorno de la MSI prevista.
 
 ## Servicio Python para P3 (T09)
 

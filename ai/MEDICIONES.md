@@ -278,3 +278,17 @@ También se recibió WSL 3.0.3.0 y distribución Ubuntu en versión WSL 2.
 Se piden modelo exacto y dispositivos PnP para aclarar la discrepancia con la
 RTX 4070 reportada inicialmente. T01 parcial y T03 sin ejecutar; no se cambian
 dependencias ni se atribuye la causa automáticamente al driver o a MSI Center.
+
+### Identificación del equipo de las últimas pruebas: Dell, no MSI
+
+Fuente recibida: [Equipo_Dell_2026-11-09.txt](Pruebas/Equipo_Dell_2026-11-09.txt).
+`Win32_ComputerSystem`: **Dell Inc., Latitude 3410**. La clase Display de PnP
+solo devuelve **Intel UHD, OK**. La consulta de dispositivos presentes en
+ERROR/DEGRADED/UNKNOWN no devuelve coincidencias: el mensaje CIM no implica
+una avería adicional ni confirma la ausencia física de una GPU.
+
+Esto no coincide con la MSI/RTX 4070 reportada al principio. Se conserva la
+evidencia previa sin renombrarla ni completar sus campos; no debe presentarse
+como validación de la MSI. Brandon debe confirmar el equipo definitivo: si es
+la MSI, diagnosticar allí; si es esta Dell, acordar una alternativa CPU con P3.
+No se instala nada ni se modifican modos gráficos mientras se aclara el equipo.

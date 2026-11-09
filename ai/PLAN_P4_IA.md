@@ -27,7 +27,7 @@ simplificaciones que el equipo aún debe acordar.
 | Etapa | Estado | Resultado para cerrar |
 | --- | --- | --- |
 | E0 · Elegir base y auditar CPU | completed | Comparación, recursos recuperados y prueba documentada |
-| E1 · Entorno del servidor | running | WSL confirmado; NVIDIA y Python 3.12 pendientes de comprobar |
+| E1 · Entorno del servidor | running | Últimas pruebas Dell/Intel; confirmar servidor MSI/RTX o alternativa |
 | E2 · Segmentación e interfaz temprana | running | Código probado; falta confirmación de tipos por P3 |
 | E3 · Recorte y embedding | queued | `embed` real y preparación consistente |
 | E4 · Catálogo e índice | queued | 20–30 assets con metadatos y vectores versionados |
@@ -201,6 +201,7 @@ ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
 - **FASE 2:** trabajo local terminado; falta aceptación escrita de T09 por Manuel
   y publicación. No se inicia FASE 3 en esta sesión.
 - **Tarea retomada:** **T01 / E1.1**, diagnóstico WSL recibido de Angel;
-  faltan las comprobaciones NVIDIA y de Python 3.12 del README.
+  las últimas salidas identifican Dell Latitude 3410/Intel, distinta de la
+  MSI/RTX prevista. Confirmar servidor antes de continuar instalaciones.
   No se marca completada por las pruebas CPU. Main ya se integró; el bloqueo
   histórico de autenticación para publicar sigue pendiente de resolver.

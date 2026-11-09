@@ -377,3 +377,21 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 - **Continuidad:** T01 sigue `[ ]`; T03 no se ejecuta hasta resolver NVIDIA
   y preparar un intérprete aprobado. Commit:
   `ai(T01): registrar deteccion Intel y comprobaciones de hardware pendientes`.
+
+## T01 — Últimas pruebas en Dell Latitude 3410 · 2026-11-09
+
+- **Estado:** `running`, pendiente de confirmar equipo. La salida recibida
+  identifica Dell Inc., Latitude 3410; PnP Display presente: Intel UHD, OK.
+  Se conserva en `ai/Pruebas/Equipo_Dell_2026-11-09.txt`.
+- **Interpretación:** el mensaje de la consulta PnP de estados de error indica
+  que no hubo coincidencias; no demuestra hardware averiado. Las últimas salidas
+  no corresponden al modelo MSI/RTX 4070 previsto y no acreditan esa GPU.
+- **Pregunta pendiente:** confirmar servidor definitivo. MSI: diagnóstico en
+  esa máquina; Dell: acordar alternativa CPU con P3, sin asumir CUDA disponible.
+  No se decide cambiar servidor ni instalar otras versiones sin esa respuesta.
+- **Documentación:** TASKS, plan, resumen, propuesta y README reflejan la
+  discrepancia. La hipótesis de MSI Center no aplica a la Dell identificada.
+  No se alteraron los informes anteriores ni se cambiaron dependencias.
+- **Validación:** salida textual y enlaces locales revisados;
+  `git diff --check` limpio. Sin cambios de código ni nuevas pruebas de modelo.
+- **Commit:** `ai(T01): distinguir equipo Dell de servidor MSI previsto`.
