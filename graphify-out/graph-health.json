@@ -1,26 +1,26 @@
 {
-  "node_count": 143,
+  "node_count": 277,
   "unverified_node_count": 0,
-  "raw_edge_count": 176,
+  "raw_edge_count": 432,
   "non_object_edges": 0,
   "missing_endpoint_edges": 0,
-  "dangling_endpoint_edges": 12,
+  "dangling_endpoint_edges": 67,
   "external_reference_edges": 0,
   "self_loop_edges": 1,
-  "valid_candidate_edges": 164,
+  "valid_candidate_edges": 365,
   "exact_duplicate_edges": 0,
-  "directed_unique_endpoint_pairs": 164,
-  "directed_same_endpoint_collapsed_edges": 0,
-  "undirected_unique_endpoint_pairs": 164,
-  "undirected_same_endpoint_collapsed_edges": 0,
-  "same_endpoint_group_count": 0,
-  "relation_variant_groups": 0,
+  "directed_unique_endpoint_pairs": 356,
+  "directed_same_endpoint_collapsed_edges": 9,
+  "undirected_unique_endpoint_pairs": 356,
+  "undirected_same_endpoint_collapsed_edges": 9,
+  "same_endpoint_group_count": 8,
+  "relation_variant_groups": 5,
   "source_file_variant_groups": 0,
-  "source_location_variant_groups": 0,
+  "source_location_variant_groups": 3,
   "context_variant_groups": 0,
   "post_build_graph_type": "Graph",
-  "post_build_node_count": 155,
-  "post_build_edge_count": 175,
+  "post_build_node_count": 303,
+  "post_build_edge_count": 420,
   "post_build_error": "",
   "producer_suppression": {
     "path": "/home/user/.local/share/uv/tools/graphifyy/lib/python3.11/site-packages/graphify/extract.py",
@@ -101,5 +101,101 @@
     ],
     "error": ""
   },
-  "examples": []
+  "examples": [
+    {
+      "source": "ai_tests_test_diagnostico_servidor_commandtest_test_wsl_tool_is_found_outside_path",
+      "target": "patch",
+      "edge_count": 3,
+      "relations": [
+        "references"
+      ],
+      "source_files": [
+        "ai/tests/test_diagnostico_servidor.py"
+      ],
+      "source_locations": [
+        "L36",
+        "L37",
+        "L38"
+      ],
+      "contexts": [
+        "decorator"
+      ]
+    },
+    {
+      "source": "ai_tests_test_diagnostico_servidor_reporttest_test_absent_gpu_does_not_report_empty_success",
+      "target": "patch",
+      "edge_count": 2,
+      "relations": [
+        "references"
+      ],
+      "source_files": [
+        "ai/tests/test_diagnostico_servidor.py"
+      ],
+      "source_locations": [
+        "L59",
+        "L60"
+      ],
+      "contexts": [
+        "decorator"
+      ]
+    },
+    {
+      "source": "ai_tests_test_diagnostico_servidor_reporttest_test_bad_gpu_output_preserves_diagnostic",
+      "target": "patch",
+      "edge_count": 2,
+      "relations": [
+        "references"
+      ],
+      "source_files": [
+        "ai/tests/test_diagnostico_servidor.py"
+      ],
+      "source_locations": [
+        "L68",
+        "L69"
+      ],
+      "contexts": [
+        "decorator"
+      ]
+    },
+    {
+      "source": "ai_tests_test_segmentation_modelcachetest_test_concurrent_first_calls_load_only_once",
+      "target": "ai_tests_test_segmentation_modelcachetest_test_concurrent_first_calls_load_only_once_build",
+      "edge_count": 2,
+      "relations": [
+        "contains",
+        "indirect_call"
+      ],
+      "source_files": [
+        "ai/tests/test_segmentation.py"
+      ],
+      "source_locations": [
+        "L25",
+        "L28"
+      ],
+      "contexts": [
+        "",
+        "argument"
+      ]
+    },
+    {
+      "source": "frontend_src_main_mountcubepreview",
+      "target": "frontend_src_main_mountcubepreview_animate",
+      "edge_count": 2,
+      "relations": [
+        "contains",
+        "indirect_call"
+      ],
+      "source_files": [
+        "frontend/src/main.ts"
+      ],
+      "source_locations": [
+        "L27",
+        "L33"
+      ],
+      "contexts": [
+        "",
+        "argument"
+      ]
+    }
+  ]
 }
