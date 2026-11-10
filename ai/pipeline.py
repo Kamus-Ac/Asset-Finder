@@ -37,21 +37,41 @@ class Outcome:
 
 @memory_errors
 def run_search(image, candidates, *, box_xyxy=None, points=None, k=5,
-               device="cpu", cache_dir=None):
+               device="cpu", cache_dir=None, use_query_cache=True):
     """SAM → recorte → DINO → ranking del lote suministrado en memoria."""
     if isinstance(k, bool) or not isinstance(k, Integral) or k <= 0:
         raise ValueError("k: se requiere entero mayor que cero")
+    if device not in ("cpu", "cuda"):
+        raise ValueError("device debe ser cpu o cuda")
+    if device == "cuda":
+        try:
+            import torch
+        except ImportError as error:
+            raise ServiceUnavailableError("servicio no disponible: falta PyTorch") from error
+        if not torch.cuda.is_available():
+            raise ServiceUnavailableError("servicio no disponible: CUDA no accesible")
     validate_candidates(candidates)
-    timings = {}
-    started = stage = time.perf_counter()
-    mask, score = segment(image, box_xyxy, points, device=device)
-    timings["segment_seconds"] = time.perf_counter() - stage
-    stage = time.perf_counter()
-    crop = prepare_image(image, mask)
-    timings["prepare_seconds"] = time.perf_counter() - stage
-    stage = time.perf_counter()
-    vector = _encode_prepared(crop, device=device)
-    timings["embed_seconds"] = time.perf_counter() - stage
+    started = time.perf_counter()
+    def compute():
+        timings = {}
+        stage = time.perf_counter()
+        mask, score = segment(image, box_xyxy, points, device=device)
+        timings["segment_seconds"] = time.perf_counter() - stage
+        stage = time.perf_counter()
+        crop = prepare_image(image, mask)
+        timings["prepare_seconds"] = time.perf_counter() - stage
+        stage = time.perf_counter()
+        vector = _encode_prepared(crop, device=device)
+        timings["embed_seconds"] = time.perf_counter() - stage
+        return mask, score, crop, vector, timings
+    query_hit = False
+    if cache_dir is not None and use_query_cache:
+        from .query_cache import query_result
+        query, query_hit = query_result(image, box_xyxy, points, device,
+                                        Path(cache_dir)/"queries", compute)
+    else:
+        query = compute()
+    mask, score, crop, vector, timings = query
     stage = time.perf_counter()
     candidate_cache = Path(cache_dir) / "candidates" if cache_dir is not None else None
     index = build_index(candidates, device=device, cache_dir=candidate_cache)
@@ -63,7 +83,7 @@ def run_search(image, candidates, *, box_xyxy=None, points=None, k=5,
     timings["search_seconds"] = time.perf_counter() - stage
     timings["total_seconds"] = time.perf_counter() - started
     return Outcome(mask, crop, results, timings, index.errors, score,
-                   {"candidate_hits": index.cache_hits, "candidate_misses": index.cache_misses})
+                   {"query_hit": query_hit, "candidate_hits": index.cache_hits, "candidate_misses": index.cache_misses})
 
 
 def save_outcome(outcome, image, directory):

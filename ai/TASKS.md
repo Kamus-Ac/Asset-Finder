@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T23.** Ver evidencia en PROGRESS.
+**Siguiente tarea ejecutable: T25-L.** Ver evidencia en PROGRESS.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -177,7 +177,7 @@ probados; la conexión a la fuente real sigue siendo responsabilidad de P3.
   *Aceptación:* ninguna excepción se convierte en éxito; distinguir simulación
   de memoria de un OOM real y no provocar agotamiento deliberado de la máquina.
 
-- [ ] **T23 Caché de consulta.** Clave con contenido de imagen/selección,
+- [x] **T23 Caché de consulta.** Clave con contenido de imagen/selección,
   modelo/pesos/preprocesado; el ranking además depende del lote candidato vigente.
   *Aceptación:* acierto e invalidación por imagen, selección, modelo y candidatos;
   no cachear errores ni reutilizar disponibilidad/enlaces caducados como actuales.

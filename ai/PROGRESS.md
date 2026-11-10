@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T23**. Ver
+servidor e integración al final. Siguiente tarea: **T25-L**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -741,4 +741,15 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 
 - Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **51 passed, 13 subtests passed in 37.45s**.
 - Sin instalaciones, CUDA ni API del equipo; siguiente T23.
+- Commit por tarea en `feature/ai-exploracion`.
+
+
+## T23 — Desarrollo CPU · 2026-11-10
+
+- query_cache.py versiona imagen/selección, identidad DINO/SAM, pesos y runtime/dispositivo. Guarda máscara, recorte y vector en NPZ sin pickle con checksums; no guarda excepciones.
+- El ranking y sus metadatos se reconstruyen con el lote vigente: cambiar candidatos no reutiliza resultados antiguos. Se prueban cambios de imagen, selección, modelo y lote, errores no cacheados y CUDA ausente incluso al pedir caché.
+- Ensayo real en el mismo proceso: primera consulta 7.858 s con carga y segunda 0.055 s (caché), ambas con cinco resultados y ocho candidatos. No es un benchmark GPU.
+
+- Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **52 passed, 13 subtests passed in 39.72s**.
+- Sin instalaciones, CUDA ni API del equipo; siguiente T25-L.
 - Commit por tarea en `feature/ai-exploracion`.
