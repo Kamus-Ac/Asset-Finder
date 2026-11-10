@@ -1,39 +1,15 @@
-import { useState } from 'react';
-import { AppHeader, Button, Choices, ConfirmationModal, Copy, Panel, ScreenContainer, StatusBadge } from '@/components/ui/kit';
+import { Pressable, View } from 'react-native';
+import { Monitor, Moon, Sun, Check, WifiOff } from 'lucide-react-native';
+import { Copy, Panel, ScreenContainer, SectionHeader } from '@/components/ui/kit';
 import { useAppTheme, type Appearance } from '@/theme';
-import { connection } from '@/services/contracts';
 import app from '../../../app.json';
-const names: Record<Appearance, string> = { system: 'Sistema', light: 'Claro', dark: 'Oscuro' };
+const appearances = [{ value: 'system', label: 'Sistema', icon: Monitor }, { value: 'light', label: 'Claro', icon: Sun }, { value: 'dark', label: 'Oscuro', icon: Moon }] as const;
 export default function Settings() {
-  const { appearance, setAppearance } = useAppTheme();
-  const [info, setInfo] = useState(false);
+  const { appearance, setAppearance, colors } = useAppTheme();
   return <ScreenContainer title="Ajustes" tab>
-    <AppHeader eyebrow="A tu manera" title="Tu espacio de trabajo" subtitle="Una base sencilla para tus próximas ideas." />
-    <Panel>
-      <Copy bold size={20}>Apariencia</Copy>
-      <Choices values={['Sistema', 'Claro', 'Oscuro']} value={names[appearance]} onChange={v => setAppearance((Object.keys(names) as Appearance[]).find(k => names[k] === v) ?? 'system')} />
-      <Copy tone="muted" size={12}>Preferencia local durante esta sesión. El modo Sistema sigue al dispositivo.</Copy>
-    </Panel>
-    <Panel>
-      <Copy bold size={20}>Conectividad</Copy>
-      <StatusBadge label={connection.configured ? 'Configurada' : 'No configurada'} />
-      <Copy tone="muted">No hay una URL de backend ni una conexión verificada. La configuración de FastAPI y Tailscale se incorporará más adelante.</Copy>
-      <Button label="Comprobar conexión · próximamente" disabled />
-    </Panel>
-    <Panel>
-      <Copy bold size={20}>Asset Finder Mobile</Copy>
-      <Copy tone="muted">Versión {app.expo.version} · Prototipo visual</Copy>
-      <Copy tone="muted">Búsqueda visual de recursos 3D para tus proyectos.</Copy>
-      <Button secondary label="Acerca del proyecto" onPress={() => setInfo(true)} />
-    </Panel>
-    <Panel>
-      <Copy bold size={20}>Próximas preferencias</Copy>
-      <Copy tone="muted">Calidad de carga · formatos · sincronización</Copy>
-      <Button secondary label="Disponibles tras la integración" disabled />
-    </Panel>
-    <ConfirmationModal visible={info} title="Una referencia, muchas posibilidades" onClose={() => setInfo(false)}>
-      <Copy>Asset Finder conecta la captura móvil con la exploración de assets y la creación de escenas web.</Copy>
-      <Copy tone="muted">Este prototipo utiliza exclusivamente ejemplos locales. SAM 2, DINOv2 y la posible reconstrucción con SAM 3D Objects no están conectados.</Copy>
-    </ConfirmationModal>
+    <SectionHeader title="Apariencia" />
+    <Panel>{appearances.map(({ value, label, icon: Icon }) => <Pressable key={value} accessibilityRole="radio" accessibilityState={{ checked: appearance === value }} onPress={() => setAppearance(value as Appearance)} className="min-h-14 flex-row items-center gap-4"><Icon size={21} color={colors.text} strokeWidth={1.7} /><View className="flex-1"><Copy>{label}</Copy></View>{appearance === value && <Check size={20} color={colors.accent} />}</Pressable>)}</Panel>
+    <Panel><View className="flex-row items-center gap-3"><WifiOff size={20} color={colors.muted} /><Copy tone="muted">Backend sin conectar</Copy></View><Copy tone="muted" size={12}>Catálogo de ejemplo · proyectos temporales</Copy></Panel>
+    <Copy tone="muted" size={12}>Assets finder · {app.expo.version}</Copy>
   </ScreenContainer>;
 }

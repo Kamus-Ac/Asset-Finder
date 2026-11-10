@@ -1,54 +1,37 @@
 import { useState } from 'react';
-import { Pressable, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
-import { AssetGrid } from '@/components/assets/asset-card';
-import { AppHeader, Art, Button, Choices, ConfirmationModal, Copy, DemoNotice, EmptyState, Panel, Row, ScreenContainer, StatusBadge } from '@/components/ui/kit';
+import { View, Pressable } from 'react-native';
+import { useLocalSearchParams, router } from 'expo-router';
+import { Bookmark, Check, Plus, ChevronRight, Info, Box } from 'lucide-react-native';
 import { assets } from '@/mocks/catalog';
 import { useDemoSession } from '@/mocks/session';
+import { useAppTheme } from '@/theme';
+import { Art, Button, Choices, ConfirmationModal, Copy, EmptyState, Field, IconButton, Panel, ScreenContainer, StatusBadge } from '@/components/ui/kit';
 export default function AssetDetail() {
-  const { projects, saveAsset } = useDemoSession();
-  const { id } = useLocalSearchParams<{
-    id: string;
-  }>();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const asset = assets.find(a => a.id === id);
+  const { projects, saveAsset, createProject } = useDemoSession();
+  const { colors } = useAppTheme();
   const [view, setView] = useState('Principal');
-  const [modal, setModal] = useState<'save' | 'source' | null>(null);
-  const [saved, setSaved] = useState<string | null>(null);
-  if (!asset)
-    return <ScreenContainer title="Asset no encontrado">
-      <EmptyState title="Este ejemplo no existe" description="Vuelve al catálogo para elegir un modelo." action="Ver catálogo" onPress={() => router.replace('/results')} />
-    </ScreenContainer>;
-  return <ScreenContainer title="Detalle del asset">
-    <StatusBadge label={asset.available ? 'ARCHIVO 3D · EJEMPLO' : 'SOLO REFERENCIA'} />
-    <Panel>
-      <Art kind={asset.kind} height={290} variant={view} />
-      <Row>{['Principal', 'Detalle', 'Escala'].map(v => <Pressable key={v} accessibilityRole="button" accessibilityLabel={`Ver ${v}`} accessibilityState={{ selected: view === v }} onPress={() => setView(v)} style={({ pressed }) => ({ flex: 1, opacity: pressed ? .6 : 1 })}>
-        <View>
-          <Art kind={asset.kind} height={70} variant={v} />
-        </View>
-      </Pressable>)}</Row>
-      <Choices values={['Principal', 'Detalle', 'Escala']} value={view} onChange={setView} />
-      <Copy tone="muted" size={12}>{view === 'Principal' ? 'Ilustración principal.' : view === 'Detalle' ? 'Acercamiento de la ilustración local.' : 'Vista reducida ilustrativa, sin dimensiones verificadas.'} Galería ilustrada; sin visor 3D.</Copy>
-    </Panel>
-    <AppHeader title={asset.name} subtitle={asset.source} />
-    <Copy>{asset.description}</Copy>
-    <DemoNotice />
-    <Panel>
-      <Copy bold>Información del recurso</Copy>
-      <Copy tone="muted">Formato: {asset.format}</Copy>
-      <Copy tone="muted">Licencia: {asset.license}</Copy>
-      <Copy tone="muted">Ranking: {asset.score.toFixed(2)} · dato de demostración</Copy>
-      <Copy tone={asset.available ? 'success' : 'muted'}>{asset.available ? 'Representa un asset con archivo; este prototipo no incluye el archivo.' : 'Solo enlace de referencia; no hay archivo 3D disponible.'}</Copy>
-    </Panel>
-    <Button label={saved ? `Guardado localmente en ${saved}` : 'Guardar en un proyecto'} onPress={() => setModal('save')} />
-    <Button secondary label="Consultar fuente · vista previa" onPress={() => setModal('source')} />
-    <Panel>
-      <Copy bold>De tu móvil a la escena web</Copy>
-      <Copy tone="muted">Los formatos GLB podrán incorporarse a la escena web tras validar materiales, escala y licencia. Sin sincronización en esta versión.</Copy>
-    </Panel>
-    <ConfirmationModal visible={modal !== null} title={modal === 'save' ? 'Elegir proyecto · demo' : 'Fuente de ejemplo'} onClose={() => setModal(null)}>{modal === 'save' ? <>
-      <DemoNotice text="Se añade a la colección local durante esta sesión. No hay persistencia ni sincronización." />{projects.map(p => <Button key={p.id} secondary label={p.name} onPress={() => { saveAsset(p.id, asset.id); setSaved(p.name); setModal(null); }} />)}</> : <Copy tone="muted">{asset.source} es una fuente ficticia. La versión integrada mostrará aquí el enlace verificado y abrirá el catálogo externo.</Copy>}</ConfirmationModal>
-    <Copy bold size={20}>Más para explorar</Copy>
-    <AssetGrid assets={assets.filter(a => a.id !== id).slice(0, 2)} />
+  const [save, setSave] = useState(false);
+  const [info, setInfo] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [name, setName] = useState('');
+  if (!asset) return <ScreenContainer title="Asset"><EmptyState title="Asset no encontrado" action="Ver catálogo" onPress={() => router.replace('/results')} /></ScreenContainer>;
+  const saved = projects.some(p => p.assetIds.includes(asset.id));
+  return <ScreenContainer title={asset.name} action={<IconButton label="Información del asset" onPress={() => setInfo(true)}><Info size={22} color="#FFFFFF" /></IconButton>}>
+    <Art kind={asset.kind} height={300} variant={view} />
+    <Choices values={['Principal', 'Detalle', 'Escala']} value={view} onChange={setView} />
+    <View className="flex-row items-center justify-between gap-2"><Copy size={22} bold>{asset.name}</Copy><StatusBadge label={asset.available ? asset.format : 'Referencia'} /></View>
+    <Button label={saved ? 'Guardado en proyectos' : 'Guardar en proyecto'} icon={saved ? Check : Bookmark} onPress={() => setSave(true)} />
+    {!asset.available && <Button secondary label="Reconstruir" icon={Box} onPress={() => router.push('/reconstruction')} />}
+    <Copy tone="muted" size={12}>Asset de ejemplo · sin descarga</Copy>
+    <ConfirmationModal visible={save} title="Guardar en proyecto" onClose={() => { setSave(false); setCreating(false); }}>
+      {projects.map(p => <Pressable key={p.id} accessibilityRole="button" accessibilityLabel={`Guardar en ${p.name}`} onPress={() => { saveAsset(p.id, asset.id); setSave(false); }} className="min-h-14 flex-row items-center gap-3"><View className="flex-1"><Copy>{p.name}</Copy></View>{p.assetIds.includes(asset.id) ? <Check size={20} color={colors.accent} /> : <ChevronRight size={20} color={colors.muted} />}</Pressable>)}
+      {creating ? <><Field value={name} onChange={setName} placeholder="Nombre del proyecto" autoFocus /><Button label="Crear y guardar" icon={Plus} disabled={!name.trim()} onPress={() => { const projectId = createProject(name.trim()); saveAsset(projectId, asset.id); setName(''); setCreating(false); setSave(false); }} /></> : <Button secondary label="Nuevo proyecto" icon={Plus} onPress={() => setCreating(true)} />}
+    </ConfirmationModal>
+    <ConfirmationModal visible={info} title="Información" onClose={() => setInfo(false)}>
+      <Panel><Copy bold>{asset.source}</Copy><Copy tone="muted">{asset.format}</Copy><Copy tone="muted" size={13}>{asset.license}</Copy></Panel>
+      <Copy tone="muted" size={12}>Ilustración local · licencia sin verificar</Copy>
+    </ConfirmationModal>
   </ScreenContainer>;
 }

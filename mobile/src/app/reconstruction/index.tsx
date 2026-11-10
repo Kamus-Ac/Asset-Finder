@@ -1,21 +1,21 @@
 import { useState } from 'react';
-import { AppHeader, Art, Button, Choices, Copy, DemoNotice, Panel, ScreenContainer, StatusBadge } from '@/components/ui/kit';
-import { reconstructionScenarios as states } from '@/mocks/scenarios';
+import { ActivityIndicator, View } from 'react-native';
+import { Box, CircleAlert, Clock, Check, RotateCcw } from 'lucide-react-native';
+import { Art, Button, Choices, Copy, Panel, ScreenContainer, StatusBadge } from '@/components/ui/kit';
+import { useAppTheme } from '@/theme';
+const states = ['No disponible', 'Pendiente', 'En proceso', 'Completado', 'Fallido'] as const;
 export default function Reconstruction() {
-  const [state, setState] = useState<keyof typeof states>('No disponible');
-  return <ScreenContainer title="Reconstrucción 3D">
-    <AppHeader eyebrow="Exploración futura" title="Una nueva dimensión" subtitle="De una referencia visual a un posible objeto 3D." />
+  const [state, setState] = useState<typeof states[number]>('No disponible');
+  const { colors } = useAppTheme();
+  const Icon = state === 'Completado' ? Check : state === 'Pendiente' ? Clock : state === 'Fallido' ? CircleAlert : Box;
+  return <ScreenContainer title="Reconstrucción">
     <Panel>
-      <Art height={235} />
-      <StatusBadge label="SERVICIO NO HABILITADO" />
+      <View className="items-center gap-4 py-8">{state === 'En proceso' ? <ActivityIndicator size="large" color={colors.accent} /> : <Icon size={42} color={colors.accent} strokeWidth={1.4} />}<Copy size={23} bold>{state}</Copy><Copy tone="muted" size={13}>{state === 'No disponible' ? 'Servicio sin conectar' : 'Estado de ejemplo'}</Copy></View>
+      {state === 'Completado' && <Art height={180} />}
+      <Button label="Generar modelo 3D" icon={Box} disabled />
+      {state === 'Fallido' && <Button secondary label="Reiniciar vista previa" icon={RotateCcw} onPress={() => setState('No disponible')} />}
     </Panel>
-    <DemoNotice text="Selector de estados de demostración. Cambiar esta vista no crea trabajos ni ejecuta modelos." />
-    <Choices values={Object.keys(states) as (keyof typeof states)[]} value={state} onChange={setState} />
-    <Panel>
-      <Copy size={22} bold>{states[state][0]}</Copy>
-      <Copy tone="muted">{states[state][1]}</Copy>
-    </Panel>
-    <Button label="Solicitar reconstrucción · no disponible" disabled />
-    <Copy tone="muted" size={12}>Disponibilidad, calidad de geometría, tiempos y compatibilidad deberán verificarse antes de habilitar esta función.</Copy>
+    <StatusBadge label="Vista previa" />
+    <Choices values={states} value={state} onChange={setState} />
   </ScreenContainer>;
 }

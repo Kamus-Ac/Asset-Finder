@@ -36,6 +36,9 @@ Docs: https://docs.expo.dev/eas/index.md
 
 ## Rules
 
+- Use Tailwind utility classes through NativeWind (`className`) for new mobile styles. Keep runtime theme colors and calculated layout values in `style` when needed; reuse the existing theme tokens. Migrate existing styles as components are changed.
+- Use Urbanist for all app text and inputs. Tailwind families: `font-sans`, `font-sans-medium`, `font-sans-semibold`, `font-sans-bold`; runtime font names live in `src/theme/fonts.ts`. Keep icon fonts unchanged.
+- Keep the UI minimal: short labels and direct actions, without explanatory or promotional paragraphs. Home must not scroll. Use `lucide-react-native` for icons. Preserve the gradient background and floating navigation styling.
 - If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
 - Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
 - Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md

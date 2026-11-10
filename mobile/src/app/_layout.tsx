@@ -1,14 +1,31 @@
+import '../global.css';
+import { useEffect } from 'react';
+import { useFonts } from 'expo-font';
+import { Urbanist_400Regular } from '@expo-google-fonts/urbanist/400Regular';
+import { Urbanist_500Medium } from '@expo-google-fonts/urbanist/500Medium';
+import { Urbanist_600SemiBold } from '@expo-google-fonts/urbanist/600SemiBold';
+import { Urbanist_700Bold } from '@expo-google-fonts/urbanist/700Bold';
+import * as SplashScreen from 'expo-splash-screen';
 import { Stack, ThemeProvider, DarkTheme, DefaultTheme } from 'expo-router';
-import { DemoSessionProvider } from '@/mocks/session';
 import { StatusBar } from 'expo-status-bar';
 import { AppTheme, useAppTheme } from '@/theme';
+import { MediaProvider } from '@/media/context';
+import { DemoSessionProvider } from '@/mocks/session';
+import { fontFamily } from '@/theme/fonts';
+
+void SplashScreen.preventAutoHideAsync();
 export const unstable_settings = { initialRouteName: '(tabs)' };
 function Navigation() {
   const { colors, dark } = useAppTheme();
   const base = dark ? DarkTheme : DefaultTheme;
-  return <ThemeProvider value={{ ...base, colors: { ...base.colors, primary: colors.accent, background: colors.background, card: colors.surface, text: colors.text, border: colors.border } }}>
+  return <ThemeProvider value={{ ...base, fonts: {
+    regular: { fontFamily: fontFamily.regular, fontWeight: '400' },
+    medium: { fontFamily: fontFamily.medium, fontWeight: '500' },
+    bold: { fontFamily: fontFamily.bold, fontWeight: '700' },
+    heavy: { fontFamily: fontFamily.bold, fontWeight: '700' },
+  }, colors: { ...base.colors, primary: colors.accent, background: colors.background, card: colors.surface, text: colors.text, border: colors.border } }}>
     <StatusBar style={dark ? 'light' : 'dark'} />
-    <Stack screenOptions={{ headerStyle: { backgroundColor: colors.background }, headerTintColor: colors.text, headerShadowVisible: false, contentStyle: { backgroundColor: colors.background } }}>
+    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="explore" options={{ headerShown: false }} />
@@ -16,9 +33,14 @@ function Navigation() {
   </ThemeProvider>;
 }
 export default function RootLayout() {
+  const [loaded, error] = useFonts({ Urbanist_400Regular, Urbanist_500Medium, Urbanist_600SemiBold, Urbanist_700Bold });
+  useEffect(() => {
+    if (loaded || error) void SplashScreen.hideAsync();
+  }, [loaded, error]);
+  if (error) throw error;
+  if (!loaded) return null;
+
   return <AppTheme>
-    <DemoSessionProvider>
-      <Navigation />
-    </DemoSessionProvider>
+    <MediaProvider><DemoSessionProvider><Navigation /></DemoSessionProvider></MediaProvider>
   </AppTheme>;
 }

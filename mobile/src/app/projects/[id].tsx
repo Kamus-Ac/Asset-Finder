@@ -1,33 +1,23 @@
 import { useState } from 'react';
+import { Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { AssetGrid } from '@/components/assets/asset-card';
-import { AppHeader, Button, ConfirmationModal, Copy, DemoNotice, EmptyState, Panel, ScreenContainer, StatusBadge } from '@/components/ui/kit';
+import { Check, Pencil, Plus, Trash2 } from 'lucide-react-native';
 import { assets } from '@/mocks/catalog';
 import { useDemoSession } from '@/mocks/session';
+import { useAppTheme } from '@/theme';
+import { AssetGrid } from '@/components/assets/asset-card';
+import { Button, Copy, EmptyState, IconButton, ScreenContainer } from '@/components/ui/kit';
 export default function ProjectDetail() {
+  const { id } = useLocalSearchParams<{ id: string }>();
   const { projects, removeAsset } = useDemoSession();
-  const { id } = useLocalSearchParams<{
-    id: string;
-  }>();
   const project = projects.find(p => p.id === id);
-  const [manage, setManage] = useState(false);
-  if (!project)
-    return <ScreenContainer title="Proyecto no encontrado">
-      <EmptyState title="Esta colección no está disponible" description="El proyecto no existe o pertenecía a una sesión anterior. Vuelve a las colecciones de ejemplo." action="Volver a proyectos" onPress={() => router.replace('/(tabs)/projects')} />
-    </ScreenContainer>;
-  const selected = assets.filter(a => project.assetIds.includes(a.id));
-  return <ScreenContainer title="Detalle del proyecto">
-    <StatusBadge label="COLECCIÓN · DEMO" />
-    <AppHeader title={project.name} subtitle={project.description} />
-    <DemoNotice text="Los cambios de esta pantalla son temporales. No hay sincronización ni persistencia." />
-    <Panel>
-      <Copy bold>{selected.length} assets en tu colección</Copy>
-      <Copy tone="muted">{project.updated}</Copy>
-      <Copy tone="muted">Preparado para el concepto de escena web compartida. La integración está pendiente.</Copy>
-    </Panel>
-    {selected.length ? <AssetGrid assets={selected} /> : <EmptyState action="Explorar ejemplos" onPress={() => router.push('/results')} />}<Button label="Añadir desde el catálogo demo" onPress={() => router.push('/results')} />
-    <Button secondary label="Administrar colección" onPress={() => setManage(true)} />
-    <ConfirmationModal visible={manage} title="Administrar · demo" onClose={() => setManage(false)}>
-      <Copy tone="muted">Quitar modifica solo la colección demo durante esta sesión.</Copy>{selected.map(a => <Button key={a.id} secondary label={`Quitar ${a.name}`} onPress={() => removeAsset(project.id, a.id)} />)}</ConfirmationModal>
+  const [editing, setEditing] = useState(false);
+  const { colors } = useAppTheme();
+  if (!project) return <ScreenContainer title="Proyecto"><EmptyState title="Proyecto no encontrado" action="Ver proyectos" onPress={() => router.replace('/(tabs)/projects')} /></ScreenContainer>;
+  const items = assets.filter(a => project.assetIds.includes(a.id));
+  return <ScreenContainer title={project.name} action={items.length > 0 ? <IconButton label={editing ? 'Terminar edición' : 'Administrar assets'} onPress={() => setEditing(v => !v)}>{editing ? <Check size={22} color="#FFFFFF" /> : <Pencil size={21} color="#FFFFFF" />}</IconButton> : undefined}>
+    <Copy tone="muted" size={13}>{items.length} assets · esta sesión</Copy>
+    {items.length ? editing ? items.map(a => <View key={a.id} className="flex-row items-center gap-3 rounded-[20px] p-4" style={{ backgroundColor: colors.surface }}><View className="flex-1"><Copy bold>{a.name}</Copy></View><Pressable accessibilityRole="button" accessibilityLabel={`Quitar ${a.name}`} onPress={() => removeAsset(project.id, a.id)} className="h-12 w-12 items-center justify-center"><Trash2 size={20} color={colors.danger} /></Pressable></View>) : <AssetGrid assets={items} /> : <EmptyState title="Aún no hay assets" action="Explorar catálogo" onPress={() => router.push('/results')} />}
+    {items.length > 0 && <Button secondary label="Añadir assets" icon={Plus} onPress={() => router.push('/results')} />}
   </ScreenContainer>;
 }

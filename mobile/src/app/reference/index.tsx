@@ -1,32 +1,28 @@
-import { referenceDemo } from '@/mocks/scenarios';
 import { useState } from 'react';
+import { router } from 'expo-router';
+import { Image } from 'expo-image';
+import { ScanLine, Camera, ImagePlus, Video } from 'lucide-react-native';
 import { View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
-import { AppHeader, Art, Button, Choices, Copy, DemoNotice, Panel, Row, ScreenContainer, StatusBadge } from '@/components/ui/kit';
+import { Button, Copy, EmptyState, ScreenContainer } from '@/components/ui/kit';
+import MediaFeedback from '@/components/media-feedback';
+import LocalVideo from '@/components/local-video';
+import { useMedia } from '@/media/context';
+import type { MediaAction } from '@/media/picker';
+import { useAppTheme } from '@/theme';
 export default function Reference() {
-  const params = useLocalSearchParams<{
-    mode?: string;
-  }>();
-  const [mode, setMode] = useState(params.mode === 'video' ? 'Video' : 'Imagen');
-  const [frame, setFrame] = useState(referenceDemo.initialFrame);
-  return <ScreenContainer title="Tu referencia">
-    <AppHeader eyebrow="01 / Referencia" title="Un buen punto de partida" subtitle="Revisa la referencia antes de seleccionar un objeto." />
-    <DemoNotice />
-    <Choices values={['Imagen', 'Video']} value={mode} onChange={setMode} />
-    <Panel>
-      <Art height={310} />
-      <StatusBadge label={mode === 'Video' ? 'VIDEO ILUSTRADO · DEMO' : 'IMAGEN LOCAL · DEMO'} />
-      <Copy bold>{mode === 'Video' ? `${referenceDemo.videoName} · ejemplo` : `${referenceDemo.imageName} · ejemplo`}</Copy>
-      <Copy tone="muted">{mode === 'Video' ? 'Selecciona un fotograma de la línea de tiempo ilustrativa.' : 'Referencia de mobiliario incluida en la aplicación.'}</Copy>
-    </Panel>
-    {mode === 'Video' && <Panel>
-      <Row>{referenceDemo.frames.map(t => <View key={t} style={{ flex: 1 }}>
-        <Art height={75} />
-      </View>)}</Row>
-      <Choices values={referenceDemo.frames} value={frame} onChange={setFrame} />
-      <Copy size={12} tone="muted">Fotograma {frame} · selección visual; no se reproduce video ni se extraen imágenes.</Copy>
-    </Panel>}
-    <Button label="Seleccionar objeto →" onPress={() => router.push({ pathname: '/selection', params: { reference: mode === 'Video' ? frame : 'image' } })} />
-    <Button secondary label="Volver a captura" onPress={() => router.back()} />
+  const { media, choose, busy } = useMedia();
+  const [failedUri, setFailedUri] = useState<string | null>(null);
+  const { colors } = useAppTheme();
+  const video = media?.type === 'video';
+  async function change(action: MediaAction) { await choose(action); }
+  return <ScreenContainer title={video ? 'Video' : 'Referencia'}>
+    <MediaFeedback />
+    {!media ? <EmptyState title="Elige una referencia" /> : <>
+      {video ? <LocalVideo key={media.uri} uri={media.uri} /> : <View className="overflow-hidden rounded-[20px] bg-black/20"><Image source={{ uri: media.uri }} accessibilityLabel="Imagen de referencia seleccionada" style={{ width: '100%', height: 320 }} contentFit="contain" onError={() => setFailedUri(media.uri)} />{failedUri === media.uri && <View className="p-4"><Copy tone="danger">No se pudo cargar esta imagen.</Copy></View>}</View>}
+      <Copy tone="muted" size={13}>{media.name}</Copy>
+      {video ? <View className="flex-row items-center gap-3"><Video size={18} color={colors.muted} /><Copy tone="muted" size={13}>Selección de fotogramas próximamente</Copy></View> : <Button label="Seleccionar objeto" disabled={failedUri === media.uri} icon={ScanLine} onPress={() => router.push('/selection')} />}
+    </>}
+    <Button secondary label="Seleccionar otra foto" disabled={busy} icon={ImagePlus} onPress={() => { void change('library'); }} />
+    <Button secondary label={video ? 'Grabar de nuevo' : 'Tomar foto'} disabled={busy} icon={Camera} onPress={() => { void change(video ? 'video' : 'photo'); }} />
   </ScreenContainer>;
 }

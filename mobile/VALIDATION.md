@@ -1,3 +1,32 @@
+# Cámara y medios reales · 2026-11-09
+
+- Se integraron `expo-image-picker` y `expo-video` compatibles con SDK 58, con mensajes de permisos en la configuración Expo.
+- Inicio abre directamente la cámara para foto/video y el selector nativo para imágenes. Cancelar conserva la referencia anterior. La foto real se muestra en Referencia y Selección; el video grabado se reproduce con controles nativos. La selección de fotogramas sigue pendiente.
+- TypeScript, lint sin advertencias y `expo config --type public --json`: correctos.
+- Exportación Android/web correcta en `/tmp/asset-finder-real-media-export`. Renderizado SSR de 16 casos correcto, incluidos los estados sin referencia de Referencia y Selección. Script temporal: `/tmp/verify-real-media-pages.cjs`.
+- Diez comprobaciones con APIs simuladas del adaptador de medios: foto, video, denegación, bloqueo permanente, cancelación, galería sin permisos amplios, activación web, error nativo, URI inválida y normalización del resultado recuperado de Android. Script temporal: `/tmp/verify-media-picker.cjs`. Estas pruebas no verifican hardware.
+- Inicio conserva ausencia de scroll, muestra tarjetas con bordes y fondos sólidos, usa un diseño compacto según altura y ofrece acceso a la última referencia, incluida la recuperación tras recreación de actividad Android.
+- No se probó cámara, micrófono, galería, audio ni geometría visual en un teléfono. Revisar permisos concedidos/denegados/bloqueados, cancelar, reabrir, cambiar referencia, video con sonido y Android Atrás. Reiniciar Metro tras instalar las dependencias.
+
+---
+
+# Recuperación de recorridos · 2026-11-09
+
+- TypeScript: `npx tsc --noEmit`, correcto.
+- Lint: `npm run lint`, correcto sin advertencias tras unificar el import de Ajustes.
+- Android y web: `npx expo export --platform android --platform web --output-dir /tmp/asset-finder-restored-export`, correcto; se generan bundle Hermes, servidor y cliente web, Urbanist y SVG locales.
+- `git diff --check`: correcto.
+- Inicio usa únicamente `View` y `Pressable`, sin contenedor de scroll. Tiene variante compacta para ventanas menores de 740 de alto.
+- No se ha probado en dispositivo ni en navegador interactivo. La exportación no verifica gestos, teclado, geometría o animaciones.
+- Renderizado SSR: 16 casos correctos, incluyendo Inicio, proyectos, ajustes, foto/video, referencia/fotogramas, selección, resultados, assets disponibles/referencias/inexistentes, proyectos con assets/vacíos/inexistentes y reconstrucción. Script temporal: `/tmp/verify-restored-mobile.cjs`. No verifica interacción.
+- Se corrigió la carga de Urbanist usando `useFonts` de `expo-font`, con soporte de servidor; el hook del paquete de Google Fonts dejaba vacío el HTML SSR. Se importan solo los cuatro pesos usados.
+
+Recorrido manual pendiente: Foto/Video → referencia → fotograma → selección por área/puntos → resultados → filtros/orden → asset → guardar en proyecto existente/nuevo → abrir proyecto → quitar asset. Revisar también apariencia, Inicio sin scroll a distintos tamaños, barra flotante, teclado y Atrás.
+
+Se conservan los límites del prototipo: medios y catálogo de ejemplo, proyectos en memoria, sin cámara/galería real, backend, IA ni descarga 3D. Los estados de reconstrucción son seleccionables como vista previa.
+
+---
+
 # Comprobaciones del prototipo
 
 Fecha: 2026-11-06. Rama comprobada: `feat/mobile-setup`.
