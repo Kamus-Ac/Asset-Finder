@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T14**. Ver
+servidor e integración al final. Siguiente tarea: **T15**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -638,3 +638,14 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 - Compilación y suite: **39 passed, 4 subtests passed in 23.25s**.
   FASE 1 CPU aceptada; siguiente T14. No prueba CUDA ni API.
 - Commit: `ai(T13): medir similitud real entre vistas de objeto`.
+
+
+## T14 — Desarrollo CPU · 2026-11-10
+
+- `candidates.py` valida metadatos/IDs/vistas y URLs sin red; desconocidos null y archivo 3D solo con confirmación interna de P3. Casos sintéticos de validación explícitos, no inferencia.
+- Propuesta de imágenes en memoria y diferencias del JSON exportado en CANDIDATOS_P3.md; no cambia contratos HTTP.
+- Push de FASE 1 intentado tras 49e815c: falló por credenciales HTTPS ausentes. Identidad bdiazsofttek-oss / bdiazsofttek@gmail.com confirmada; no equivale a autenticación.
+
+- Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **42 passed, 13 subtests passed in 22.76s**.
+- Sin instalaciones, CUDA ni API del equipo; siguiente T15.
+- Commit por tarea en `feature/ai-exploracion`.

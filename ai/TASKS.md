@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T14.** FASE 1 CPU aceptada con evidencia real.
+**Siguiente tarea ejecutable: T15.** Ver evidencia en PROGRESS.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -108,7 +108,7 @@ Esta fase reemplaza el catálogo manual obligatorio y los renders Blender del pl
 antiguo. P3 obtiene candidatos de páginas externas; P4 prepara sus imágenes y vectores.
 Un conjunto guardado sirve para repetir pruebas, no limita las fuentes del producto.
 
-- [ ] **T14 Contrato interno de candidatos.** Crear en `ai/` una propuesta y
+- [x] **T14 Contrato interno de candidatos.** Crear en `ai/` una propuesta y
   validadores para ID/origen, enlace, nombre, licencia desconocida `null`, vistas
   e imágenes RGB ya obtenidas por P3. Registrar si hay archivo 3D entregable;
   una miniatura o enlace a página no lo acredita. No hacer scraping ni HTTP en IA.
