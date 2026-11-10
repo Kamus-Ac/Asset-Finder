@@ -7,9 +7,10 @@ from .embedding import embed
 from .search import search
 from .results import format_results
 from .pipeline import run_search
+from .candidates import candidates_from_export
 
 
-__all__ = ["ServiceUnavailableError", "segment", "mask_to_png", "embed", "search", "format_results", "run_search"]
+__all__ = ["ServiceUnavailableError", "segment", "mask_to_png", "embed", "search", "format_results", "run_search", "candidates_from_export"]
 
 
 def mask_to_png(mask):

@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T27-L.** Ver evidencia en PROGRESS.
+**Desarrollo local de imagen listo para probar.** T20 espera datos; FASE 5 espera validación de Manuel/Ángel.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -68,11 +68,11 @@ otras que sean independientes. No marcar la tarea principal completa si falta un
 - [x] **T08 Selección real.** Silla amarilla seleccionada con caja y puntos;
   máscaras y superposiciones revisadas, sin afirmar precisión con ground truth.
 - [x] **T09-L Interfaz inicial local.** `service.py` expone segmentación real y PNG;
-  `embed`/`search` fallan explícitamente hasta implementarlos. T09-P sigue pendiente.
+  `embed`/`search` ya son reales desde T12/T18; falta aceptación T09-P.
 - [x] **T10 Investigación SAM 3D.** Requisitos/licencia documentados en
   [NOTAS_SAM3D.md](NOTAS_SAM3D.md). Generación no disponible; no bloquea la búsqueda.
 
-Última suite de código registrada: **35 pruebas y 5 subtests**, incluidas regresiones
+Última suite de código registrada: **56 pruebas y 13 subtests**, incluidas regresiones
 del instalador. Es evidencia CPU/local, no una prueba GPU ni de integración HTTP.
 
 ## FASE 1 — Recorte y embeddings reales en CPU
@@ -193,7 +193,7 @@ probados; la conexión a la fuente real sigue siendo responsabilidad de P3.
   *Aceptación:* repetir el flujo local con los comandos documentados y dejar
   checklist concreto de despliegue para Ángel/Manuel.
 
-- [ ] **T27-L Ensayo y entrega local.** Ejecutar consulta real y errores, preparar
+- [x] **T27-L Ensayo y entrega local.** Ejecutar consulta real y errores, preparar
   descripción de revisión con comportamiento, evidencia y pendientes externos.
   *Aceptación:* ensayo real y criterios locales cerrados; enumerar aparte las
   dependencias externas. Si falta evidencia local, registrar avance parcial sin
@@ -215,25 +215,26 @@ pendientes y no bloquean las fases locales.
   generados en la MSI. El instalador escrito no cierra esta tarea. [NEEDS USER]
 - [ ] **T04 Modelos en GPU.** SAM Tiny y DINO reales en CUDA; medir carga,
   inferencia calentada, sincronización y VRAM pico. [NEEDS USER: MSI]
-- [ ] **T05 Arranque del servidor.** Repetir comandos GPU desde terminal limpia;
+- [ ] **T05 Arranque del servidor.** [NEEDS USER: MSI, después de T03/T04] Repetir comandos GPU desde terminal limpia;
   comprobar rutas/recursos y ausencia de dependencia de la carpeta antigua.
-- [ ] **T09-P Aceptación de interfaz.** Manuel confirma por escrito las firmas
+- [ ] **T09-P Aceptación de interfaz.** [NEEDS USER: Manuel] Manuel confirma por escrito las firmas
   finales, máscara/PNG, candidatos, ranking y errores, después de actualizar
   [INTERFAZ_P3.md](INTERFAZ_P3.md). T09 principal permanece pendiente hasta entonces.
-- [ ] **T21-P API y red reales.** Con Manuel: obtención de candidatos externos,
+- [ ] **T21-P API y red reales.** [NEEDS USER: Manuel/Ángel] Con Manuel: obtención de candidatos externos,
   descarga/validación de imágenes en P3, llamadas al módulo, tareas y archivos,
   conectividad y prueba desde clientes. Sin editar otras áreas unilateralmente.
-- [ ] **T22-P Errores de integración.** Fuente caída, imágenes inaccesibles,
+- [ ] **T22-P Errores de integración.** [NEEDS USER: API del equipo] Fuente caída, imágenes inaccesibles,
   dispositivo/pesos ausentes y errores del trabajador llegan correctamente al cliente.
-- [ ] **T25-P Medición GPU.** Medir el flujo real desplegado, separado de CPU.
-- [ ] **T26-P Reproducción por otro integrante.** Registrar persona, comando,
+- [ ] **T25-P Medición GPU.** [NEEDS USER: MSI] Medir el flujo real desplegado, separado de CPU.
+- [ ] **T26-P Reproducción por otro integrante.** [NEEDS USER: otro integrante] Registrar persona, comando,
   entorno y resultado; esta sesión local no sustituye esa aceptación.
-- [ ] **T27-P Revisión y cierre.** PR pequeño revisable sin `graphify-out/`,
+- [ ] **T27-P Revisión y cierre.** [NEEDS USER: integración/revisión del equipo] PR pequeño revisable sin `graphify-out/`,
   consulta real desde cliente y limitaciones documentadas. Otro integrante revisa.
 
 ## Opcionales posteriores al flujo básico
 
-- [ ] **T24 Fotograma de video.** Solo después del flujo de imagen y si sobra
+- [ ] **T24 Fotograma de video.** Opcional, fuera de esta entrega de imagen;
+  no ejecutar automáticamente. Solo después del flujo de imagen y si sobra
   tiempo; revisar FFmpeg disponible antes de proponer instalarlo. No bloquea ninguna fase.
 - [ ] **SAM 3D operativo — fuera del cierre de búsqueda.** T10 ya investigó;
   cualquier ejecución requiere resolver hardware/recursos, entorno aislado y
@@ -241,9 +242,10 @@ pendientes y no bloquean las fases locales.
 
 ## Dependencias externas y estado Git
 
-- **B01 Publicación:** el fallo histórico fue autenticación HTTPS. El 10 de
-  noviembre `git fetch origin` pasa y HEAD coincide con la rama remota IA en
-  `87bc082`; esos commits ya están publicados. Esto no garantiza el siguiente push.
+- **B01 Publicación:** identidad Git `bdiazsofttek-oss` / correo indicado por
+  Brandon configurados. El push intentado tras FASE 1 falla por credenciales HTTPS
+  ausentes (`could not read Username`); fetch sí funciona. Commits por tarea
+  conservados en la rama IA; falta autenticar Git en este entorno para publicarlos.
 - **B02 Graphify:** regla aclarada; permitido en rama IA, excluido de main.
 - **B03 Main:** integración solicitada por Brandon el 10 de noviembre:
   `origin/main` en `116f440` incorporado mediante merge. Conflicto único en
@@ -255,7 +257,7 @@ pendientes y no bloquean las fases locales.
   obtiene/decodifica esas imágenes antes de llamar IA: la propuesta P4 las recibe
   preparadas, mientras el README entrante asigna la descarga al consumidor.
   DINO compara candidatos y no descubre páginas ni genera esos términos.
-  Preparar la propuesta en IA; coordinar su conexión al llegar a FASE 5.
+  Propuesta y adaptador JSON ya implementados en IA; coordinar su conexión en FASE 5.
 - **B05 MSI:** acceso/ejecución para CUDA y mediciones. Pospuesto por decisión
   de Brandon; no bloquea el desarrollo local ni exige otra aprobación de T02.
 

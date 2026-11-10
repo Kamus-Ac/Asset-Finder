@@ -7,6 +7,17 @@ con Manuel y Ángel; generación SAM 3D sigue no disponible.
 ## Probar ahora desde la raíz
 
 ```bash
+ai/.venv-sam2/bin/python -m ai.demo
+```
+
+Abre **http://127.0.0.1:8765**. Usa el ejemplo o sube una foto, dibuja el rectángulo
+y pulsa **Comparar objeto**. Verás máscara, recorte y enlaces de los resultados.
+La demo solo escucha en localhost; detener con Ctrl+C. Si ese puerto está ocupado,
+usar `--port 8766` y abrir ese puerto. `--manifest` permite otro lote preparado por P3.
+
+### Prueba por consola
+
+```bash
 ai/.venv-sam2/bin/python -m ai.pipeline
 ```
 
@@ -49,6 +60,7 @@ FastAPI/HTTPX del backend para esta prueba CPU. En el producto, IA corre en serv
 
 ```text
 ai/
+├── demo.py / demo.html   Prueba interactiva local de imagen y selección
 ├── service.py           Entrada Python para Manuel
 ├── pipeline.py          Flujo completo, CLI y evidencias de selección
 ├── segmentation.py      SAM 2.1 Tiny, selección y caché de predictor
@@ -63,6 +75,7 @@ ai/
 ├── resources.py         Aprovisionamiento explícito y verificación de hashes
 ├── input_manifest.py    Imágenes listadas explícitamente, sin explorar carpetas
 ├── benchmark.py         Carga y tiempos por etapa en CPU
+├── evaluate.py          Evaluación por conteos cuando lleguen consultas etiquetadas
 ├── tests/               Validaciones e inferencias reales, sin descargas
 └── resultados/          Máscaras, reportes y mediciones locales, fuera de Git
 ```

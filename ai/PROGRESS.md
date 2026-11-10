@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T27-L**. Ver
+servidor e integración al final. Siguiente tarea: **Manuel/Ángel: datos y validación externa**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -773,3 +773,20 @@ Benchmark CPU ejecutado: carga SAM 2.0215 s, DINO 0.3908 s; inferencia calentada
 - Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **53 passed, 13 subtests passed in 38.10s**.
 - Sin instalaciones, CUDA ni API del equipo; siguiente T27-L.
 - Commit por tarea en `feature/ai-exploracion`.
+
+
+## T27-L — Desarrollo CPU · 2026-11-10
+
+- Demo interactiva en localhost (ai.demo): subir imagen, dibujar caja, mostrar máscara/recorte y cinco enlaces. Node valida sintaxis JavaScript; HTTP probado con consulta nueva sin caché en 4.6238 s, consulta cacheada en 0.1688 s y selección inválida 422. No se automatizó un navegador.
+- Adaptador puro candidates_from_export conecta JSON de la API/exportador existente con imágenes RGB suministradas por P3; no implementa otro conector ni descarga desde inferencia.
+- Evaluador CLI listo para datos del equipo: prueba real sin etiquetas produce una consulta no etiquetada, cero aciertos contados y cero errores. Tests de conteos usan fixtures explícitos; T20 permanece pendiente.
+- Demo local CPU y paquete de revisión preparados en REVISION.md. La publicación y el PR no se declaran realizados; Git HTTPS aún necesita credenciales. Quedan CUDA/MSI, API/clientes, aceptación y conjunto etiquetado del equipo.
+
+- Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **56 passed, 13 subtests passed in 38.71s**.
+- Sin instalaciones, CUDA ni API del equipo; siguiente Manuel/Ángel: datos y validación externa.
+- Commit por tarea en `feature/ai-exploracion`.
+
+Validación final del paquete T27-L: 138 rutas previas conservadas, sin archivos
+eliminados; todos los cambios desde el merge quedan en ai/. Se revisaron 47 enlaces
+relativos, bloques Markdown, tareas aceptadas/pendientes y sintaxis JS. `pip check`
+no detectó requisitos rotos; no se instalaron paquetes. Recursos/datos ignorados.

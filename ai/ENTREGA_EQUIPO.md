@@ -11,7 +11,13 @@ Se conserva ese trabajo. En el código inspeccionado la búsqueda es textual y
 Entrada Python propuesta, sin crear un segundo backend:
 
 ```python
-from ai.service import run_search, mask_to_png, ServiceUnavailableError
+from ai.service import candidates_from_export, run_search, mask_to_png, ServiceUnavailableError
+
+candidates = candidates_from_export(
+    export_json,                  # JSON actual de /catalog/search o del exportador
+    imagenes_rgb_por_asset_id,     # descarga/decodificación gestionada por P3
+    source="sketchfab",
+)
 
 outcome = run_search(
     image_rgb,
@@ -42,6 +48,8 @@ report = outcome.report()       # tiempos, errores de vistas, caché y modelo
 
 Aceptaciones pendientes: T09-P (tipos), T21-P/T22-P (API/red/errores), T20
 (consultas con IDs relevantes conocidos), T26-P/T27-P (reproducción y revisión).
+El ejecutor `ai.evaluate` ya acepta el paquete etiquetado; ver EVALUACION.md.
+No hace falta programar otra herramienta para correrlo al recibir las referencias.
 
 ## Ángel: pruebas en la MSI
 

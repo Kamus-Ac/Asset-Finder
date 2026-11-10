@@ -21,13 +21,14 @@ desarrollar no cambia esa arquitectura ni acredita su rendimiento en CUDA.
 | Fase | Tareas | Estado al reorganizar | Condición de cierre |
 | --- | --- | --- | --- |
 | 0 · Base existente | T00–T02, T06–T08, T09-L, T10 | Terminada con evidencia local/documental | Conservar lo probado; CUDA y aceptación P3 siguen aparte |
-| 1 · Recorte y DINO CPU | T11 → T12 → T13 | Pendiente | Embeddings reales y prueba de cordura |
-| 2 · Candidatos externos | T14 → T15 → T16 → T17 | Pendiente | Imágenes y vectores trazables, caché e integridad |
-| 3 · Ranking | T18 → T19 → T20 | Pendiente | Ranking probado y evaluación con datos reales |
-| 4 · Entrega local | T21-L → T22-L → T23 → T25-L → T26-L → T27-L | Pendiente | Flujo completo CPU, errores, mediciones y arranque |
+| 1 · Recorte y DINO CPU | T11 → T12 → T13 | Completada | Embeddings reales y prueba de cordura |
+| 2 · Candidatos externos | T14 → T15 → T16 → T17 | Completada | Imágenes y vectores trazables, caché e integridad |
+| 3 · Ranking | T18 → T19 → T20 | T18/T19 completas; T20 espera etiquetas del equipo | Ranking probado y evaluación con datos reales |
+| 4 · Entrega local | T21-L → T22-L → T23 → T25-L → T26-L → T27-L | Implementada; ensayo local documentado | Flujo completo CPU, errores, mediciones y arranque |
 | 5 · Servidor y equipo | T03 → T04 → T05; T09-P, T21-P, T22-P, T25-P–T27-P | Diferida | CUDA, API, red y reproducción por otro integrante |
 
-**La siguiente tarea es T11.** Los IDs se conservan para no perder la relación
+**Desarrollo local implementado; pruebas pendientes con el equipo y datos T20.**
+Los IDs se conservan para no perder la relación
 con commits y mediciones anteriores. `-L` identifica el entregable local y `-P`
 la validación con P3/servidor. La tarea completa exige ambos cuando aplique.
 Si una dependencia externa bloquea una prueba, se registra antes de continuar
@@ -97,7 +98,7 @@ Esa decisión no bloquea T11, pero sí condiciona el flujo final desde el client
 
 - Reutilizar `ai/.venv-sam2` para inferencia CPU y `ai/.venv-tests` para pytest.
   Antes de añadir paquetes: revisar compatibilidad, presentar versiones y pedir
-  aprobación. T12 fijará revisión/pesos oficiales DINO y comprobará inferencia real.
+  aprobación. T12 ya fijó revisión/pesos oficiales DINO y comprobó inferencia real.
 - GPU: se conserva la combinación aprobada en
   [PROPUESTA_ENTORNO.md](PROPUESTA_ENTORNO.md), sin instalarla localmente.
   La MSI tiene `.venv-gpu` en la raíz con Python 3.12.16. T03 aún necesita su
@@ -132,3 +133,11 @@ Fuentes y alcance: [NOTAS_SAM3D.md](NOTAS_SAM3D.md).
 
 T24 (fotograma de video) se considera después del flujo de imagen y solo si sobra
 tiempo. No bloquea la entrega de búsqueda visual.
+
+## Punto de prueba disponible
+
+`ai/.venv-sam2/bin/python -m ai.demo` → http://127.0.0.1:8765.
+También `python -m ai.pipeline` con el intérprete CPU documentado genera imágenes
+y JSON en resultados/demo. Demo HTTP local validada con candidatos reales;
+no sustituye las pruebas de FastAPI/clientes ni la revisión visual en navegador.
+La evaluación por conteos ya tiene CLI (`ai.evaluate`), pendiente del conjunto real.

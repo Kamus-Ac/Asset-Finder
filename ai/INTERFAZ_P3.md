@@ -49,6 +49,14 @@ no hay colección global implícita. Los embeddings/cachés contienen la identid
 de modelo, pesos y preparación; índices incompatibles se rechazan.
 Omitir el índice en `search` produce «servicio no disponible»; no devuelve stubs.
 
+`service.candidates_from_export(payload, images_by_asset, source=...)` adapta el
+JSON actual de `/catalog/search`/exportador a las vistas en memoria, conservando
+IDs y metadatos. P3 solo debe suministrar las imágenes decodificadas por asset_id.
+`service.run_search(image, candidates, ...)` ejecuta el flujo completo y devuelve
+`Outcome`: máscara, recorte, lista serializable de resultados, tiempos y avisos.
+`Outcome.report()` no contiene arrays y puede convertirse a JSON; PNG mediante
+`mask_to_png`. Preparación de tareas/archivos/HTTP sigue en P3.
+
 Las coordenadas son píxeles de **la imagen recibida por `segment`**. No hay
 redimensionado ni corrección EXIF implícitos. P3 debe preparar la orientación
 y mantener la correspondencia con la selección del cliente antes de llamar IA.

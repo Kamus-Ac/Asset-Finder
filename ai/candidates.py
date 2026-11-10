@@ -83,3 +83,27 @@ def validate_candidates(items):
             views.append(View(view_id, view.get("image")))
         candidates.append(Candidate(asset_id, metadata, tuple(views)))
     return candidates
+
+
+def candidates_from_export(payload, images_by_asset, *, source=None):
+    """Adaptar JSON de /catalog/search o del exportador y miniaturas RGB de P3.
+
+    images_by_asset asocia asset_id a imagen ya descargada/decodificada.
+    No descarga URLs ni altera el JSON original; una imagen ausente queda sin vista.
+    """
+    if (not isinstance(payload, Mapping) or not isinstance(payload.get("results"), list)
+            or not isinstance(images_by_asset, Mapping)):
+        raise ValueError("export: se requieren results y mapa de imágenes por asset_id")
+    candidates = []
+    for result in payload["results"]:
+        if not isinstance(result, Mapping):
+            raise ValueError("export.results: cada candidato debe ser un objeto")
+        candidate = dict(result)
+        candidate["asset_id"] = _text(candidate.get("asset_id"), "asset_id")
+        if candidate.get("source") is None:
+            candidate["source"] = source
+        image = images_by_asset.get(candidate.get("asset_id"))
+        candidate["views"] = [] if image is None else [{"view_id":"thumbnail", "image":image}]
+        candidates.append(candidate)
+    validate_candidates(candidates)
+    return candidates

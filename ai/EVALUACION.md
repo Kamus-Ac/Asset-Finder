@@ -27,6 +27,36 @@ de búsqueda de assets con las pruebas de funcionamiento disponibles.
 Esto no bloquea terminar el módulo CPU ni ensayarlo con el lote de prueba.
 No están medidas la API desplegada, GPU ni recuperación desde clientes.
 
+## Ejecutor listo para el conjunto del equipo
+
+`evaluate.py` ya está implementado. Preparar un JSON de este esquema, con datos
+y selecciones reales; los nombres siguientes solo ilustran la estructura:
+
+```json
+{
+  "schema_version": 1,
+  "queries": [{
+    "query_id": "consulta_1",
+    "image_path": "foto.jpg",
+    "box_xyxy": [100, 80, 400, 500],
+    "relevant_asset_ids": ["asset_id_anotado_por_el_equipo"]
+  }]
+}
+```
+
+Imágenes dentro del paquete de consultas, selección en sus píxeles RGB tras EXIF.
+`relevant_asset_ids=null` significa sin etiquetas; `[]`, sin coincidencia conocida.
+Ninguno suma aciertos. Un fallo de consulta positiva conserva el denominador y se
+registra como error. No generar etiquetas automáticamente desde el ranking.
+
+```bash
+ai/.venv-sam2/bin/python -m ai.evaluate --queries /ruta/paquete/queries.json --manifest /ruta/candidatos/manifest.json
+```
+
+Escribe conteos, resultados, tiempos y fallos en `ai/resultados/evaluation.json`.
+El evaluador fue probado con fixtures para verificar conteos; no se presenta esa
+prueba como evaluación de modelos. T20 sigue pendiente hasta recibir los datos reales.
+
 ## Ensayo inicial real contra ocho candidatos
 
 Referencia: silla amarilla de `prueba.jpeg`, caja [222,355,430,562] sobre imagen

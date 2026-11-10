@@ -1,65 +1,43 @@
 # Asset Finder — resumen para Brandon
 
-Estado revisado: **10 de noviembre de 2026**.
+Estado: **10 de noviembre de 2026**.
 
-## Qué estamos construyendo
+## Proyecto y responsabilidades
 
-Un buscador visual de modelos 3D en páginas externas. **SAM** separa el objeto
-seleccionado en una foto; **DINOv2** permitirá comparar su apariencia con modelos
-candidatos. Los resultados enlazarán a su origen; la escena requiere archivos 3D disponibles.
-
-**Flujo objetivo:** imagen → selección → máscara SAM → candidatos externos
-→ comparación DINO → resultados → elección y escena guardada.
-
-## Cómo se divide
+Buscador visual de modelos 3D en páginas externas. SAM separa el objeto de una
+foto y DINO compara su apariencia con imágenes de candidatos; devuelve enlaces.
+Archivo 3D disponible y similitud visual son cosas distintas.
 
 ```text
 Asset-Finder/
-├── ai/          Brandon · P4: segmentación, preparación visual y ranking
-├── backend/     Manuel · P3: API, fuentes externas, archivos y servidor
-├── frontend/    Ángel · P2: web, resultados y escena 3D
-├── mobile/      Luis · P1: captura y selección; carpeta aún no presente
-└── *.md         Contexto, planes, contratos y reglas del equipo
+├── ai/          Brandon: SAM, recorte, DINO, ranking y pruebas
+├── backend/     Manuel: API, fuentes externas, archivos, tareas y servidor
+├── frontend/    Ángel: web, resultados y escena 3D
+└── mobile/      Luis: captura/selección e integración móvil
 ```
 
-## P4 Responsabilidad principal
+## Dónde estamos
 
-Entregar la **comprensión y comparación visual**, dentro de `ai/`:
+- **IA CPU:** flujo completo implementado y probado con imágenes reales; caché,
+  validación, errores, mediciones y comandos reproducibles. DINO de 384 componentes.
+- **Prueba disponible:** `ai/.venv-sam2/bin/python -m ai.demo`; abrir
+  http://127.0.0.1:8765. Subir foto, marcar objeto y comparar. Muestra de ocho modelos
+  reales; no garantiza que contenga el objeto exacto ni mide precisión.
+- **Backend existente:** búsqueda textual `/catalog/search`, referencias `/media`
+  y exportador JSON. Aún no llama SAM/DINO en el código remoto inspeccionado.
+- **Pendiente Manuel/equipo:** aceptar tipos, conectar candidatos/imágenes y API,
+  aportar consultas etiquetadas para T20, probar clientes y revisar/reproducir.
+- **Pendiente Ángel/MSI:** T03–T05 y mediciones CUDA reales. RTX 4070 de 8188 MiB
+  detectada en WSL; todavía no acredita PyTorch CUDA ni inferencia GPU.
+- **SAM 3D:** investigación terminada; generación no disponible. Requiere resolver
+  viabilidad/hardware por separado. Video opcional, fuera del cierre local de imagen.
 
-1. Validar imagen/caja/puntos y segmentar con SAM.
-2. Preparar el recorte y obtener su vector visual con DINOv2.
-3. Ordenar por similitud los candidatos que obtiene P3; el score no mide acierto.
-4. Entregar funciones a Manuel, probar errores y documentar tiempos/memoria.
+## Entrega de P4
 
-## Dónde estamos parados
+El módulo recibe imágenes/candidatos en memoria; no busca carpetas del usuario
+ni duplica el conector de Manuel. La demo usa una captura externa para repetir
+pruebas, no limita el producto a un catálogo manual. En producción la IA corre
+centralizada en servidor, aunque se haya desarrollado en CPU local.
 
-- **IA:** SAM 2.1 Tiny probado en CPU con caja y puntos. T06–T08 y T10 completas;
-  última suite registrada: 35 pruebas y 5 subtests, incluido el instalador GPU.
-- **Interfaz:** `service.py` devuelve máscara/score y permite PNG. T09 espera
-  confirmación de Manuel (T09-P diferida). `embed`/`search` no disponibles.
-- **Backend:** `/health`, búsqueda textual Sketchfab en `/catalog/search`,
-  carga/consulta/archivo de imágenes en `/media` y exportador JSON de candidatos,
-  incorporados desde main. Sin integración visual; no se probó Sketchfab en vivo
-  ni la API HTTP en esta revisión.
-- **Web:** tarjetas y cubos Three.js de demostración. Móvil y flujo completo pendientes.
-- **Servidor:** T01 completa en MSI: Ubuntu/WSL2, RTX 4070/8188 MiB detectada,
-  driver 610.78, Python 3.14.4 y 7.61 GiB RAM visibles. PyTorch CUDA aún sin validar.
-  El diagnóstico de Luis corresponde a otro equipo.
-
-## Alcance y siguiente paso
-
-**Orden autorizado:** recorte/DINO CPU → candidatos externos → ranking/evaluación
-→ flujo local y arranque → CUDA/API/red con el equipo. **Siguiente tarea: T11**,
-preparar el recorte. La reorganización conserva los IDs y las pruebas anteriores.
-
-Solo modelos de IA de Meta; desarrollo CPU local y ejecución final en servidor.
-T03–T05 quedan diferidas: entorno Python 3.12.16 creado en la MSI, CUDA pendiente.
-Manuel obtiene candidatos/imágenes y acuerda cómo la referencia inicia esa búsqueda;
-P4 los compara. Una captura real sirve para pruebas, no es un catálogo manual obligatorio.
-
-Tailscale e integración con clientes pendientes; video opcional. SAM 3D:
-**servicio no disponible**, T10 terminada; requiere resolver viabilidad aparte.
-Dejar listo el módulo local no acredita todavía GPU, API ni aceptación por el equipo.
-
-Seguimiento: [TASKS](TASKS.md) · [Interfaz P3](INTERFAZ_P3.md) ·
-[Mediciones](MEDICIONES.md) · [SAM 3D](NOTAS_SAM3D.md).
+Guías: [README](README.md) · [TASKS](TASKS.md) · [Plan](PLAN_P4_IA.md) ·
+[Entrega al equipo](ENTREGA_EQUIPO.md) · [Evaluación pendiente](EVALUACION.md).

@@ -1,6 +1,6 @@
 import unittest
 
-from ai.candidates import validate_candidates
+from ai.candidates import validate_candidates, candidates_from_export
 
 
 def fixture(**updates):
@@ -10,6 +10,19 @@ def fixture(**updates):
 
 
 class CandidateTests(unittest.TestCase):
+    def test_backend_export_adapter_preserves_ids_without_network(self):
+        image = object()  # fixture de transporte; RGB se valida en T15
+        payload = {'query':'chair','results':[fixture()]}
+        items = candidates_from_export(payload,{'test_asset':image},source='sketchfab')
+        self.assertIs(items[0]['views'][0]['image'],image)
+        self.assertEqual(items[0]['source'],'sketchfab')
+        self.assertNotIn('views',payload['results'][0])
+        self.assertEqual(candidates_from_export(payload,{})[0]['views'],[])
+        with self.assertRaises(ValueError):
+            candidates_from_export({'results':'invalid'},{})
+        with self.assertRaises(ValueError):
+            candidates_from_export({'results':[fixture(asset_id=[])]},{})
+
     def test_unknown_fields_and_unavailable_file(self):
         result = validate_candidates([fixture()])[0]
         self.assertIsNone(result.metadata['license'])
