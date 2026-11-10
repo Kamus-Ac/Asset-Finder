@@ -21,7 +21,7 @@ usar `--port 8766` y abrir ese puerto. `--manifest` permite otro lote preparado 
 ai/.venv-sam2/bin/python -m ai.pipeline
 ```
 
-Usa la foto incluida, selecciona la silla amarilla y compara con ocho miniaturas
+Usa la foto incluida, selecciona la silla amarilla y compara con 24 miniaturas
 reales de Sketchfab. Abre `ai/resultados/demo/overlay.png`, `crop.png` y
 `report.json`: el JSON incluye cinco enlaces y sus cosenos. No hay porcentajes de
 acierto ni disponibilidad de GLB inventada. Los candidatos pueden sustituirse con
@@ -46,7 +46,7 @@ Si ya tienes los entornos, preparar/verificar recursos explícitamente:
 python3 -m ai.resources --sam --demo
 ```
 
-Verifica SHA-256 de código, pesos y ocho imágenes de muestra. Obtiene solo lo
+Verifica SHA-256 de código, pesos y 24 imágenes de muestra. Obtiene solo lo
 que falta, no sobrescribe recursos incompatibles y no instala paquetes.
 La inferencia y los tests no descargan nada automáticamente.
 Para un clon nuevo: [REPRODUCIR_CPU.md](REPRODUCIR_CPU.md).
@@ -116,3 +116,11 @@ Seguimiento: [TASKS.md](TASKS.md), [PLAN_P4_IA.md](PLAN_P4_IA.md) y
 `feature/ai-exploracion`. Graphify permitido solo en esa rama, separado del PR a
 main. El último push falló por autenticación HTTPS; identidad configurada no equivale
 a credenciales. No subir entornos, pesos, secretos ni resultados grandes/privados.
+
+## Cantidades configurables
+
+`--candidate-limit N` determina cuántos candidatos del lote compara IA; `--k K`
+cuántos resultados devuelve. La demo permite elegir ambas cifras. La muestra
+se amplió a 24 candidatos reales; el informe distingue solicitado, disponible y
+comparado. Cambiar N no multiplica una muestra de datos ni consulta automáticamente
+Sketchfab: esa obtención pertenece a la API de Manuel, que aún fija count=10.

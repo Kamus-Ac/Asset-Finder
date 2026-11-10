@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **Manuel/Ángel: datos y validación externa**. Ver
+servidor e integración al final. Siguiente tarea: **F02**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -790,3 +790,13 @@ Validación final del paquete T27-L: 138 rutas previas conservadas, sin archivos
 eliminados; todos los cambios desde el merge quedan en ai/. Se revisaron 47 enlaces
 relativos, bloques Markdown, tareas aceptadas/pendientes y sintaxis JS. `pip check`
 no detectó requisitos rotos; no se instalaron paquetes. Recursos/datos ignorados.
+
+
+## F01 — Desarrollo CPU · 2026-11-10
+
+- candidate_limit limita el lote antes de DINO; k controla cuántos resultados se devuelven. Informe solicitado/disponible/seleccionado/comparado sin inventar assets. Muestra ampliada a 24 miniaturas reales, conservando archivos previos.
+- Demo HTML y CLI permiten ambas cantidades. npm ci exacto aprobado por Brandon y ejecutado: 179 paquetes de plataforma; package-lock sin cambios. Build y lint del frontend original pasan. Propuesta para frontend en PROPUESTA_FRONTEND.md; conector de Manuel sigue count=10.
+
+- Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **57 passed, 13 subtests passed in 40.00s**.
+- Sin instalaciones, CUDA ni API del equipo; siguiente F02.
+- Commit por tarea en `feature/ai-exploracion`.

@@ -2,6 +2,30 @@ from ai.tests.cpu_case import CpuCase
 
 
 class PipelineTests(CpuCase):
+    def test_candidate_budget_is_distinct_from_result_count(self):
+        self.run_cpu('''
+import numpy as np
+from PIL import Image
+from unittest.mock import patch
+from ai.pipeline import run_search
+image=Image.new('RGB',(8,8),'red');mask=np.ones((8,8),bool)
+vector=np.zeros(384,np.float32);vector[0]=1
+items=[{'asset_id':str(n),'source_url':'https://example.invalid/'+str(n),
+ 'views':[{'view_id':'main','image':image}]} for n in range(5)]
+with patch('ai.pipeline.segment',return_value=(mask,0.9)) as seg,patch('ai.pipeline._encode_prepared',return_value=vector),patch('ai.index._encode_prepared',return_value=vector):
+ result=run_search(image,items,box_xyxy=[0,0,8,8],candidate_limit=2,k=1)
+ assert result.comparison=={'requested':2,'available':5,'selected':2,'compared':2,'views':2,'requested_results':1,'returned_results':1}
+ assert len(result.results)==1
+ all_items=run_search(image,items,box_xyxy=[0,0,8,8],candidate_limit=99,k=99)
+ assert len(all_items.results)==5 and all_items.comparison['compared']==5 and all_items.comparison['requested']==99
+ before=seg.call_count
+ for limit in (0,-1,True,1.5,'2'):
+  try:run_search(image,items,box_xyxy=[0,0,8,8],candidate_limit=limit)
+  except ValueError:pass
+  else:raise AssertionError('Límite inválido aceptado')
+ assert seg.call_count==before
+''')
+
     def test_real_sam_dino_to_candidates_and_empty(self):
         self.run_cpu('''
 import tempfile

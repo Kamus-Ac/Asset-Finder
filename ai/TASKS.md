@@ -5,7 +5,8 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Desarrollo local de imagen listo para probar.** T20 espera datos; FASE 5 espera validación de Manuel/Ángel.
+**En curso: F01 → F02**, cantidades configurables y conexión al frontend oficial,
+solicitadas por Brandon. T20 y FASE 5 conservan sus dependencias externas.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -39,6 +40,9 @@ otras que sean independientes. No marcar la tarea principal completa si falta un
    no cambiar `requirements-sam2.txt` para simular un entorno CUDA.
 5. **Área propia:** editar `ai/`. Backend, fuentes externas, endpoints y contratos
    pertenecen a Manuel; preparar una propuesta concreta si hace falta cambiarlos.
+   Solicitud posterior de Brandon: conectar `frontend/` en F02, preservando el
+   trabajo de Ángel en un commit separado y preparando su descripción de revisión.
+   No se cambian sus versiones; `npm ci` exacto aprobado el 10 de noviembre.
    Los planes de raíz son antecedentes: este orden sustituye para P4 las partes
    antiguas de catálogo manual, calendario fijo y GPU como prerrequisito universal.
 6. **Git y datos:** no subir entornos, secretos, checkpoints ni resultados grandes
@@ -230,6 +234,22 @@ pendientes y no bloquean las fases locales.
   entorno y resultado; esta sesión local no sustituye esa aceptación.
 - [ ] **T27-P Revisión y cierre.** [NEEDS USER: integración/revisión del equipo] PR pequeño revisable sin `graphify-out/`,
   consulta real desde cliente y limitaciones documentadas. Otro integrante revisa.
+
+## Integración al frontend oficial — solicitud posterior de Brandon
+
+- [x] **F01 Cantidades distintas para comparación y resultados.** Añadir
+  `candidate_limit` y `k` configurables, informar solicitado/disponible/comparado,
+  limitar realmente el lote antes de generar vectores y no inventar candidatos.
+  Ampliar la muestra de prueba a 24 miniaturas reales, conservando los archivos
+  previos. La búsqueda en vivo sigue perteneciendo a P3.
+- [ ] **F02 Probar con el frontend de Ángel.** Conservar su catálogo/Three.js,
+  añadir carga/selección, máscaras/resultados y controles de cantidades. Proxy
+  local a IA para probar sin duplicar FastAPI. Compilar/lint con su lockfile exacto,
+  aprobado por Brandon; commit separado y descripción de revisión para Ángel.
+- [ ] **F03 Cantidad en la fuente y paginación.** [NEEDS USER: Manuel]
+  La API actual fija count=10; preparar propuesta para pasar cantidad desde web,
+  recuperar más páginas cuando se pidan más de 24 y mostrar cantidades efectivas.
+  Sin modificar backend ni dar por integrada esa parte.
 
 ## Opcionales posteriores al flujo básico
 

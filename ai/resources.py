@@ -139,7 +139,7 @@ def prepare_sam():
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--demo", action="store_true", help="Preparar además las ocho imágenes de prueba registradas")
+    parser.add_argument("--demo", action="store_true", help="Preparar además las imágenes de prueba registradas")
     parser.add_argument("--sam", action="store_true", help="Preparar/verificar además SAM Tiny, sin instalar paquetes")
     args = parser.parse_args()
     report = {"dino": prepare_dino()}

@@ -80,7 +80,9 @@ def handler_for(candidates, *, device="cpu", cache_dir=None):
                 image = decode_rgb(content)
                 with inference_lock:
                     outcome = run_search(image,candidates,box_xyxy=payload.get("box"),
-                                         points=payload.get("points"),k=5,device=device,cache_dir=cache_dir)
+                                         points=payload.get("points"),k=payload.get("k",5),
+                                         candidate_limit=payload.get("candidate_limit"),
+                                         device=device,cache_dir=cache_dir)
                 from .service import mask_to_png
                 mask = "data:image/png;base64,"+base64.b64encode(mask_to_png(outcome.mask)).decode()
                 result = outcome.report()
