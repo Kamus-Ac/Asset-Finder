@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T21-L**. Ver
+servidor e integración al final. Siguiente tarea: **T22-L**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -721,3 +721,14 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 - Compilación y suite: **48 passed, 13 subtests passed in 26.51s**.
   Detalle/criterios faltantes en EVALUACION.md. Sin instalaciones ni prueba GPU/API.
 - Commit: `ai(T20): preparar muestra real y documentar evaluacion pendiente`.
+
+
+## T21-L — Desarrollo CPU · 2026-11-10
+
+- pipeline.run_search conecta SAM, preparación, DINO y ranking de candidatos en memoria; CLI python -m ai.pipeline guarda máscara, recorte, superposición y JSON reproducibles.
+- Ensayo real con silla amarilla y ocho miniaturas Sketchfab: cinco enlaces devueltos; máscara revisada visualmente, silla visible seleccionada y bancos grises excluidos. 6.143 s incluyendo carga, caché de 8 candidatos; sin ground truth de relevancia.
+- La prueba de integración usa SAM/DINO reales; su candidato de prueba se identifica explícitamente como fixture y no se presenta como asset externo. API/clientes siguen aparte.
+
+- Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **49 passed, 13 subtests passed in 36.46s**.
+- Sin instalaciones, CUDA ni API del equipo; siguiente T22-L.
+- Commit por tarea en `feature/ai-exploracion`.

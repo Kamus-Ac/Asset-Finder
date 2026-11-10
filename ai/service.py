@@ -6,9 +6,10 @@ from .segmentation import ServiceUnavailableError, segment
 from .embedding import embed
 from .search import search
 from .results import format_results
+from .pipeline import run_search
 
 
-__all__ = ["ServiceUnavailableError", "segment", "mask_to_png", "embed", "search", "format_results"]
+__all__ = ["ServiceUnavailableError", "segment", "mask_to_png", "embed", "search", "format_results", "run_search"]
 
 
 def mask_to_png(mask):

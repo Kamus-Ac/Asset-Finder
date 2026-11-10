@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T21-L.** T20 bloqueada solo por datos de relevancia etiquetados.
+**Siguiente tarea ejecutable: T22-L.** Ver evidencia en PROGRESS.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -165,7 +165,7 @@ probados; la conexión a la fuente real sigue siendo responsabilidad de P3.
 
 ## FASE 4 — Flujo local y entrega preparada para el servidor
 
-- [ ] **T21-L Flujo completo dentro de IA.** Imagen → selección → SAM CPU →
+- [x] **T21-L Flujo completo dentro de IA.** Imagen → selección → SAM CPU →
   recorte → DINO CPU → ranking de candidatos externos suministrados → resultados.
   Crear un comando de prueba reproducible, sin depender de FastAPI ni de la MSI.
   *Aceptación:* ejecución con modelos e imágenes reales; evidencia de entradas,
