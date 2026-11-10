@@ -38,8 +38,16 @@ añadir `ai/` a `sys.path`: puede ocultar el paquete instalado `sam2`.
 | --- | --- | --- |
 | `segment(image, box_xyxy=None, points=None, *, device="cpu", checkpoint=None)` | PIL RGB o ndarray uint8 H×W×3; caja xyxy o puntos | Tupla `(mask, score)`: ndarray bool H×W y float bruto de SAM |
 | `mask_to_png(mask)` | ndarray bool H×W, dimensiones positivas | `bytes` PNG, modo L; 0 fondo, 255 objeto, mismo tamaño |
-| `embed(image, *, device="cpu")` | Reservada: misma representación RGB, preprocesado de T11/T12 | Siempre `ServiceUnavailableError` hasta T12 |
-| `search(vector, k=5)` | Reservada: vector normalizado y entero k | Siempre `ServiceUnavailableError` hasta T18 |
+| `embed(image, *, mask=None, device="cpu")` | RGB y máscara opcional bool H×W; preparación T11 incluida | ndarray float32 de 384 componentes, finito y normalizado; DINO real CPU probado |
+| `search(vector, k=5, *, index)` | Vector y `CandidateIndex` del lote externo; k entero positivo | Lista ordenada de asset_id/view_id/similarity_score, mejor vista por asset |
+| `format_results(ranking, *, index)` | Ranking y mismo índice validado | Campos del borrador HTTP, desconocidos None, sin marcador interno model_verified |
+
+Implementación local actualizada el 10 de noviembre. Construir el lote con
+`ai.index.build_index(candidates, device="cpu", cache_dir=...)`; candidatos e
+imágenes según [CANDIDATOS_P3.md](CANDIDATOS_P3.md). Pasar el índice explícitamente:
+no hay colección global implícita. Los embeddings/cachés contienen la identidad
+de modelo, pesos y preparación; índices incompatibles se rechazan.
+Omitir el índice en `search` produce «servicio no disponible»; no devuelve stubs.
 
 Las coordenadas son píxeles de **la imagen recibida por `segment`**. No hay
 redimensionado ni corrección EXIF implícitos. P3 debe preparar la orientación

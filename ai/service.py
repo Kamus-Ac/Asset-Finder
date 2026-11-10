@@ -5,9 +5,10 @@ from io import BytesIO
 from .segmentation import ServiceUnavailableError, segment
 from .embedding import embed
 from .search import search
+from .results import format_results
 
 
-__all__ = ["ServiceUnavailableError", "segment", "mask_to_png", "embed", "search"]
+__all__ = ["ServiceUnavailableError", "segment", "mask_to_png", "embed", "search", "format_results"]
 
 
 def mask_to_png(mask):
@@ -23,5 +24,3 @@ def mask_to_png(mask):
     output = BytesIO()
     Image.fromarray(mask.astype(np.uint8) * 255).save(output, format="PNG")
     return output.getvalue()
-
-

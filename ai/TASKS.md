@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T19.** Ver evidencia en PROGRESS.
+**Siguiente tarea ejecutable: T20.** Ver evidencia en PROGRESS.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -146,7 +146,7 @@ probados; la conexión a la fuente real sigue siendo responsabilidad de P3.
   *Aceptación:* ranking determinista, k inválido/mayor al lote, lote vacío,
   vectores incompatibles y varias vistas. No necesita servidor para estas pruebas.
 
-- [ ] **T19 Resultado para P3.** Traducir ranking a ID, nombre, miniatura,
+- [x] **T19 Resultado para P3.** Traducir ranking a ID, nombre, miniatura,
   similitud y enlace/origen conservando metadatos. Desconocidos `null`;
   `model_available` depende de disponibilidad verificada por P3, nunca del score.
   *Aceptación:* claves/tipos documentados y probados; señalar diferencias con
