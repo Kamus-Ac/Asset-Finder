@@ -22,7 +22,7 @@ class ServiceTest(unittest.TestCase):
         ], capture_output=True, text=True, timeout=15)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
-    def test_pending_operations_never_return_fake_results(self):
+    def test_missing_index_never_returns_fake_results(self):
         for operation, args in ((service.search, ([1.0], 5)),):
             with self.subTest(operation=operation.__name__):
                 with self.assertRaisesRegex(service.ServiceUnavailableError, "servicio no disponible"):

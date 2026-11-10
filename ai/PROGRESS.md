@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T22-L**. Ver
+servidor e integración al final. Siguiente tarea: **T23**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -731,4 +731,14 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 
 - Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **49 passed, 13 subtests passed in 36.46s**.
 - Sin instalaciones, CUDA ni API del equipo; siguiente T22-L.
+- Commit por tarea en `feature/ai-exploracion`.
+
+
+## T22-L — Desarrollo CPU · 2026-11-10
+
+- Errores explícitos por imágenes ilegibles, índices dañados/incompatibles, CUDA y recursos ausentes. Memoria insuficiente se traduce a ServiceUnavailableError; fallos de programación se propagan.
+- Se prueban MemoryError y torch.OutOfMemoryError mediante inyección controlada, sin agotar memoria ni presentar esa simulación como un OOM real. Decodificación de imágenes valida bytes, formato, animación, orientación y límites.
+
+- Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **51 passed, 13 subtests passed in 37.45s**.
+- Sin instalaciones, CUDA ni API del equipo; siguiente T23.
 - Commit por tarea en `feature/ai-exploracion`.

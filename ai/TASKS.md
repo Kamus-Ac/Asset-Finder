@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T22-L.** Ver evidencia en PROGRESS.
+**Siguiente tarea ejecutable: T23.** Ver evidencia en PROGRESS.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -171,7 +171,7 @@ probados; la conexión a la fuente real sigue siendo responsabilidad de P3.
   *Aceptación:* ejecución con modelos e imágenes reales; evidencia de entradas,
   resultados y errores. Dobles del backend solo validan el adaptador, no la fuente real.
 
-- [ ] **T22-L Errores locales.** Selección inválida, pesos ausentes, imágenes
+- [x] **T22-L Errores locales.** Selección inválida, pesos ausentes, imágenes
   candidatas inválidas, versiones incompatibles, CUDA solicitada pero ausente y
   tratamiento de error de memoria con prueba controlada explícita.
   *Aceptación:* ninguna excepción se convierte en éxito; distinguir simulación

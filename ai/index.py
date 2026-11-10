@@ -113,7 +113,13 @@ def save_index(index, path):
 
 
 def load_index(path):
-    vectors, header = _read_npz(path)
+    try:
+        vectors, header = _read_npz(path)
+    except (OSError, zipfile.BadZipFile, EOFError, KeyError) as error:
+        raise ValueError("Archivo de índice ausente o dañado") from error
+    required = {"format_version", "identity", "vectors_sha256", "rows", "metadata", "errors"}
+    if set(header) != required:
+        raise ValueError("Cabecera de índice incompleta o incompatible")
     if header.get("format_version") != FORMAT_VERSION or header.get("identity") != model_identity():
         raise ValueError("Índice incompatible con el modelo/preprocesado actual")
     if hashlib.sha256(vectors.tobytes()).hexdigest() != header.get("vectors_sha256"):
@@ -129,6 +135,8 @@ def validate_index(index):
     if not isinstance(index, CandidateIndex) or index.identity != model_identity():
         raise ValueError("Índice incompatible con modelo/preprocesado")
     dimension = index.identity["dimension"]
+    if not isinstance(index.rows, list):
+        raise ValueError("Filas de índice inválidas")
     if (not isinstance(index.vectors, np.ndarray) or index.vectors.dtype != np.float32
             or index.vectors.ndim != 2 or index.vectors.shape != (len(index.rows), dimension)):
         raise ValueError("Correspondencia vectores/filas incompatible")

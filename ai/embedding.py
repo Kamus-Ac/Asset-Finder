@@ -9,6 +9,7 @@ import threading
 from .preprocess import PREPROCESS, prepare_image
 from . import resources
 from .segmentation import ServiceUnavailableError
+from .errors import memory_errors
 
 
 TRANSFORM = {"resize": [224, 224], "interpolation": "PIL_bicubic",
@@ -60,6 +61,7 @@ def _get_model(device):
         return _CACHE[key]
 
 
+@memory_errors
 def embed(image, *, mask=None, device="cpu"):
     """RGB y máscara opcional → ndarray float32 normalizado de 384 componentes."""
     if device not in ("cpu", "cuda"):
@@ -74,6 +76,7 @@ def embed(image, *, mask=None, device="cpu"):
     return _encode_prepared(prepared, device=device)
 
 
+@memory_errors
 def _encode_prepared(prepared, *, device="cpu"):
     """Uso interno: la imagen ya pasó T11; evita aplicar dos veces el margen."""
     import numpy as np

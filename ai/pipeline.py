@@ -16,6 +16,7 @@ from .resources import BASE
 from .results import format_results
 from .search import search
 from .segmentation import segment, ServiceUnavailableError
+from .errors import memory_errors
 
 
 @dataclass
@@ -34,6 +35,7 @@ class Outcome:
                 "cache": self.cache, "model": model_identity()}
 
 
+@memory_errors
 def run_search(image, candidates, *, box_xyxy=None, points=None, k=5,
                device="cpu", cache_dir=None):
     """SAM → recorte → DINO → ranking del lote suministrado en memoria."""

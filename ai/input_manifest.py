@@ -1,20 +1,33 @@
 """Carga explícita de imágenes para pruebas. No recorre carpetas ni consulta fuentes."""
 
 import json
+from io import BytesIO
 from pathlib import Path
+import warnings
 
 
 def load_rgb(path):
-    from PIL import Image, ImageOps
     path = Path(path)
     if not path.is_file() or path.stat().st_size > 10 * 1024 * 1024:
         raise ValueError("imagen ausente o mayor de 10 MiB")
-    with Image.open(path) as image:
-        if (image.format not in {"JPEG", "PNG", "WEBP"} or getattr(image, "is_animated", False)
-                or image.width * image.height > 20_000_000):
-            raise ValueError("imagen no admitida o mayor de 20 megapíxeles")
-        image.load()
-        return ImageOps.exif_transpose(image).convert("RGB")
+    return decode_rgb(path.read_bytes())
+
+
+def decode_rgb(content):
+    from PIL import Image, ImageOps, UnidentifiedImageError
+    if not isinstance(content, bytes) or len(content) > 10 * 1024 * 1024:
+        raise ValueError("imagen: se requieren bytes de hasta 10 MiB")
+    try:
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", Image.DecompressionBombWarning)
+            with Image.open(BytesIO(content)) as image:
+                if (image.format not in {"JPEG", "PNG", "WEBP"} or getattr(image, "is_animated", False)
+                        or image.width * image.height > 20_000_000):
+                    raise ValueError("imagen no admitida o mayor de 20 megapíxeles")
+                image.load()
+                return ImageOps.exif_transpose(image).convert("RGB")
+    except (UnidentifiedImageError, OSError, Image.DecompressionBombWarning, Image.DecompressionBombError) as error:
+        raise ValueError("imagen ilegible o resolución no admitida") from error
 
 
 def load_manifest(path):
