@@ -3,6 +3,7 @@
 from io import BytesIO
 
 from .segmentation import ServiceUnavailableError, segment
+from .embedding import embed
 
 
 __all__ = ["ServiceUnavailableError", "segment", "mask_to_png", "embed", "search"]
@@ -21,11 +22,6 @@ def mask_to_png(mask):
     output = BytesIO()
     Image.fromarray(mask.astype(np.uint8) * 255).save(output, format="PNG")
     return output.getvalue()
-
-
-def embed(image, *, device="cpu"):
-    """Reservada para DINOv2 en T12; nunca devuelve vectores ficticios."""
-    raise ServiceUnavailableError("servicio no disponible: embedding DINOv2 pendiente (T12)")
 
 
 def search(vector, k=5):

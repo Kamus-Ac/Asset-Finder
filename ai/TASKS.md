@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T12.** T11 completada con pruebas CPU.
+**Siguiente tarea ejecutable: T13.** Recorte y DINO reales probados en CPU.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -84,7 +84,7 @@ del instalador. Es evidencia CPU/local, no una prueba GPU ni de integración HTT
   *Aceptación:* pruebas de máscara vacía (rechazo), completa, normal, dimensiones
   incompatibles y entradas inválidas; salida RGB determinista sin mutar entradas.
 
-- [ ] **T12 `embed()` real con DINOv2 ViT-S/14.** Crear `ai/embedding.py`, fijar
+- [x] **T12 `embed()` real con DINOv2 ViT-S/14.** Crear `ai/embedding.py`, fijar
   revisión oficial, identidad/hash de pesos y preprocesado. Reutilizar el entorno
   CPU existente si es compatible; no instalar el requirements de entrenamiento
   de DINO sobre SAM. Si faltan paquetes, presentar propuesta antes de instalarlos.

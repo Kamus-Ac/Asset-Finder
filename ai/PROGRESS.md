@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T12**. Ver
+servidor e integración al final. Siguiente tarea: **T13**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -597,8 +597,28 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 - `preprocess.py`: RGB uint8, máscara bool del mismo tamaño, rechazo de máscara
   vacía, recorte al objeto, fondo blanco y margen del 10% en lienzo cuadrado.
   Sin máscara se prepara la imagen completa; no muta entradas ni aplica EXIF.
-- Validación: compilación y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: 
+- Validación: compilación y `ai/.venv-tests/bin/python -m pytest ai/tests -q`:
   **37 passed, 5 subtests passed in 21.12s**. Casos numéricos comprueban fondo,
   recorte, máscara completa, huecos, determinismo y rechazo de entradas inválidas.
 - Sin paquetes nuevos, pesos ni cambios fuera de ai/. Siguiente: T12.
 - Commit: `ai(T11): preparar recortes RGB consistentes`.
+
+
+## T12 — DINOv2 real en CPU · 2026-11-10
+
+- `embedding.py`: backbone oficial ViT-S/14, revisión
+  `7764ea0f912e53c92e82eb78a2a1631e92725fc8`, vector float32 de 384 dimensiones
+  con norma 1, evaluación/sin gradientes y caché por dispositivo/recurso.
+  Preparación T11 y resize bicúbico 224 con normalización ImageNet registrados.
+- `resources.py` descarga solo por CLI explícita; tamaño/hash de archivo, código
+  y pesos en `dino_resources.json`. Pesos: 88,283,115 bytes, SHA-256
+  `b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9`.
+  Proveedor/archivo comprimido ignorados, licencia Apache-2.0 de DINO conservada.
+- No se instaló ningún paquete ni se cambió el entorno CPU aprobado. Inferencia
+  sin xFormers y sin red; `service.embed` ahora es real. CUDA no se probó.
+- Validación: compilación y suite **39 passed, 4 subtests passed in 23.67s**;
+  dos embeddings reales iguales, finitos/normalizados, una carga, recursos ausentes
+  y entradas inválidas. La prueba reservada para embed se retira al implementarlo.
+- Fuentes: https://github.com/facebookresearch/dinov2/blob/7764ea0f912e53c92e82eb78a2a1631e92725fc8/dinov2/hub/backbones.py
+  y pesos oficiales https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth
+- Commit: `ai(T12): incorporar DINOv2 CPU con recursos verificados`.

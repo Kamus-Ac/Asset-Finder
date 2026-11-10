@@ -1,2 +1,5 @@
 # Evidencia local de segmentación: no versionar fotos, máscaras ni recortes.
 /resultados/
+/vendor/
+/cache/
+/demo_data/

@@ -23,7 +23,7 @@ class ServiceTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_pending_operations_never_return_fake_results(self):
-        for operation, args in ((service.embed, (None,)), (service.search, ([1.0], 5))):
+        for operation, args in ((service.search, ([1.0], 5)),):
             with self.subTest(operation=operation.__name__):
                 with self.assertRaisesRegex(service.ServiceUnavailableError, "servicio no disponible"):
                     operation(*args)
