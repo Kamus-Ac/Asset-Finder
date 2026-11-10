@@ -67,6 +67,7 @@ def validate_candidates(items):
         if available and not item.get("model_verified", False):
             raise ValueError("model_available: requiere confirmación model_verified de P3")
         metadata["model_available"] = available
+        metadata["model_verified"] = available
         metadata["model_url"] = _url(item.get("model_url"), "model_url", relative=True) if available else None
         raw_views = item.get("views", [])
         if not isinstance(raw_views, (list, tuple)):

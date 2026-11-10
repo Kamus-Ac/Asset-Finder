@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T17.** Ver evidencia en PROGRESS.
+**Siguiente tarea ejecutable: T18.** Ver evidencia en PROGRESS.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -129,7 +129,7 @@ Un conjunto guardado sirve para repetir pruebas, no limita las fuentes del produ
   una colección global ni acceder a carpetas del usuario. Repetir el mismo lote
   no recalcula vectores válidos; cambios de imagen/modelo sí los invalidan.
 
-- [ ] **T17 Integridad y compatibilidad.** Verificar IDs, correspondencia de
+- [x] **T17 Integridad y compatibilidad.** Verificar IDs, correspondencia de
   vectores y vistas, dimensión, valores finitos, hashes y versiones. Al cargar,
   rechazar datos incompatibles; no confiar en un archivo serializado solo por existir.
   *Aceptación:* pruebas de entradas dañadas, incompatibles, duplicadas y lote vacío.

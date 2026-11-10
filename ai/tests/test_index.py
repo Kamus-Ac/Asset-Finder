@@ -2,6 +2,40 @@ from ai.tests.cpu_case import CpuCase
 
 
 class IndexTests(CpuCase):
+    def test_rejects_incompatible_corrupt_and_duplicate_data(self):
+        self.run_cpu('''
+import copy,tempfile
+from pathlib import Path
+import numpy as np
+from ai.index import CandidateIndex,validate_index,save_index,load_index,_write_npz
+from ai.embedding import model_identity
+v=np.zeros((1,384),np.float32); v[0,0]=1
+meta={'a':{'asset_id':'a','source_url':'https://example.invalid/a'}}
+row={'asset_id':'a','view_id':'main','image_sha256':'a'*64}
+base=CandidateIndex(v,[row],meta,model_identity(),[])
+validate_index(base)
+cases=[]
+for change in ('identity','nan','shape','duplicate','orphan','hash'):
+ bad=copy.deepcopy(base)
+ if change=='identity': bad.identity['revision']='otro'
+ if change=='nan': bad.vectors[0,0]=float('nan')
+ if change=='shape': bad.vectors=np.zeros((1,5),np.float32)
+ if change=='duplicate': bad.rows*=2; bad.vectors=np.concatenate([v,v])
+ if change=='orphan': bad.rows[0]['asset_id']='missing'
+ if change=='hash': bad.rows[0]['image_sha256']='bad'
+ cases.append(bad)
+for bad in cases:
+ try: validate_index(bad)
+ except ValueError: pass
+ else: raise AssertionError('Aceptó índice inválido')
+with tempfile.TemporaryDirectory() as directory:
+ path=Path(directory)/'bad.npz'
+ _write_npz(path,v,{'format_version':999})
+ try: load_index(path)
+ except ValueError: pass
+ else: raise AssertionError('Aceptó versión incompatible')
+''')
+
     def test_incremental_cache_and_real_single_preparation(self):
         self.run_cpu('''
 import tempfile

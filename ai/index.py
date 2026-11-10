@@ -6,6 +6,8 @@ import json
 import os
 from pathlib import Path
 import tempfile
+import re
+import zipfile
 
 from .candidate_images import prepare_candidates
 from .embedding import _encode_prepared, model_identity
@@ -54,6 +56,9 @@ def _write_npz(path, vectors, header):
 
 def _read_npz(path):
     import numpy as np
+    with zipfile.ZipFile(path) as archive:
+        if sum(item.file_size for item in archive.infolist()) > 64 * 1024 * 1024:
+            raise ValueError("Índice supera el límite de 64 MiB descomprimidos")
     with np.load(path, allow_pickle=False) as data:
         if set(data.files) != {"vectors", "header"}:
             raise ValueError("Archivo de vectores incompatible")
@@ -61,6 +66,8 @@ def _read_npz(path):
         if raw.dtype != np.uint8 or raw.ndim != 1:
             raise ValueError("Cabecera incompatible")
         header = json.loads(raw.tobytes())
+        if not isinstance(header, dict):
+            raise ValueError("Cabecera de índice inválida")
         vectors = data["vectors"].copy()
     return vectors, header
 
@@ -78,14 +85,17 @@ def build_index(candidates, *, device="cpu", cache_dir=None):
         path = Path(cache_dir) / (key + ".npz") if cache_dir is not None else None
         if path is not None and path.is_file():
             vector, header = _read_npz(path)
-            if header != {"key": key, "format_version": FORMAT_VERSION}:
+            expected = {"key": key, "format_version": FORMAT_VERSION,
+                        "vector_sha256": hashlib.sha256(vector.tobytes()).hexdigest()}
+            if header != expected:
                 raise ValueError("Caché de candidato incompatible")
             hits += 1
         else:
             vector = _encode_prepared(view["image"], device=device)
             _check_vector(vector)
             if path is not None:
-                _write_npz(path, vector, {"key": key, "format_version": FORMAT_VERSION})
+                _write_npz(path, vector, {"key": key, "format_version": FORMAT_VERSION,
+                           "vector_sha256": hashlib.sha256(vector.tobytes()).hexdigest()})
             misses += 1
         _check_vector(vector)
         rows.append({key: view[key] for key in ("asset_id", "view_id", "image_sha256", "preparation")})
@@ -95,6 +105,7 @@ def build_index(candidates, *, device="cpu", cache_dir=None):
 
 
 def save_index(index, path):
+    validate_index(index)
     header = {"format_version": FORMAT_VERSION, "identity": index.identity,
               "rows": index.rows, "metadata": index.metadata, "errors": index.errors,
               "vectors_sha256": hashlib.sha256(index.vectors.tobytes()).hexdigest()}
@@ -107,4 +118,38 @@ def load_index(path):
         raise ValueError("Índice incompatible con el modelo/preprocesado actual")
     if hashlib.sha256(vectors.tobytes()).hexdigest() != header.get("vectors_sha256"):
         raise ValueError("Contenido del índice incompatible")
-    return CandidateIndex(vectors, header["rows"], header["metadata"], header["identity"], header["errors"])
+    index = CandidateIndex(vectors, header["rows"], header["metadata"], header["identity"], header["errors"])
+    validate_index(index)
+    return index
+
+
+def validate_index(index):
+    import numpy as np
+    from .candidates import validate_candidates
+    if not isinstance(index, CandidateIndex) or index.identity != model_identity():
+        raise ValueError("Índice incompatible con modelo/preprocesado")
+    dimension = index.identity["dimension"]
+    if (not isinstance(index.vectors, np.ndarray) or index.vectors.dtype != np.float32
+            or index.vectors.ndim != 2 or index.vectors.shape != (len(index.rows), dimension)):
+        raise ValueError("Correspondencia vectores/filas incompatible")
+    if not isinstance(index.metadata, dict) or not isinstance(index.errors, list):
+        raise ValueError("Metadatos de índice inválidos")
+    for asset_id, metadata in index.metadata.items():
+        if not isinstance(metadata, dict) or metadata.get("asset_id") != asset_id:
+            raise ValueError("ID de metadatos incompatible")
+        validate_candidates([metadata])
+    seen = set()
+    for vector, row in zip(index.vectors, index.rows):
+        _check_vector(vector, dimension)
+        if not isinstance(row, dict):
+            raise ValueError("Fila de índice inválida")
+        asset_id, view_id = row.get("asset_id"), row.get("view_id")
+        if (not isinstance(asset_id, str) or asset_id not in index.metadata
+                or not isinstance(view_id, str) or not view_id.strip()):
+            raise ValueError("Vista sin metadatos/ID")
+        if (asset_id, view_id) in seen:
+            raise ValueError("Vista duplicada")
+        seen.add((asset_id, view_id))
+        if not re.fullmatch(r"[0-9a-f]{64}", row.get("image_sha256", "")):
+            raise ValueError("Huella de imagen inválida")
+    return index
