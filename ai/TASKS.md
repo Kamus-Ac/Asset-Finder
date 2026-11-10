@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T16.** Ver evidencia en PROGRESS.
+**Siguiente tarea ejecutable: T17.** Ver evidencia en PROGRESS.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -121,7 +121,7 @@ Un conjunto guardado sirve para repetir pruebas, no limita las fuentes del produ
   *Aceptación:* entradas inválidas o sin imagen identificadas; lote parcial
   conserva trazabilidad y fallos explícitos, sin inventar vectores ni coincidencias.
 
-- [ ] **T16 Vectores y caché de candidatos.** Implementar construcción incremental
+- [x] **T16 Vectores y caché de candidatos.** Implementar construcción incremental
   de vectores para el lote externo y reutilización por contenido/versión. Guardar
   solo si se configura persistencia: vectores y metadatos de asset/vista, revisión
   y pesos DINO, dimensión, preprocesado y versión de formato. Recursos fuera de Git.

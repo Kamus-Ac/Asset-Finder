@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T16**. Ver
+servidor e integración al final. Siguiente tarea: **T17**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -658,4 +658,14 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 
 - Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **43 passed, 13 subtests passed in 35.58s**.
 - Sin instalaciones, CUDA ni API del equipo; siguiente T16.
+- Commit por tarea en `feature/ai-exploracion`.
+
+
+## T16 — Desarrollo CPU · 2026-11-10
+
+- index.py construye lotes externos incrementales, vectores float32 y metadatos separados; caché por contenido/modelo/preprocesado/dispositivo, guardado atómico NPZ sin pickle.
+- Prueba DINO real confirma una sola preparación, reutilización entre IDs con igual imagen, invalidación por contenido y persistencia/relectura. Ninguna colección global obligatoria.
+
+- Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **44 passed, 13 subtests passed in 26.08s**.
+- Sin instalaciones, CUDA ni API del equipo; siguiente T17.
 - Commit por tarea en `feature/ai-exploracion`.
