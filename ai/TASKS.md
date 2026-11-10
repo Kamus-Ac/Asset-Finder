@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T13.** Recorte y DINO reales probados en CPU.
+**Siguiente tarea ejecutable: T14.** FASE 1 CPU aceptada con evidencia real.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -93,7 +93,7 @@ del instalador. Es evidencia CPU/local, no una prueba GPU ni de integración HTT
   *Aceptación:* inferencia CPU real, vector finito, dimensión registrada, norma 1,
   errores por recursos ausentes y pruebas de caché/validación. Sin pesos, no se cierra.
 
-- [ ] **T13 Prueba de cordura.** Comparar dos fotos reales del mismo objeto
+- [x] **T13 Prueba de cordura.** Comparar dos fotos reales del mismo objeto
   contra uno distinto, con procedencia y permisos de uso registrados.
   *Aceptación:* similitudes y tiempos CPU tal como salgan; no ajustar el informe
   para forzar la hipótesis. Si faltan fotos, registrar esa dependencia y continuar

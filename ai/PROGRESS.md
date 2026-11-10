@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T13**. Ver
+servidor e integración al final. Siguiente tarea: **T14**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -622,3 +622,19 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 - Fuentes: https://github.com/facebookresearch/dinov2/blob/7764ea0f912e53c92e82eb78a2a1631e92725fc8/dinov2/hub/backbones.py
   y pesos oficiales https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth
 - Commit: `ai(T12): incorporar DINOv2 CPU con recursos verificados`.
+
+
+## T13 — Prueba real de similitud y cierre FASE 1 CPU · 2026-11-10
+
+- Comando: `OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 ai/.venv-sam2/bin/python -m ai.prueba_embeddings`.
+- Dos fotogramas reales del video de ejemplo bedroom, región de la misma cama
+  [0,450,700,540], frente al recorte de silla amarilla de la referencia local.
+  Coseno cama/cama: **0.95553565**; cama/silla: **0.34461749**. Tiempos DINO
+  0.6564 s con carga, 0.1155/0.1264 s posteriores; una ejecución por imagen.
+- Procedencia, SHA-256, recortes, configuración y límites en
+  `ai/resultados/T13/metrics.json`; imágenes ignoradas, no redistribuidas. Dos
+  fotogramas correlacionados de un video no acreditan relevancia de assets 3D.
+  La licencia particular de esos ejemplos no está confirmada y queda registrada.
+- Compilación y suite: **39 passed, 4 subtests passed in 23.25s**.
+  FASE 1 CPU aceptada; siguiente T14. No prueba CUDA ni API.
+- Commit: `ai(T13): medir similitud real entre vistas de objeto`.

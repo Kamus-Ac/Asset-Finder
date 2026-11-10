@@ -328,3 +328,14 @@ Con el informe del servidor y esa validación se cierra T01.
 Siguiente: comprobar si también existe `python3.12` y los directorios SAM/entorno
 en la MSI. No se instala nada todavía. Los informes de la Dell y Luis permanecen
 separados y no sustituyen esta evidencia del servidor.
+
+
+## T12–T13 — DINOv2 ViT-S/14 CPU · 10 de noviembre de 2026
+
+Entorno CPU existente, PyTorch 2.15.0+cpu, Python 3.11.18, 2 hilos. Código/pesos
+identificados en `dino_resources.json`; 384 componentes float32 con norma 1.
+Comando: `OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 ai/.venv-sam2/bin/python -m ai.prueba_embeddings`.
+Cama fotogramas 00000/00030: coseno 0.95553565; cama/silla: 0.34461749.
+Tiempos 0.6564 s primera imagen con carga y 0.1155/0.1264 s posteriores.
+Una ejecución por imagen; no benchmark GPU ni evaluación de modelos 3D.
+Procedencia/recortes/hashes y artefactos locales en `ai/resultados/T13/`.
