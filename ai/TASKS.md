@@ -243,11 +243,16 @@ pendientes y no bloquean las fases locales.
   noviembre `git fetch origin` pasa y HEAD coincide con la rama remota IA en
   `87bc082`; esos commits ya están publicados. Esto no garantiza el siguiente push.
 - **B02 Graphify:** regla aclarada; permitido en rama IA, excluido de main.
-- **B03 Main:** merge anterior conservado; `origin/main` en `116f440` tiene
-  cambios posteriores aún no integrados. No fusionar como efecto lateral del plan.
+- **B03 Main:** integración solicitada por Brandon el 10 de noviembre:
+  `origin/main` en `116f440` incorporado mediante merge. Conflicto único en
+  README resuelto conservando su contenido previo y añadiendo la documentación
+  nueva de API/exportación. Ningún archivo previo eliminado; sin rebase.
 - **B04 P3/datos:** confirmación de interfaz, mecanismo para obtener candidatos
   desde la referencia y conjunto real para evaluación. El conector actual busca
-  por texto; DINO compara candidatos y no descubre páginas ni genera esos términos.
+  por texto y ahora dispone de exportación JSON con URLs. Falta acordar quién
+  obtiene/decodifica esas imágenes antes de llamar IA: la propuesta P4 las recibe
+  preparadas, mientras el README entrante asigna la descarga al consumidor.
+  DINO compara candidatos y no descubre páginas ni genera esos términos.
   Preparar la propuesta en IA; coordinar su conexión al llegar a FASE 5.
 - **B05 MSI:** acceso/ejecución para CUDA y mediciones. Pospuesto por decisión
   de Brandon; no bloquea el desarrollo local ni exige otra aprobación de T02.

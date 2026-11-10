@@ -561,3 +561,32 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   de código registrada conserva 35 pruebas y 5 subtests, sin presentarla como nueva.
 - **Commit previsto:** `ai(R01): reorganizar plan CPU antes de servidor`.
   La siguiente tarea ejecutable es **T11**, preparación del recorte con pruebas.
+
+## Merge de main hacia la rama IA · 2026-11-10
+
+- **Solicitud:** Brandon autoriza traer los últimos cambios de main mediante
+  merge, conservar todos sus archivos y avisar de conflictos. No se inicia T11.
+- **Base:** árbol limpio; rama `feature/ai-exploracion`, HEAD `9623065`.
+  `git fetch origin` pasó; main remoto en `116f440`, con el incremento
+  `6529b92` de API de imágenes y exportación de candidatos.
+- **Comando:** `git merge --no-ff --no-commit origin/main` detectó un único
+  conflicto de contenido en README. Se avisó a Brandon durante la operación.
+  Se resolvió conservando todo su README previo y añadiendo al final las secciones
+  entrantes de API/exportación. Sin rebase ni resolución global a favor de una rama.
+- **Conservación:** inventario previo de 134 rutas registrado fuera del repo;
+  todas siguen presentes. README conserva íntegro el contenido anterior y la
+  documentación nueva. Los cinco archivos backend afectados son idénticos a main;
+  no se eliminó ningún archivo ni se modificaron código IA, entornos o pesos.
+- **Estado actualizado:** B03 resuelto en TASKS y resumen actualizado con `/media`
+  y exportador JSON. Sigue pendiente acordar la descarga/decodificación de
+  miniaturas antes de llamar IA: el exportador entrega URLs, no imágenes RGB.
+- **Validación:** compilación de los cinco archivos backend código 0;
+  `ai/.venv-tests/bin/python -m py_compile ai/*.py` código 0;
+  `ai/.venv-tests/bin/python -m pytest ai/tests -q`:
+  **35 passed, 5 subtests passed in 21.95s**. Revisión de contenido del merge,
+  conservación de rutas, ausencia de marcadores y `git diff --check` en verde.
+- **Límite:** no hay entorno backend local ni FastAPI/HTTPX/multipart en los
+  intérpretes consultados; no se ejecutan las pruebas HTTP/exportación del backend
+  ni consultas reales a Sketchfab. No se instalan paquetes sin propuesta/aprobación.
+- **Commit de merge:** `Merge origin/main into feature/ai-exploracion`.
+  Se conserva el historial de ambas ramas; siguiente tarea de desarrollo: T11.

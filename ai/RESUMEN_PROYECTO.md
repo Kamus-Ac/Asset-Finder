@@ -37,8 +37,10 @@ Entregar la **comprensión y comparación visual**, dentro de `ai/`:
   última suite registrada: 35 pruebas y 5 subtests, incluido el instalador GPU.
 - **Interfaz:** `service.py` devuelve máscara/score y permite PNG. T09 espera
   confirmación de Manuel (T09-P diferida). `embed`/`search` no disponibles.
-- **Backend:** `/health` y búsqueda textual Sketchfab en `/catalog/search`;
-  sin integración visual. No se probó Sketchfab en vivo en esta revisión.
+- **Backend:** `/health`, búsqueda textual Sketchfab en `/catalog/search`,
+  carga/consulta/archivo de imágenes en `/media` y exportador JSON de candidatos,
+  incorporados desde main. Sin integración visual; no se probó Sketchfab en vivo
+  ni la API HTTP en esta revisión.
 - **Web:** tarjetas y cubos Three.js de demostración. Móvil y flujo completo pendientes.
 - **Servidor:** T01 completa en MSI: Ubuntu/WSL2, RTX 4070/8188 MiB detectada,
   driver 610.78, Python 3.14.4 y 7.61 GiB RAM visibles. PyTorch CUDA aún sin validar.
