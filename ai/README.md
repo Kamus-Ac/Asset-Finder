@@ -60,7 +60,7 @@ FastAPI/HTTPX del backend para esta prueba CPU. En el producto, IA corre en serv
 
 ```text
 ai/
-├── demo.py / demo.html   Prueba interactiva local de imagen y selección
+├── demo.py / web/demo.html   Prueba interactiva local de imagen y selección
 ├── service.py           Entrada Python para Manuel
 ├── pipeline.py          Flujo completo, CLI y evidencias de selección
 ├── segmentation.py      SAM 2.1 Tiny, selección y caché de predictor
@@ -124,3 +124,12 @@ cuántos resultados devuelve. La demo permite elegir ambas cifras. La muestra
 se amplió a 24 candidatos reales; el informe distingue solicitado, disponible y
 comparado. Cambiar N no multiplica una muestra de datos ni consulta automáticamente
 Sketchfab: esa obtención pertenece a la API de Manuel, que aún fija count=10.
+
+## Frontend oficial y organización
+
+Frontend de Ángel: `frontend/`, con VisualSearch y proxy local a ai.demo.
+En otra terminal: `cd frontend && npm run dev -- --host 127.0.0.1 --port 5173`;
+abrir http://127.0.0.1:5173. Conserva las tarjetas Three.js como ejemplos separados.
+NPZ compartido en `ai/infrastructure/arrays.py`; HTML aislado en `ai/web/demo.html`.
+Los módulos públicos y comandos anteriores se conservan. Ver propuesta de revisión
+en PROPUESTA_FRONTEND.md; conexión definitiva a FastAPI sigue con Manuel.

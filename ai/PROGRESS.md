@@ -800,3 +800,20 @@ no detectó requisitos rotos; no se instalaron paquetes. Recursos/datos ignorado
 - Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **57 passed, 13 subtests passed in 40.00s**.
 - Sin instalaciones, CUDA ni API del equipo; siguiente F02.
 - Commit por tarea en `feature/ai-exploracion`.
+
+## F02 y R02 — Frontend oficial y organización · 2026-11-10
+
+- Solicitud de Brandon: probar desde frontend de Ángel, cantidades configurables,
+  refactorizar ai/ y actualizar README/Graphify antes de publicar.
+- npm ci exacto aprobado y ejecutado; el lockfile conserva SHA-256
+  ca9b1b9b5002b4507f5ad3b4e7bf500c3123695c5e0ffac138762e6567bcde45.
+- Frontend conserva App/Three.js de Ángel y añade VisualSearch con subida/caja,
+  máscaras y resultados, cantidades independientes y proxy local a ai.demo.
+  Se prepara como commit separado para revisión; no se modifica backend.
+- Refactor: ai/infrastructure/arrays.py centraliza NPZ sin pickle, cabecera JSON,
+  límites de descompresión y escritura atómica; index/query_cache conservan API
+  y formato. HTML de prueba movido a ai/web/demo.html, comandos sin cambios.
+- Compilación y suite: 57 passed, 13 subtests passed in 40.56s. Se ejecutan
+  build/lint y comprobación del proxy; no hay prueba automatizada de navegador.
+- F03 requiere que Manuel exponga la cantidad y pagine Sketchfab; la prueba local
+  contiene 24 candidatos reales. CUDA y evaluación etiquetada siguen pendientes.

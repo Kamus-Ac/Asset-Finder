@@ -3,12 +3,11 @@
 from dataclasses import dataclass
 import hashlib
 import json
-import os
 from pathlib import Path
-import tempfile
 import re
 import zipfile
 
+from .infrastructure.arrays import read_arrays, write_arrays
 from .candidate_images import prepare_candidates
 from .embedding import _encode_prepared, model_identity
 
@@ -41,35 +40,12 @@ def _check_vector(vector, dimension=384):
 
 
 def _write_npz(path, vectors, header):
-    import numpy as np
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    descriptor, name = tempfile.mkstemp(dir=path.parent, suffix=".tmp")
-    try:
-        with os.fdopen(descriptor, "wb") as stream:
-            encoded = json.dumps(header, sort_keys=True, allow_nan=False).encode()
-            np.savez(stream, vectors=vectors, header=np.frombuffer(encoded, dtype=np.uint8))
-        Path(name).replace(path)
-    finally:
-        Path(name).unlink(missing_ok=True)
+    write_arrays(path, {"vectors": vectors}, header)
 
 
 def _read_npz(path):
-    import numpy as np
-    with zipfile.ZipFile(path) as archive:
-        if sum(item.file_size for item in archive.infolist()) > 64 * 1024 * 1024:
-            raise ValueError("Índice supera el límite de 64 MiB descomprimidos")
-    with np.load(path, allow_pickle=False) as data:
-        if set(data.files) != {"vectors", "header"}:
-            raise ValueError("Archivo de vectores incompatible")
-        raw = data["header"]
-        if raw.dtype != np.uint8 or raw.ndim != 1:
-            raise ValueError("Cabecera incompatible")
-        header = json.loads(raw.tobytes())
-        if not isinstance(header, dict):
-            raise ValueError("Cabecera de índice inválida")
-        vectors = data["vectors"].copy()
-    return vectors, header
+    arrays, header = read_arrays(path, {"vectors"})
+    return arrays["vectors"], header
 
 
 def build_index(candidates, *, device="cpu", cache_dir=None):

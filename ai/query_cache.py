@@ -1,14 +1,11 @@
 """Caché del cálculo visual; el ranking y los metadatos se reconstruyen cada vez."""
 
 import hashlib
-import json
-import os
 from pathlib import Path
-import tempfile
 import threading
 import time
-import zipfile
 
+from .infrastructure.arrays import read_arrays, write_arrays
 from .candidate_images import image_digest
 from .embedding import model_identity
 from .index import fingerprint, _check_vector
@@ -38,17 +35,8 @@ def sam_identity():
 def _load(path, key, image_shape):
     import numpy as np
     from PIL import Image
-    with zipfile.ZipFile(path) as archive:
-        if sum(item.file_size for item in archive.infolist()) > 64 * 1024 * 1024:
-            raise ValueError("Caché de consulta demasiado grande")
-    with np.load(path, allow_pickle=False) as data:
-        if set(data.files) != {"mask", "crop", "vector", "header"}:
-            raise ValueError("Caché de consulta incompatible")
-        mask, crop, vector = (data[name].copy() for name in ("mask", "crop", "vector"))
-        raw_header = data["header"]
-        if raw_header.dtype != np.uint8 or raw_header.ndim != 1:
-            raise ValueError("Cabecera de consulta inválida")
-        header = json.loads(raw_header.tobytes())
+    arrays, header = read_arrays(path, {"mask", "crop", "vector"})
+    mask, crop, vector = (arrays[name] for name in ("mask", "crop", "vector"))
     if (mask.dtype != np.bool_ or mask.shape != image_shape[:2] or not mask.any()
             or crop.dtype != np.uint8 or crop.ndim != 3 or crop.shape[2] != 3 or 0 in crop.shape):
         raise ValueError("Imagen/máscara cacheada incompatible")
@@ -69,15 +57,7 @@ def _save(path, key, result):
     hashes = {name: hashlib.sha256(value.tobytes()).hexdigest()
               for name, value in (("mask", mask), ("crop", crop), ("vector", vector))}
     header = {"key": key, "score": float(score), "hashes": hashes}
-    path.parent.mkdir(parents=True, exist_ok=True)
-    descriptor, name = tempfile.mkstemp(dir=path.parent, suffix=".tmp")
-    try:
-        with os.fdopen(descriptor, "wb") as stream:
-            np.savez(stream, mask=mask, crop=crop, vector=vector,
-                     header=np.frombuffer(json.dumps(header,allow_nan=False).encode(),dtype=np.uint8))
-        Path(name).replace(path)
-    finally:
-        Path(name).unlink(missing_ok=True)
+    write_arrays(path, {"mask": mask, "crop": crop, "vector": vector}, header)
 
 
 def query_result(image, box, points, device, directory, compute):

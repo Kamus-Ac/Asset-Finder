@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**En curso: F01 → F02**, cantidades configurables y conexión al frontend oficial,
+**F01/F02 implementadas**, cantidades configurables y conexión local al frontend oficial,
 solicitadas por Brandon. T20 y FASE 5 conservan sus dependencias externas.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
@@ -242,7 +242,7 @@ pendientes y no bloquean las fases locales.
   limitar realmente el lote antes de generar vectores y no inventar candidatos.
   Ampliar la muestra de prueba a 24 miniaturas reales, conservando los archivos
   previos. La búsqueda en vivo sigue perteneciendo a P3.
-- [ ] **F02 Probar con el frontend de Ángel.** Conservar su catálogo/Three.js,
+- [x] **F02 Probar con el frontend de Ángel.** Conservar su catálogo/Three.js,
   añadir carga/selección, máscaras/resultados y controles de cantidades. Proxy
   local a IA para probar sin duplicar FastAPI. Compilar/lint con su lockfile exacto,
   aprobado por Brandon; commit separado y descripción de revisión para Ángel.

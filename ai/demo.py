@@ -47,7 +47,7 @@ def handler_for(candidates, *, device="cpu", cache_dir=None):
         def do_GET(self):
             path = urlsplit(self.path).path
             if path == "/":
-                self.reply(200, (BASE/"demo.html").read_bytes(), "text/html; charset=utf-8")
+                self.reply(200, (BASE/"web/demo.html").read_bytes(), "text/html; charset=utf-8")
             elif path == "/sample":
                 image = load_rgb(BASE/"prueba.jpeg")
                 image.thumbnail((1024,1024))

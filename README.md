@@ -250,3 +250,30 @@ garantiza que la página del modelo se haya servido completamente. No se
 ejecutó SAM, DINO ni ranking en esta prueba. La consulta real requirió acceso
 de red fuera del sandbox. Las tres pruebas locales de exportación pasaron
 con datos simulados (filtrado, escritura, respuesta vacía y fallo de fuente).
+
+## IA y prueba desde el frontend oficial — 10 de noviembre de 2026
+
+La interfaz oficial sigue en `frontend/`. `frontend/src/VisualSearch.tsx` conecta
+subida/selección con IA y reutiliza el diseño de Ángel; su catálogo Three.js se
+conserva como ejemplo desplegable. Hay dos controles distintos: candidatos a
+comparar y resultados a mostrar. La muestra local contiene 24 modelos reales;
+la búsqueda en vivo y su paginación quedan con Manuel.
+
+Desde la raíz, en dos terminales:
+
+```bash
+ai/.venv-sam2/bin/python -m ai.demo
+```
+
+```bash
+cd frontend
+npm run dev -- --host 127.0.0.1 --port 5173
+```
+
+Abrir http://127.0.0.1:5173. El proxy local reenvía las llamadas a IA en el puerto
+8765; esto permite probar el frontend oficial sin sustituir la API de Manuel.
+La interfaz aislada de pruebas permanece en `ai/web/demo.html`, servida por
+`ai/demo.py`. Persistencia común en `ai/infrastructure/arrays.py`.
+Comandos, recursos y pendientes: [README de IA](ai/README.md) y
+[entrega al equipo](ai/ENTREGA_EQUIPO.md). Graphify se guarda solo en la rama IA,
+excluido de cualquier PR a main.
