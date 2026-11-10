@@ -7,6 +7,7 @@ from pathlib import Path
 import shutil
 import tarfile
 import tempfile
+import subprocess
 from urllib.request import Request, urlopen
 
 
@@ -104,12 +105,46 @@ def prepare_demo():
     return {"candidates": len(manifest["candidates"]), "snapshot_date": manifest["snapshot_date"]}
 
 
+def sam_source_digest(root):
+    root = Path(root)
+    paths = [*(root/"sam2").rglob("*.py"), *(root/"sam2").rglob("*.yaml"),
+             root/"setup.py", root/"LICENSE"]
+    digest = hashlib.sha256()
+    for path in sorted(paths):
+        digest.update(path.relative_to(root).as_posix().encode()+b"\0"+path.read_bytes()+b"\0")
+    return digest.hexdigest()
+
+
+def prepare_sam():
+    info = json.loads((BASE/"sam_resources.json").read_text())
+    source = BASE/"sam2"
+    if not source.exists():
+        vendor = BASE/"vendor"
+        vendor.mkdir(parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=vendor) as directory:
+            checkout = Path(directory)/"sam2"
+            subprocess.run(["git","init","--quiet",str(checkout)],check=True)
+            subprocess.run(["git","-C",str(checkout),"remote","add","origin",info["source_url"]],check=True)
+            subprocess.run(["git","-C",str(checkout),"fetch","--depth=1","origin",info["revision"]],check=True)
+            subprocess.run(["git","-C",str(checkout),"checkout","--quiet","--detach","FETCH_HEAD"],check=True)
+            if sam_source_digest(checkout) != info["runtime_sha256"]:
+                raise ValueError("Código SAM no coincide con la revisión registrada")
+            checkout.rename(source)
+    if sam_source_digest(source) != info["runtime_sha256"]:
+        raise ValueError("Código SAM local modificado; no se sobrescribió")
+    download_verified(info["weights"], source/"checkpoints/sam2.1_hiera_tiny.pt")
+    return {"model":"sam2.1_hiera_tiny","revision":info["revision"],"verified":True}
+
+
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--demo", action="store_true", help="Preparar además las ocho imágenes de prueba registradas")
+    parser.add_argument("--sam", action="store_true", help="Preparar/verificar además SAM Tiny, sin instalar paquetes")
     args = parser.parse_args()
     report = {"dino": prepare_dino()}
+    if args.sam:
+        report["sam"] = prepare_sam()
     if args.demo:
         report["demo"] = prepare_demo()
     print(json.dumps(report, indent=2))

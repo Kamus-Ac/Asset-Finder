@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T26-L.** Ver evidencia en PROGRESS.
+**Siguiente tarea ejecutable: T27-L.** Ver evidencia en PROGRESS.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -187,7 +187,7 @@ probados; la conexión a la fuente real sigue siendo responsabilidad de P3.
   nunca presentar RAM o tiempos CPU como VRAM/rendimiento CUDA.
   *Aceptación:* comandos y tabla reproducible en MEDICIONES.
 
-- [ ] **T26-L Reproducción y arranque.** Documentar comandos desde terminal
+- [x] **T26-L Reproducción y arranque.** Documentar comandos desde terminal
   limpia y dependencias realmente usadas. Preparar selección CPU/CUDA y verificación
   de recursos sin instalaciones implícitas; conservar separado el lock GPU pendiente.
   *Aceptación:* repetir el flujo local con los comandos documentados y dejar

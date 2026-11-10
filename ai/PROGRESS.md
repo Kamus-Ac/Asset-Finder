@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T26-L**. Ver
+servidor e integración al final. Siguiente tarea: **T27-L**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -761,4 +761,15 @@ Benchmark CPU ejecutado: carga SAM 2.0215 s, DINO 0.3908 s; inferencia calentada
 
 - Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **52 passed, 13 subtests passed in 42.85s**.
 - Sin instalaciones, CUDA ni API del equipo; siguiente T26-L.
+- Commit por tarea en `feature/ai-exploracion`.
+
+
+## T26-L — Desarrollo CPU · 2026-11-10
+
+- README ofrece comandos de prueba CPU y REPRODUCIR_CPU conserva versiones aprobadas sin modificar entornos. ENTREGA_EQUIPO separa las acciones de Manuel y Ángel; no se crean endpoints duplicados.
+- resources --sam --demo verifica código/pesos/datos existentes sin red ni instalación, con hashes SAM registrados; si faltan recursos, la CLI explícita obtiene revisiones fijadas y no sobrescribe copias incompatibles.
+- Se repitió python -m ai.pipeline desde la raíz y produjo cinco resultados reales con caché. Enlaces internos verificados. Instalación limpia y reproducción por otro integrante siguen T26-P.
+
+- Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **53 passed, 13 subtests passed in 38.10s**.
+- Sin instalaciones, CUDA ni API del equipo; siguiente T27-L.
 - Commit por tarea en `feature/ai-exploracion`.
