@@ -1,4 +1,10 @@
-# PROGRESS.md — Bitácora de P4 (IA y catálogo)
+# PROGRESS.md — Bitácora de P4 (IA y ranking visual)
+
+**Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
+servidor e integración al final. Siguiente tarea: **T11**. Ver
+[TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
+Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
+no sustituyen el tablero actual ni se reescriben sus resultados.
 
 Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado · limitaciones · commit.
 
@@ -516,3 +522,42 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 - Validación de esta aclaración: `git diff --check`; contenido documental.
   Publicación sigue pendiente por autenticación, aunque los cambios quedan
   guardados localmente en la rama acordada.
+
+## R01 — Reorganización: CPU primero, servidor al final · 2026-11-10
+
+- **Estado:** `completed` para la reorganización documental, autorizada por
+  Brandon. No se ejecutó T11 ni se añadió funcionalidad, dependencias o pesos.
+- **Orden:** base conservada → recorte/DINO CPU (T11–T13) → candidatos externos
+  (T14–T17) → ranking/evaluación (T18–T20) → flujo local/errores/caché/mediciones
+  (T21-L–T27-L) → validación GPU e integración. Video queda opcional.
+- **Trazabilidad:** IDs anteriores conservados. T09-L identifica la interfaz
+  inicial ya probada; T09-P sigue sin aceptación de Manuel. Las tareas compartidas
+  de integración/cierre se dividen en entregable local y validación externa,
+  sin completar GPU ni criterios pendientes por haber cambiado el orden.
+- **Alcance:** T14–T17 sustituyen catálogo manual/renders obligatorios por
+  candidatos externos con imágenes suministradas por P3, preparación y caché
+  versionada. El conector actual de Sketchfab recibe texto; falta coordinar cómo
+  la referencia inicia esa obtención. DINO compara candidatos, no descubre páginas.
+- **Dependencias diferidas:** T03–T05 esperan MSI; confirmación de tipos y pruebas
+  HTTP/red/clientes esperan al equipo. T13/T20/T21-L necesitan imágenes reales;
+  si faltan, anotar el bloqueo y continuar solo con tareas independientes.
+  SAM 3D conserva su investigación y estado no disponible, fuera del cierre de búsqueda.
+- **Reglas ajustadas:** orden por dependencias, commit por tarea, push por fase
+  local y validación documental proporcional. Se elimina el rebase automático
+  de una rama compartida; se conserva la política Graphify solo en rama IA.
+- **Archivos:** TASKS y PLAN_P4_IA reescritos; README, resumen, interfaz,
+  propuesta GPU, notas SAM 3D y notas de trabajo sincronizados. No se eliminó
+  ningún archivo ni se modificaron raíz, backend, frontend o el grafo.
+- **Git comprobado:** `git status --short --branch`, `git fetch origin` y
+  `git rev-list --left-right --count HEAD...origin/feature/ai-exploracion`:
+  `0 0` antes de esta edición, HEAD/remoto en `87bc082`. Los commits anteriores
+  ya están publicados; el error de autenticación queda como antecedente.
+  `origin/main` continúa en `116f440`, sin integrar como parte de esta tarea.
+- **Validación:** `git diff --check` código 0. Revisión Python de enlaces y
+  estructura: 9 archivos documentales dentro de ai/, 36 enlaces relativos válidos,
+  bloques Markdown cerrados, IDs T00–T27 conservados y criterios externos todavía
+  pendientes. Se revisó el diff para comprobar estados y concordancia de fases.
+  No se repite inferencia ni pytest por cambios solo documentales; la última suite
+  de código registrada conserva 35 pruebas y 5 subtests, sin presentarla como nueva.
+- **Commit previsto:** `ai(R01): reorganizar plan CPU antes de servidor`.
+  La siguiente tarea ejecutable es **T11**, preparación del recorte con pruebas.

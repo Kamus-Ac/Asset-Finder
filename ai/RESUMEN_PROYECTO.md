@@ -1,6 +1,6 @@
 # Asset Finder — resumen para Brandon
 
-Estado revisado: **9 de noviembre de 2026**.
+Estado revisado: **10 de noviembre de 2026**.
 
 ## Qué estamos construyendo
 
@@ -34,9 +34,9 @@ Entregar la **comprensión y comparación visual**, dentro de `ai/`:
 ## Dónde estamos parados
 
 - **IA:** SAM 2.1 Tiny probado en CPU con caja y puntos. T06–T08 y T10 completas;
-  última validación: 31 pruebas y 5 subtests.
+  última suite registrada: 35 pruebas y 5 subtests, incluido el instalador GPU.
 - **Interfaz:** `service.py` devuelve máscara/score y permite PNG. T09 espera
-  confirmación de Manuel: FASE 2 aún sin aceptación total. `embed`/`search` no disponibles.
+  confirmación de Manuel (T09-P diferida). `embed`/`search` no disponibles.
 - **Backend:** `/health` y búsqueda textual Sketchfab en `/catalog/search`;
   sin integración visual. No se probó Sketchfab en vivo en esta revisión.
 - **Web:** tarjetas y cubos Three.js de demostración. Móvil y flujo completo pendientes.
@@ -46,12 +46,18 @@ Entregar la **comprensión y comparación visual**, dentro de `ai/`:
 
 ## Alcance y siguiente paso
 
-Solo modelos de IA de Meta, ejecutados en servidor. Tailscale por integrar;
-video opcional. SAM 3D: **servicio no disponible**, investigación T10 terminada.
-Adaptar con P3 los planes antiguos de catálogo manual al enfoque de fuentes externas.
+**Orden autorizado:** recorte/DINO CPU → candidatos externos → ranking/evaluación
+→ flujo local y arranque → CUDA/API/red con el equipo. **Siguiente tarea: T11**,
+preparar el recorte. La reorganización conserva los IDs y las pruebas anteriores.
 
-Siguiente: confirmar interfaz con Manuel → recorte/DINO → ranking e integración.
-FASE 1: T03 en curso; entorno Python 3.12.16 creado en la MSI, falta instalar y probar CUDA.
+Solo modelos de IA de Meta; desarrollo CPU local y ejecución final en servidor.
+T03–T05 quedan diferidas: entorno Python 3.12.16 creado en la MSI, CUDA pendiente.
+Manuel obtiene candidatos/imágenes y acuerda cómo la referencia inicia esa búsqueda;
+P4 los compara. Una captura real sirve para pruebas, no es un catálogo manual obligatorio.
+
+Tailscale e integración con clientes pendientes; video opcional. SAM 3D:
+**servicio no disponible**, T10 terminada; requiere resolver viabilidad aparte.
+Dejar listo el módulo local no acredita todavía GPU, API ni aceptación por el equipo.
 
 Seguimiento: [TASKS](TASKS.md) · [Interfaz P3](INTERFAZ_P3.md) ·
 [Mediciones](MEDICIONES.md) · [SAM 3D](NOTAS_SAM3D.md).

@@ -1,209 +1,134 @@
-# PLAN_P4_IA — Cómo trabajaremos la IA de Asset Finder
+# PLAN P4 IA — Desarrollo local primero, servidor al final
 
-Responsable: **Brandon / P4**. Base: `Asset-Finder/`. Código propio: `ai/`.
-Fuentes del alcance: [PLAN_P4.md](../PLAN_P4.md), [PLAN_EQUIPO.md](../PLAN_EQUIPO.md)
-y [CONTRATOS_API.md](../CONTRATOS_API.md). Este archivo es la bitácora operativa;
-`PLAN_P4.md` describe qué entregar. No modifica contratos ni confirma las
-simplificaciones que el equipo aún debe acordar.
+**Brandon / P4 · actualizado el 10 de noviembre de 2026.**
+Trabajo en `ai/`, rama `feature/ai-exploracion`.
+[TASKS.md](TASKS.md) es la lista única de tareas, estados y aceptación;
+[PROGRESS.md](PROGRESS.md) conserva la evidencia. Este archivo explica el orden.
 
-## Cómo marcaré el progreso
+## Objetivo
 
-- `[ ]` pendiente, `[x]` terminado con evidencia. Estados: `queued`, `running`,
-  `completed`, `failed`. Solo marcaré tareas que haya ejecutado y comprobado.
-- Antes de cada sesión leeré este plan y el estado de Git; trabajaré en una rama
-  `feature/ai-exploracion`, según la indicación posterior de Brandon. Antes de
-  cambiar dependencias presentaré las versiones y
-  pediré aprobación al dueño, sin reutilizar la instalación CPU como entorno CUDA.
-- Cada tarea seguirá: inspección → cambio pequeño → prueba real → registro del
-  resultado y limitaciones → actualización de esta lista. Un fallo se anotará
-  con su error; no avanzará a `completed` por haber escrito código.
-- Al cerrar una sesión indicaré qué terminó, qué falta y el siguiente ID.
-  Guardaré tiempos/VRAM en [MEDICIONES.md](MEDICIONES.md), con comando y entorno.
-- Coordinaré firmas con Manuel desde E2. Los mensajes/PR externos se prepararán
-  para revisión; no enviaré comunicaciones al equipo sin indicación de Brandon.
+Entregar el módulo que separa el objeto seleccionado con **SAM 2.1 Tiny**, obtiene
+su representación con **DINOv2 ViT-S/14** y ordena modelos candidatos de páginas
+externas por similitud visual. La aplicación devuelve enlaces; disponer de una
+miniatura no garantiza disponer del archivo 3D para la escena.
 
-## Tablero
+El desarrollo y las pruebas funcionales se harán primero en **CPU local**.
+En el producto, SAM y DINO se ejecutarán en el **servidor**. Elegir CPU para
+desarrollar no cambia esa arquitectura ni acredita su rendimiento en CUDA.
 
-| Etapa | Estado | Resultado para cerrar |
-| --- | --- | --- |
-| E0 · Elegir base y auditar CPU | completed | Comparación, recursos recuperados y prueba documentada |
-| E1 · Entorno del servidor | running | T01 completada en MSI/RTX; siguiente: entorno CUDA T03 |
-| E2 · Segmentación e interfaz temprana | running | Código probado; falta confirmación de tipos por P3 |
-| E3 · Recorte y embedding | queued | `embed` real y preparación consistente |
-| E4 · Catálogo e índice | queued | 20–30 assets con metadatos y vectores versionados |
-| E5 · Ranking y evaluación | queued | `search` real, top-k por asset y métricas |
-| E6 · Integración y caché | queued | Flujo real con P3, errores y caché verificados |
-| E7 · Cierre y demo | queued | Arranque reproducible y pruebas por otro integrante |
-| I1 · Investigación SAM 3D | completed | Requisito oficial 32 GB VRAM; servicio no disponible en los equipos de 8 GB |
+## Orden de ejecución
 
-## E0 — Base correcta y punto de partida
+| Fase | Tareas | Estado al reorganizar | Condición de cierre |
+| --- | --- | --- | --- |
+| 0 · Base existente | T00–T02, T06–T08, T09-L, T10 | Terminada con evidencia local/documental | Conservar lo probado; CUDA y aceptación P3 siguen aparte |
+| 1 · Recorte y DINO CPU | T11 → T12 → T13 | Pendiente | Embeddings reales y prueba de cordura |
+| 2 · Candidatos externos | T14 → T15 → T16 → T17 | Pendiente | Imágenes y vectores trazables, caché e integridad |
+| 3 · Ranking | T18 → T19 → T20 | Pendiente | Ranking probado y evaluación con datos reales |
+| 4 · Entrega local | T21-L → T22-L → T23 → T25-L → T26-L → T27-L | Pendiente | Flujo completo CPU, errores, mediciones y arranque |
+| 5 · Servidor y equipo | T03 → T04 → T05; T09-P, T21-P, T22-P, T25-P–T27-P | Diferida | CUDA, API, red y reproducción por otro integrante |
 
-- [x] E0.1 Comparar ambas carpetas: `Asset-Finder` tiene historial del equipo,
-  documentos, backend y prueba IA; `asset-finder` conserva el entorno local CPU.
-  Comparación y decisión: [README de IA](README.md).
-- [x] E0.2 Mantener `Asset-Finder` como proyecto de desarrollo. La dependencia
-  temporal del entorno antiguo se eliminó: ahora se usa `ai/.venv-sam2` local.
-- [x] E0.3 Copiar localmente el código SAM y el checkpoint Tiny a `ai/sam2/`,
-  excluidos de Git. Verificar hash del checkpoint. No copiar entornos virtuales.
-- [x] E0.4 Cambiar solo la ruta editable obsoleta de `requirements-sam2.txt`
-  a `./sam2`, resoluble desde `ai/`. Conservar las versiones CPU existentes.
-- [x] E0.5 Ejecutar el script del proyecto actual con el entorno CPU antiguo;
-  validar tamaños, máscara binaria y canal alfa. Evidencia: [MEDICIONES.md](MEDICIONES.md).
-- [x] E0.6 Revisar visualmente la selección: el rectángulo fijo seleccionó
-  fondo/pared, no un objeto útil. El arranque funciona; la calidad queda pendiente en E2.
-- [x] E0.7 Registrar que este entorno no tiene CUDA disponible. `git fetch`
-  falla por credenciales HTTPS; actualización remota y rebase quedan pendientes.
+**La siguiente tarea es T11.** Los IDs se conservan para no perder la relación
+con commits y mediciones anteriores. `-L` identifica el entregable local y `-P`
+la validación con P3/servidor. La tarea completa exige ambos cuando aplique.
+Si una dependencia externa bloquea una prueba, se registra antes de continuar
+con una tarea independiente; no se presenta el bloqueo como una fase terminada.
 
-## E1 — Entorno real del servidor (día 1 orientativo)
+## Flujo que dejaremos probado localmente
 
-- [x] E1.1 Con P3, identificar el servidor donde correrá la IA y comprobar
-  GPU, driver, sistema operativo, Python y memoria. Brandon confirma la laptop
-  de Angel. Diagnóstico MSI real: Ubuntu 26.04.1/WSL2, Python 3.14.4,
-  7.61 GiB RAM visibles; NVIDIA-SMI detecta RTX 4070 Laptop/8188 MiB/610.78.
-  Todavía no acredita PyTorch CUDA; eso corresponde a E1.2/E1.3.
-- [ ] E1.2 Consultar fuentes oficiales de PyTorch/SAM/DINO; proponer versiones
-  compatibles y comandos antes de instalar. Con aprobación, crear entorno nuevo
-  bajo `ai/`, separado de CPU; registrar dependencias reproducibles sin rutas personales.
-- [ ] E1.3 Verificar `torch.cuda.is_available()`, dispositivo y versiones reales.
-  Registrar carga SAM y DINO, tiempos y pico de VRAM; considerar calentamiento y
-  sincronización CUDA al medir. Si GPU no está disponible, acordar CPU con P3.
-- [ ] E1.4 Dejar un comando de arranque que use el entorno de `Asset-Finder`,
-  con CUDA en el servidor de Angel. La prueba CPU local ya es independiente
-  de la carpeta antigua; esto no completa el arranque CUDA del servidor.
+```text
+Imagen RGB + selección
+         │
+         ▼
+     SAM 2 CPU ──► máscara ──► recorte RGB ──► DINO CPU ──► vector consulta
+                                                                    │
+Candidatos externos suministrados por P3                             │
+         │                                                          │
+         ▼                                                          ▼
+ imágenes/vistas ──► preparación ──► DINO CPU / caché ──► ranking coseno
+                                                             │
+                                                             ▼
+                                           resultados con enlace y procedencia
+```
 
-**Cierre:** otra sesión puede cargar los modelos con los comandos documentados;
-el modo CPU/GPU y los recursos disponibles quedan explícitos.
+Durante las pruebas podemos usar una captura de candidatos reales, con origen y
+permisos documentados. Eso permite repetir resultados sin conectarse a la MSI.
+Los fixtures sintéticos sirven para validadores/ranking, nunca sustituyen la
+inferencia ni una evaluación real. El lote candidato puede cambiar en cada consulta;
+no se limita el producto a una colección manual ni a carpetas del usuario.
 
-## E2 — Segmentación reutilizable e interfaz temprana (día 2)
+## Qué cambia frente al plan anterior
 
-- [x] E2.1 Crear `ai/segmentation.py`: `segment(image, box_xyxy, points)` sin imagen
-  ni rectángulo fijos. Acordar tipos de retorno (máscara/puntuación) con P3;
-  cargar el modelo una vez por proceso y permitir configurar CPU/CUDA.
-- [x] E2.2 Validar RGB, dimensiones, coordenadas xyxy, puntos positivos/negativos
-  y selecciones inválidas según el contrato; conservar la correspondencia con
-  la imagen normalizada por orientación. No cambiar unidades silenciosamente.
-- [x] E2.3 Probar selección manual de un objeto identificable con rectángulo
-  y con puntos. Verificar máscara no vacía, forma, recorte y superposición visual.
-- [ ] E2.4 Publicar temprano `ai/service.py` con firmas estables para P3.
-  Operaciones no implementadas: error explícito «servicio no disponible».
-  Si P3 requiere stubs, usar fixtures separados y `stub: true`, nunca resultados
-  ficticios presentados como inferencia real ni cambios silenciosos del contrato.
-  Implementación local validada; propuesta en `INTERFAZ_P3.md`. Falta confirmación
-  escrita de Manuel y publicación GitHub (B01); no se declara integración real.
+- **CUDA pasa al final:** T03–T05 conservan lo preparado y la aceptación pendiente.
+  No hay que esperar a Ángel para recortar imágenes, implementar DINO CPU o ranking.
+- **T09 se divide:** segmentación/PNG ya están probados; falta la aceptación de
+  Manuel. Las firmas de embedding y búsqueda actuales son reservas, y la propuesta
+  debe concretar cómo recibe candidatos antes de pedir aprobación final.
+- **T14–T17 cambian de enfoque:** sustituyen colección fija/renders obligatorios
+  por recepción de imágenes de fuentes externas, preparación y caché de vectores.
+  Blender y disponer de GLB no son prerrequisitos para comparar miniaturas.
+- **Integración y cierre se separan:** primero pruebas dentro de IA; después
+  pruebas HTTP, red, GPU y aceptación por otro integrante. La evidencia CPU se
+  conserva separada de la GPU y de las pruebas controladas con dobles.
+- **Orden por dependencias:** el avance se mide con aceptación y evidencia,
+  no con los días del calendario original ni un porcentaje estimado.
 
-**Cierre:** otro script importa y usa `segment` sin copiar código; los casos
-inválidos tienen errores claros. Ejecutar I1 durante el día 2 con tiempo acotado.
+Los documentos de raíz [PLAN_P4.md](../PLAN_P4.md),
+[PLAN_EQUIPO.md](../PLAN_EQUIPO.md) y [CONTRATOS_API.md](../CONTRATOS_API.md)
+son antecedentes compartidos. Este plan actualiza el trabajo de P4 por autorización
+de Brandon; no cambia endpoints ni compromisos de otros integrantes.
 
-## E3 — Preparación del recorte y DINO (día 3)
+## Límites entre áreas
 
-- [ ] E3.1 Crear `ai/preprocess.py`: aplicar máscara, recortar y componer fondo
-  RGB uniforme. Reutilizar la preparación acordada en consultas y vistas del catálogo.
-- [ ] E3.2 Crear `ai/embedding.py`: DINOv2 ViT-S/14 real, modo evaluación,
-  inferencia sin gradientes y vector normalizado. Registrar dimensión real,
-  pesos y configuración; rechazar máscaras vacías y vectores inválidos.
-- [ ] E3.3 Comparar fotos del mismo objeto y de objetos distintos; registrar
-  las similitudes observadas aunque no cumplan la hipótesis esperada. No inventar precisión.
+| P4 / Brandon (`ai/`) | P3 / Manuel (`backend/` y contratos) |
+| --- | --- |
+| SAM, recorte, DINO y ranking | Buscar en fuentes externas y obtener candidatos |
+| Validar imágenes recibidas y metadatos internos | Descargar/validar URLs e imágenes de fuentes |
+| Caché visual versionada y errores del módulo | API, tareas, archivos, acceso y conectividad |
+| Proponer formatos y probar el flujo CPU | Aceptar tipos y conectar clientes con IA |
+| Preparar pruebas y comandos CPU/CUDA | Coordinar despliegue y entrega de modelos accesibles |
 
-**Cierre:** `embed(image)` devuelve vectores finitos, de dimensión consistente
-y norma unitaria; resultados y tiempos quedan registrados.
+El conector actual de Sketchfab recibe texto. Sigue pendiente acordar con Manuel
+cómo se obtiene el lote de candidatos a partir de la referencia del usuario
+(términos, filtros u otra estrategia). DINO compara imágenes ya disponibles;
+no es un buscador de internet ni genera por sí solo la consulta textual.
+Esa decisión no bloquea T11, pero sí condiciona el flujo final desde el cliente.
 
-## E4 — Catálogo y versionado (día 3–4)
+## Dependencias y comprobaciones
 
-- [ ] E4.1 Reunir 20–30 assets con origen y licencia; desconocidos van `null`.
-  `model_available` solo será verdadero con archivo real accesible y entregable
-  por P3; si solo hay miniatura, será falso.
-- [ ] E4.2 Si hay GLB, renderizar 4–6 vistas por asset con Blender, encuadre y
-  fondo consistentes. Conservar el vínculo vista → asset y la preparación usada.
-- [ ] E4.3 Crear `ai/index_catalog.py`: vectores `.npy` y metadatos JSON con
-  asset/vista, versión de índice, modelo/pesos, dimensión y preprocesado.
-  Usar NumPy como propone PLAN_P4; confirmar esta simplificación con el equipo.
-- [ ] E4.4 Verificar correspondencia entre vectores y metadatos, IDs únicos,
-  archivos disponibles y rechazo de índices incompatibles. Mantener datos
-  generados fuera de Git; acordar con P3 cualquier exclusión global faltante.
+- Reutilizar `ai/.venv-sam2` para inferencia CPU y `ai/.venv-tests` para pytest.
+  Antes de añadir paquetes: revisar compatibilidad, presentar versiones y pedir
+  aprobación. T12 fijará revisión/pesos oficiales DINO y comprobará inferencia real.
+- GPU: se conserva la combinación aprobada en
+  [PROPUESTA_ENTORNO.md](PROPUESTA_ENTORNO.md), sin instalarla localmente.
+  La MSI tiene `.venv-gpu` en la raíz con Python 3.12.16. T03 aún necesita su
+  ejecución CUDA real, informe y lock; T04 medirá SAM y DINO en ese dispositivo.
+- Pruebas reales necesitan pesos e imágenes disponibles con procedencia conocida.
+  Si faltan datos para T13/T20/T21-L, registrar lo que falta sin inventar resultados.
+- Cada tarea: prueba pertinente → registro → casilla aceptada → commit.
+  Push al cerrar cada fase local. Consultar estado remoto sin rebase automático
+  de la rama compartida. Graphify puede publicarse solo en la rama IA, separado
+  de los cambios destinados a main; preparar allí un PR sin esos archivos.
 
-**Cierre:** el índice se reconstruye con un comando documentado y no se recalcula
-el catálogo entero al hacer una consulta.
+## Qué quedará pendiente al terminar las fases locales
 
-## E5 — Búsqueda y evaluación (día 4)
+1. Ejecutar instalador y pruebas CUDA en la MSI; resolver cualquier incompatibilidad
+   real y medir tiempos/VRAM. Es validación, no solo cambiar `device` a CUDA.
+2. Aceptación de tipos por Manuel y conexión de candidatos reales/API/archivos.
+3. Prueba de red y flujo desde web/móvil, más reproducción por otro integrante.
+4. Revisión y PR limpio para integración, con limitaciones conocidas.
 
-- [ ] E5.1 Crear `ai/search.py`: `search(vector, k)`, coseno, agrupación por
-  asset tomando su mejor vista y top-k sin repetir el mismo asset.
-- [ ] E5.2 Probar índice vacío, k inválido o mayor que el catálogo, dimensiones
-  incompatibles y varias vistas del mismo asset. Acordar con P3 cómo traducir
-  resultados internos al formato de `CONTRATOS_API.md`.
-- [ ] E5.3 Evaluar 10–15 consultas con referencia conocida y 3–5 sin coincidencia
-  clara. Registrar conjunto, top-1/top-5 y tiempos; separar consultas de las
-  vistas indexadas. No presentar similitud como porcentaje de acierto.
+Por tanto, **listo para desplegar** exige haber demostrado el flujo CPU y tener
+comandos/recursos claros; no significa que el producto esté integrado ni que solo
+falte pegar una URL.
 
-**Cierre:** ranking verificable con datos reales y evaluación reproducible,
-incluyendo limitaciones cuando el catálogo no contenga el objeto.
+## SAM 3D y opcionales
 
-## E6 — Integración con P3 y caché (día 5)
+T10 ya investigó **SAM 3D Objects**: su configuración oficial documentada pide
+32 GB de VRAM y la MSI tiene unos 8 GB. La generación sigue como
+**servicio no disponible**. No se ha ejecutado ni se promete una versión de menor
+memoria. Activarla requiere una evaluación aparte de hardware, entorno, pesos y
+salidas; no es la última conexión pendiente del buscador.
+Fuentes y alcance: [NOTAS_SAM3D.md](NOTAS_SAM3D.md).
 
-- [ ] E6.1 Con Manuel, probar imagen → selección → máscara → embedding → assets
-  mediante API real o mock explícitamente acordado. P3 implementa endpoints,
-  estados `queued/running/completed/failed`, archivos y trabajador GPU serializado.
-- [ ] E6.2 Verificar errores de selección, modelo/pesos ausentes, índice
-  incompatible y memoria insuficiente; evitar fallos presentados como éxito.
-- [ ] E6.3 Añadir caché de consulta con claves que incluyan contenido/selección,
-  modelo/pesos y preprocesado. Probar acierto e invalidación; no cachear errores.
-- [ ] E6.4 Solo si sobra tiempo, extraer un fotograma con FFmpeg y reutilizar
-  el mismo flujo, sin prometer soporte de video completo.
-
-**Cierre:** prueba conjunta documentada, con archivos y resultados reales;
-ningún cambio de contrato ni carpeta ajena se hace sin coordinación.
-
-## I1 — SAM 3D: investigación, no dependencia del MVP (día 2)
-
-- [x] I1.1 Revisar requisitos y licencias oficiales actuales; contrastar con
-  el servidor real y posibles alternativas, en un máximo de 2 horas.
-- [x] I1.2 Guardar fuentes, hardware y conclusión en `ai/NOTAS_SAM3D.md`.
-  No instalar ni descargar recursos grandes sin revisar viabilidad y aprobación.
-  Mientras no haya validación: **servicio no disponible**.
-
-**Cierre:** conclusión verificable; no requiere un generador 3D funcionando.
-
-## E7 — Medición final, documentación y demo (día 6–7)
-
-- [ ] E7.1 Medir por separado carga, segmentación, preparación, embedding y
-  búsqueda; registrar dispositivo, repeticiones, VRAM y límites de la medición.
-- [ ] E7.2 Actualizar `ai/README.md`, dependencias y comandos de prueba para
-  que otro integrante reproduzca el módulo desde el entorno acordado.
-- [ ] E7.3 Ensayar una consulta real y los errores esperados; dejar PR pequeños
-  para revisión por otro integrante. Registrar quién pudo reproducirlo.
-
-**Cierre:** no basta con código escrito: el módulo se prueba, documenta e integra.
-
-## Última actualización — 9 de noviembre de 2026
-
-- **Terminado:** E0 completo; comparación, copia local de SAM, ruta corregida,
-  prueba CPU y validación de archivos. Entorno CPU propio instalado con las
-  mismas versiones aprobadas, probado sin accesos a la carpeta antigua.
-  Resultados en `MEDICIONES.md`; seguimiento de tareas en `TASKS.md`.
-- **T02 aprobada:** Brandon autoriza la combinación de `PROPUESTA_ENTORNO.md`.
-  El 9 de noviembre Brandon informa que la laptop de Angel ya está preparada.
-  El diagnóstico de la MSI confirma NVIDIA en WSL. Falta comprobar Python 3.12
-  e instalar/validar el entorno; la aprobación original sigue vigente.
-- **Cambio de alcance remoto:** main ahora prioriza candidatos externos y tiene
-  conector Sketchfab. Las etapas de catálogo manual deben revisarse con P3 antes
-  de implementarse; el diagnóstico T01 y la preparación de modelos siguen siendo útiles.
-- **Falta:** entorno propio CUDA, confirmación de interfaz por Manuel,
-  DINO, catálogo, búsqueda, integración, caché y evaluación. I1 completada.
-- **T06 completada en CPU:** módulo reutilizable, modelo en caché y prueba real.
-- **T07 completada:** RGB, cajas, puntos y selección vacía se validan antes de
-  cargar el predictor; 28 pruebas pasan, incluida regresión SAM real en CPU.
-- **T08 completada:** selección visible de la silla amarilla con caja y puntos,
-  revisada visualmente; artefactos locales ignorados por Git.
-- **T09 implementada:** interfaz Python y codificador PNG probados con SAM real;
-  31 pruebas pasan. La aceptación escrita de Manuel sigue pendiente.
-- **T10 completada:** requisitos/licencia y alternativas documentados en
-  `NOTAS_SAM3D.md`; generación 3D no disponible, sin instalaciones nuevas.
-- **FASE 2:** trabajo local terminado; falta aceptación escrita de T09 por Manuel
-  y publicación. No se inicia FASE 3 en esta sesión.
-- **T01 completada:** recibido el diagnóstico de la MSI/RTX correcta y
-  validación local en verde. Los informes de la Dell y Luis quedan separados.
-- **Siguiente tarea:** T03, comprobar Python 3.12/directorios en MSI y después
-  instalar/validar CUDA con las versiones aprobadas. El usuario ya creó
-  `.venv-gpu` raíz con Python 3.12.16; instalador preparado, ejecución GPU pendiente.
-  Main ya se integró;
-  la publicación conserva el bloqueo histórico de autenticación.
+T24 (fotograma de video) se considera después del flujo de imagen y solo si sobra
+tiempo. No bloquea la entrega de búsqueda visual.

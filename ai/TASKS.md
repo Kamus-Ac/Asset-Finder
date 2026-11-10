@@ -1,214 +1,256 @@
-# TASKS.md — Lista de tareas de P4 (IA y catálogo), orden estricto, una a la vez
+# TASKS — IA y ranking visual · Brandon / P4
 
-Responsable: Brandon (P4). Carpeta propia: `ai/`. Rama acordada con Brandon:
-`feature/ai-exploracion` (trabajo y publicación; instrucción del 5 de noviembre).
-Alcance y criterios de cada etapa: `PLAN_P4.md` (raíz) y `ai/PLAN_P4_IA.md`. Contratos actuales: `CONTRATOS_API.md` (raíz).
+Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
+Área: `ai/`. Rama de trabajo y publicación: **`feature/ai-exploracion`**.
+Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
+[PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-Leyenda: `[ ]` pendiente · `[x]` hecha con evidencia · `[NEEDS USER]` requiere algo de Brandon o del equipo (implementa lo posible, anota el bloqueo y sigue con la siguiente tarea que no dependa de él).
+**Siguiente tarea ejecutable: T11.** Esta reorganización no implementa tareas nuevas.
+Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
+Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
+separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
 
-## Reglas de trabajo (obligatorias)
+Leyenda: `[x]` aceptada con evidencia · `[ ]` pendiente · `[NEEDS USER]`
+depende de datos, acceso o confirmación externa. Una tarea bloqueada no bloquea
+otras que sean independientes. No marcar la tarea principal completa si falta un subcriterio.
 
-1. **Una tarea a la vez, en orden.** No saltar tareas ni empezar la siguiente sin cerrar la actual. Si una tarea queda bloqueada, márcala como bloqueada en `PROGRESS.md` y avisa antes de continuar.
-2. **Antes de codear:** `git fetch && git rebase origin/main`. Si falla por credenciales, anótalo y trabaja en local sin subir nada.
-3. **Después de CADA tarea**, en este orden:
-   - Validación: `python -m py_compile ai/*.py` y `python -m pytest ai/tests -q` (a partir de T01 existen las pruebas). Si una tarea solo es de investigación o medición, su evidencia es el archivo indicado en su criterio.
-   - Marcar `[x]` aquí **solo** si la validación pasó. Un fallo se queda `[ ]` con el error anotado.
-   - Anotar en `ai/PROGRESS.md`: fecha, ID, comando ejecutado, resultado, limitaciones.
-   - Commit: `ai(T0X): descripción corta`. Un commit por tarea.
-   - Push al terminar cada FASE, con sus tareas aceptadas y validación en verde.
-     Si falla la autenticación de Git, conservar los commits locales y no subir.
-4. **Nunca instalar dependencias** sin presentar versiones y recibir aprobación (ver T02).
-5. **Trabajo de P4 en `ai/`.** Si una tarea necesita otra carpeta (`backend/`, `.gitignore`, contratos), se pide el cambio a su dueño. Excepción autorizada por Brandon: `graphify-out/`, según la regla 6.
-6. **Datos y pesos fuera de Git:** checkpoints, `.venv*`, renders e imágenes privadas.
-   **Graphify:** se permite versionar y subir `graphify-out/` a `feature/ai-exploracion`.
-   **No debe integrarse a `main`.** Mantener sus cambios en commits separados;
-   antes de un PR a main, preparar una rama de integración sin esos archivos y
-   comprobar que `git diff --name-only origin/main...HEAD -- graphify-out/` esté vacío.
-   Añadirlos a `.gitignore` no excluye archivos que ya están versionados.
-7. **Resultados reales o explícitamente marcados.** Nada de datos de ejemplo presentados como salida de modelo. Errores esperados: «servicio no disponible».
+## Reglas de trabajo
 
----
+1. **Una tarea a la vez, siguiendo el orden de estas fases y sus dependencias.**
+   Registrar el bloqueo en PROGRESS y avisar antes de seguir con una independiente.
+   T03–T05 y T09-P quedan diferidas expresamente; no impiden empezar T11.
+2. **Git:** revisar `git status` y consultar `git fetch origin` antes de implementar.
+   Comparar con la rama remota IA y con main. No hacer rebase automático de esta
+   rama compartida ni reescribir sus commits. Integrar main en una operación
+   separada y revisada, conservando el trabajo y avisando de conflictos.
+   No hacer commits en main, force push ni subir a otra rama por defecto.
+3. **Después de cada tarea de código:** ejecutar desde la raíz
+   `ai/.venv-tests/bin/python -m py_compile ai/*.py` y
+   `ai/.venv-tests/bin/python -m pytest ai/tests -q`, más la prueba real pertinente.
+   Una omisión de inferencia por falta de pesos no acredita funcionamiento del modelo.
+   Para documentación: revisar consistencia, enlaces y `git diff --check`; no repetir
+   inferencia por editar texto. Registrar comando, resultado y límites en PROGRESS,
+   actualizar esta lista y hacer un commit por tarea: `ai(TXX): descripción`.
+   Publicar en la rama IA al cerrar cada fase local, sin esperar las fases del
+   servidor, o cuando Brandon lo solicite. Si falla autenticación, conservar commits.
+4. **Dependencias:** presentar versiones y obtener aprobación antes de instalar
+   paquetes nuevos o cambiar los existentes. Las aprobaciones anteriores siguen
+   vigentes para sus combinaciones exactas. Conservar separados CPU, pruebas y GPU;
+   no cambiar `requirements-sam2.txt` para simular un entorno CUDA.
+5. **Área propia:** editar `ai/`. Backend, fuentes externas, endpoints y contratos
+   pertenecen a Manuel; preparar una propuesta concreta si hace falta cambiarlos.
+   Los planes de raíz son antecedentes: este orden sustituye para P4 las partes
+   antiguas de catálogo manual, calendario fijo y GPU como prerrequisito universal.
+6. **Git y datos:** no subir entornos, secretos, checkpoints ni resultados grandes
+   o privados. `graphify-out/` sí puede subirse a **feature/ai-exploracion**, en
+   commits separados, **nunca a main**. Preparar una rama de integración limpia
+   para el PR y comprobar que
+   `git diff --name-only origin/main...HEAD -- graphify-out/` esté vacío.
+   `.gitignore` no retira archivos ya versionados.
+7. **Resultados reales:** no sustituir modelos por vectores ficticios. Los fixtures
+   sintéticos solo prueban lógica y se identifican como tales. Distinguir CPU, CUDA,
+   pruebas con dobles y pruebas HTTP. Pesos o servicio ausentes: error explícito
+   «servicio no disponible». La similitud es ranking, no porcentaje de acierto.
 
-## Estado base
+## FASE 0 — Base existente y decisiones conservadas
 
-- [x] **T00 Base y auditoría CPU (E0).** Completada: comparación de carpetas, copia local de SAM y checkpoint Tiny en `ai/sam2/`, ruta corregida en `requirements-sam2.txt`, prueba CPU ejecutada y documentada en `ai/MEDICIONES.md`. Limitación: el rectángulo fijo seleccionó fondo, no el objeto.
+- [x] **T00 Base CPU independiente.** Código y entorno de este proyecto no dependen
+  de la carpeta antigua. Recursos locales de SAM ignorados por Git.
+- [x] **T01 Diagnóstico de la MSI.** Evidencia real del 9 de noviembre:
+  Ubuntu 26.04.1/WSL2, RTX 4070 Laptop/8188 MiB, driver 610.78, RAM visible 7.61 GiB.
+  NVIDIA-SMI funciona; esto no acredita inferencia CUDA. Informes Dell/Luis separados.
+- [x] **T02 Propuesta GPU aprobada.** Se conserva la combinación aprobada el
+  6 de noviembre en [PROPUESTA_ENTORNO.md](PROPUESTA_ENTORNO.md); no reinstalar ahora.
+- [x] **T06 Segmentación reutilizable.** SAM 2.1 Tiny real en CPU, caché por
+  dispositivo/pesos y selección por caja/puntos; CUDA seleccionable pero sin validar.
+- [x] **T07 Entradas validadas.** RGB uint8, dimensiones, cajas, puntos y labels
+  comprobados antes de cargar el predictor.
+- [x] **T08 Selección real.** Silla amarilla seleccionada con caja y puntos;
+  máscaras y superposiciones revisadas, sin afirmar precisión con ground truth.
+- [x] **T09-L Interfaz inicial local.** `service.py` expone segmentación real y PNG;
+  `embed`/`search` fallan explícitamente hasta implementarlos. T09-P sigue pendiente.
+- [x] **T10 Investigación SAM 3D.** Requisitos/licencia documentados en
+  [NOTAS_SAM3D.md](NOTAS_SAM3D.md). Generación no disponible; no bloquea la búsqueda.
 
----
+Última suite de código registrada: **35 pruebas y 5 subtests**, incluidas regresiones
+del instalador. Es evidencia CPU/local, no una prueba GPU ni de integración HTTP.
 
-## FASE 1 — Entorno del servidor (E1)
+## FASE 1 — Recorte y embeddings reales en CPU
 
-- [x] **T01 Diagnóstico del servidor (E1.1).** Crear `ai/tests/` con una prueba mínima que pase (`test_smoke.py`) para fijar la validación. Registrar en `ai/MEDICIONES.md`: GPU, driver, sistema operativo, versión de Python, RAM y VRAM. Confirmar con Manuel en qué equipo correrá la IA.
-  *Aceptación:* `ai/MEDICIONES.md` tiene la salida de `nvidia-smi`, `python --version` y memoria; validación en verde.
-  **Completada el 9 de noviembre:** diagnóstico real dentro de la MSI de Angel,
-  servidor confirmado por Brandon. Ubuntu 26.04.1/WSL2, Linux x86_64, glibc 2.43,
-  Python 3.14.4 y 7.61 GiB RAM visibles. NVIDIA-SMI funciona dentro de WSL:
-  RTX 4070 Laptop GPU, driver 610.78, 8188 MiB de VRAM. Evidencia original:
-  `Pruebas/Diagnostico_MSI_Angel_2026-11-09.json`; cifras en `MEDICIONES.md`.
-  Compilación y suite local: 31 pruebas/5 subtests en verde. Esto cierra el
-  diagnóstico, no acredita PyTorch CUDA ni inferencia GPU (T03/T04).
-  Después se confirmó Python 3.12.16 en el entorno creado por el usuario para T03.
-  Los informes anteriores de la Dell y Luis se conservan separados; no son
-  evidencia del servidor. Historial y comandos completos en `PROGRESS.md`.
+- [ ] **T11 Preparación del recorte.** Crear `ai/preprocess.py`: validar imagen y
+  máscara del mismo tamaño, aplicar máscara, recortar al objeto y componer sobre
+  fondo RGB uniforme. Definir configuración reproducible para consulta y candidatos;
+  cuando el candidato no tenga máscara, usar su imagen completa y registrarlo.
+  *Aceptación:* pruebas de máscara vacía (rechazo), completa, normal, dimensiones
+  incompatibles y entradas inválidas; salida RGB determinista sin mutar entradas.
 
-- [x] **T02 Propuesta de versiones (E1.2), sin instalar.** Consultar la documentación oficial de PyTorch, SAM 2 y DINOv2. Escribir en `ai/PROPUESTA_ENTORNO.md` la combinación compatible con el driver: versión de PyTorch, CUDA, numpy, pillow y los comandos exactos.
-  *Aceptación:* propuesta revisada; no se modifica ningún entorno.
-  **Aprobada por Brandon el 6 de noviembre de 2026:** Python 3.12.x,
-  torch 2.14.1 + torchvision 0.29.1/cu126, NumPy 2.4.6, Pillow 13.0.0 y la lista
-  de `ai/PROPUESTA_ENTORNO.md`. No se requiere volver a pedir esa autorización.
-  No se ejecutaron instalaciones GPU. Manuel deberá confirmar solo si se comparte
-  ese entorno con backend. T01 ya tiene evidencia WSL real; T03 es la siguiente tarea.
+- [ ] **T12 `embed()` real con DINOv2 ViT-S/14.** Crear `ai/embedding.py`, fijar
+  revisión oficial, identidad/hash de pesos y preprocesado. Reutilizar el entorno
+  CPU existente si es compatible; no instalar el requirements de entrenamiento
+  de DINO sobre SAM. Si faltan paquetes, presentar propuesta antes de instalarlos.
+  Cargar una vez por proceso, evaluación y sin gradientes; CPU por defecto y
+  CUDA configurable sin afirmar que se probó. Conectar la implementación a `service.py`.
+  *Aceptación:* inferencia CPU real, vector finito, dimensión registrada, norma 1,
+  errores por recursos ausentes y pruebas de caché/validación. Sin pesos, no se cierra.
 
-- [ ] **T03 Entorno CUDA aislado (E1.2).** Crear `ai/.venv-gpu` (fuera de Git), instalar la combinación aprobada en T02 y generar `ai/requirements-gpu.txt` nuevo. No modificar `requirements-sam2.txt`, que fija PyTorch CPU.
-  *Aceptación:* `python -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"` muestra `True` y la GPU. Si no hay GPU, la tarea queda `[ ]` y se acuerda CPU con P3.
-  **Preparación recibida:** uv disponible; el usuario creó `.venv-gpu` en la
-  raíz de la MSI con Python 3.12.16 y confirmó `ai/` y `ai/sam2/`. Se adopta ese
-  entorno existente en vez de crear otro bajo `ai/`; código/lock siguen en `ai/`.
-  `ai/preparar_gpu.sh` instala solo las versiones aprobadas, comprueba SAM y
-  valida CUDA real antes de generar el lock. Pruebas locales del instalador y
-  suite en verde; todavía no se ejecutó en la MSI.
-  [NEEDS USER] Pasar el script a la MSI, ejecutarlo y compartir el JSON final
-  y `ai/requirements-gpu.txt`. T03 sigue `[ ]` hasta esa evidencia GPU real.
-  **Reanudación:** recibido inventario de 14 dependencias comunes, sin torch;
-  el instalador permite esas versiones exactas y sigue rechazando paquetes o
-  versiones ajenos. Copiar la versión actualizada a la MSI antes de reintentar.
+- [ ] **T13 Prueba de cordura.** Comparar dos fotos reales del mismo objeto
+  contra uno distinto, con procedencia y permisos de uso registrados.
+  *Aceptación:* similitudes y tiempos CPU tal como salgan; no ajustar el informe
+  para forzar la hipótesis. Si faltan fotos, registrar esa dependencia y continuar
+  solo con trabajo independiente. No confundir esta prueba con evaluación de búsqueda.
 
-- [ ] **T04 Carga de modelos en GPU y medición (E1.3).** Cargar SAM 2.1 Tiny y DINOv2 ViT-S/14 en CUDA. Medir tiempo de carga, tiempo de inferencia (con calentamiento y `torch.cuda.synchronize()`) y VRAM pico con `torch.cuda.max_memory_allocated()`.
-  *Aceptación:* cifras en `ai/MEDICIONES.md` con comando, repeticiones y dispositivo.
+**Cierre local:** recorte y embedding reales reproducibles, con evidencia y commit
+por tarea; push de la fase cuando estén aceptadas.
 
-- [ ] **T05 Comando de arranque reproducible (E1.4).** Crear `ai/README.md` con los comandos para activar `ai/.venv-gpu`, cargar los modelos y ejecutar la prueba. No depender de `asset-finder`.
-  *Aceptación:* los comandos funcionan copiados tal cual desde una terminal limpia.
+## FASE 2 — Candidatos externos y reutilización de vectores
 
----
+Esta fase reemplaza el catálogo manual obligatorio y los renders Blender del plan
+antiguo. P3 obtiene candidatos de páginas externas; P4 prepara sus imágenes y vectores.
+Un conjunto guardado sirve para repetir pruebas, no limita las fuentes del producto.
 
-## FASE 2 — Segmentación reutilizable (E2)
+- [ ] **T14 Contrato interno de candidatos.** Crear en `ai/` una propuesta y
+  validadores para ID/origen, enlace, nombre, licencia desconocida `null`, vistas
+  e imágenes RGB ya obtenidas por P3. Registrar si hay archivo 3D entregable;
+  una miniatura o enlace a página no lo acredita. No hacer scraping ni HTTP en IA.
+  *Aceptación:* casos válidos, duplicados, campos ausentes y errores; fixtures
+  sintéticos identificados. Propuesta lista para P3, sin cambiar su contrato HTTP.
 
-- [x] **T06 `segment()` reutilizable (E2.1).** Crear `ai/segmentation.py` con `segment(image, box_xyxy, points)` → máscara y puntuación. Cargar el modelo una sola vez por proceso y permitir elegir CPU o CUDA. Extraerlo de `prueba_sam2.py` sin copiar la lógica dos veces.
-  *Aceptación:* `ai/tests/test_segmentation.py` pasa; otro script importa `segment` sin copiar código.
-  **Completada en CPU el 6 de noviembre:** 19 pruebas pasan, incluida inferencia
-  SAM real y caché de modelo. CUDA es seleccionable y falla explícitamente si no
-  está disponible; todavía no está validada en GPU. T07/T08 siguen pendientes.
+- [ ] **T15 Preparación de imágenes candidatas.** Procesar miniaturas o vistas
+  recibidas con la configuración T11/T12; mantener vínculo vista → asset y
+  procedencia. No exigir GLB, Blender ni máscaras SAM para cada candidato.
+  *Aceptación:* entradas inválidas o sin imagen identificadas; lote parcial
+  conserva trazabilidad y fallos explícitos, sin inventar vectores ni coincidencias.
 
-- [x] **T07 Validación de entradas (E2.2).** Rechazar: imagen que no sea RGB, cajas con `x1 >= x2` o `y1 >= y2`, coordenadas fuera de la imagen, puntos con `label` distinto de 0 o 1, y listas vacías de selección.
-  *Aceptación:* pruebas para cada caso, con error claro.
-  **Completada el 9 de noviembre:** 28 pruebas pasan, con casos inválidos que
-  comprueban que no se carga SAM. RGB uint8; cajas dentro de [0, ancho/alto],
-  puntos dentro de [0, ancho/alto); label entero 0/1; se requiere caja o puntos.
-  `points=[]` es opcional si hay caja válida; `box_xyxy=[]` siempre es inválido.
+- [ ] **T16 Vectores y caché de candidatos.** Implementar construcción incremental
+  de vectores para el lote externo y reutilización por contenido/versión. Guardar
+  solo si se configura persistencia: vectores y metadatos de asset/vista, revisión
+  y pesos DINO, dimensión, preprocesado y versión de formato. Recursos fuera de Git.
+  *Aceptación:* admite nuevos candidatos en cada consulta; no exige reconstruir
+  una colección global ni acceder a carpetas del usuario. Repetir el mismo lote
+  no recalcula vectores válidos; cambios de imagen/modelo sí los invalidan.
 
-- [x] **T08 Prueba de selección real (E2.3).** Probar con `ai/prueba.jpeg`: un rectángulo sobre la silla y una selección con puntos positivos y negativos. Verificar que la máscara no esté vacía, que su forma coincida con la imagen y guardar una visualización de la superposición.
-  *Aceptación:* imágenes de resultado en `ai/resultados/` (fuera de Git) y una línea en `PROGRESS.md` con lo observado, incluido si falla.
-  **Completada el 9 de noviembre:** `prueba_seleccion.py` produjo ambas máscaras,
-  recortes y superposiciones en `ai/resultados/T08/`. Revisión visual: silla
-  amarilla visible seleccionada, bancos grises excluidos; sin métricas de precisión.
+- [ ] **T17 Integridad y compatibilidad.** Verificar IDs, correspondencia de
+  vectores y vistas, dimensión, valores finitos, hashes y versiones. Al cargar,
+  rechazar datos incompatibles; no confiar en un archivo serializado solo por existir.
+  *Aceptación:* pruebas de entradas dañadas, incompatibles, duplicadas y lote vacío.
 
-- [ ] **T09 Servicio temprano para Manuel (E2.4).** Crear `ai/service.py` con firmas estables. Lo no implementado responde con error explícito «servicio no disponible». Si Manuel necesita datos de prueba, usar fixtures separados con `stub: true`.
-  *Aceptación:* `ai/service.py` importable; Manuel confirma por escrito los tipos de entrada y salida.
-  **Implementación validada el 9 de noviembre:** `service.py` expone segmentación
-  real, conversión a PNG y errores explícitos para embed/search pendientes.
-  31 pruebas pasan. Brandon autorizó usar criterio: máscara interna bool NumPy,
-  PNG en bytes para persistencia; propuesta en `ai/INTERFAZ_P3.md`.
-  [NEEDS USER] Solo falta la confirmación escrita de Manuel para cerrar T09;
-  no se probó ni modificó backend. Se continúa con T10, que es independiente.
+**Cierre local:** recepción de candidatos, preparación y almacenamiento reutilizable
+probados; la conexión a la fuente real sigue siendo responsabilidad de P3.
 
-- [x] **T10 Investigación SAM 3D (I1), máximo 2 horas.** Revisar los requisitos oficiales actuales y las licencias. Documentar en `ai/NOTAS_SAM3D.md`: requisitos, hardware disponible, posibles alternativas y conclusión.
-  *Aceptación:* conclusión escrita con fuentes; sin instalar nada pesado. Resultado válido: «no viable con 8 GB; servicio no disponible».
-  **Completada el 9 de noviembre:** fuentes oficiales piden Linux64 y 32 GB VRAM;
-  hardware documentado de 8 GB fuera de esa configuración. SAM License revisada;
-  no se descargaron pesos ni se midió inferencia SAM 3D. Ver `NOTAS_SAM3D.md`.
+## FASE 3 — Ranking y evaluación local
 
-**Cierre de trabajo local de FASE 2:** T06–T08 y T10 completas; T09 implementada
-y probada, pendiente de aceptación escrita de Manuel. La fase sigue sin aceptación
-total; no se inicia T11 ni se declara integración con backend. La publicación
-conserva su bloqueo B01; B03 fue resuelto al integrar main.
+- [ ] **T18 `search()` real.** Similitud coseno NumPy sobre los candidatos
+  recibidos, mejor vista por asset y top-k sin repetir assets. Hacer explícito en
+  la interfaz cómo se suministra el lote/índice; actualizar propuesta y llamadores
+  locales si cambia la firma reservada, antes de pedir aceptación a P3.
+  *Aceptación:* ranking determinista, k inválido/mayor al lote, lote vacío,
+  vectores incompatibles y varias vistas. No necesita servidor para estas pruebas.
 
----
+- [ ] **T19 Resultado para P3.** Traducir ranking a ID, nombre, miniatura,
+  similitud y enlace/origen conservando metadatos. Desconocidos `null`;
+  `model_available` depende de disponibilidad verificada por P3, nunca del score.
+  *Aceptación:* claves/tipos documentados y probados; señalar diferencias con
+  [CONTRATOS_API.md](../CONTRATOS_API.md) como propuesta, sin editarlo unilateralmente.
 
-## FASE 3 — Recorte y embeddings (E3)
+- [ ] **T20 Evaluación con candidatos reales.** Usar 10–15 consultas con referencia
+  conocida y 3–5 sin coincidencia clara, o documentar el tamaño real disponible
+  y el faltante. Separar fotos de consulta de vistas comparadas; registrar fuente,
+  permisos, candidatos, top-1/top-5 y tiempos en `ai/EVALUACION.md`.
+  *Aceptación:* conjunto real reproducible y resultados observados, incluidos
+  fallos. Un conjunto pequeño da evidencia parcial; pruebas sintéticas no cierran T20.
+  [NEEDS USER si faltan datos] P3/Brandon aporta o confirma las referencias y
+  candidatos reales. No impide implementar T18/T19 ni las pruebas locales independientes.
 
-- [ ] **T11 Preparación del recorte (E3.1).** Crear `ai/preprocess.py`: aplicar máscara, recortar al objeto y componer sobre fondo RGB uniforme. Esta preparación se usará igual en consultas y en el catálogo.
-  *Aceptación:* pruebas con máscara vacía, máscara completa y máscara normal.
+## FASE 4 — Flujo local y entrega preparada para el servidor
 
-- [ ] **T12 `embed()` con DINOv2 (E3.2).** Crear `ai/embedding.py`: DINOv2 ViT-S/14, modo evaluación, sin gradientes, vector normalizado. Guardar pesos y configuración de preprocesado usados.
-  *Aceptación:* vector finito, dimensión constante, norma 1; rechaza máscaras vacías.
+- [ ] **T21-L Flujo completo dentro de IA.** Imagen → selección → SAM CPU →
+  recorte → DINO CPU → ranking de candidatos externos suministrados → resultados.
+  Crear un comando de prueba reproducible, sin depender de FastAPI ni de la MSI.
+  *Aceptación:* ejecución con modelos e imágenes reales; evidencia de entradas,
+  resultados y errores. Dobles del backend solo validan el adaptador, no la fuente real.
 
-- [ ] **T13 Prueba de cordura (E3.3).** Comparar dos fotos de la misma silla contra una foto de otro objeto. Registrar las similitudes **tal como salgan**, aunque no cumplan lo esperado.
-  *Aceptación:* resultados en `PROGRESS.md`; no se declara precisión sin medición.
+- [ ] **T22-L Errores locales.** Selección inválida, pesos ausentes, imágenes
+  candidatas inválidas, versiones incompatibles, CUDA solicitada pero ausente y
+  tratamiento de error de memoria con prueba controlada explícita.
+  *Aceptación:* ninguna excepción se convierte en éxito; distinguir simulación
+  de memoria de un OOM real y no provocar agotamiento deliberado de la máquina.
 
----
+- [ ] **T23 Caché de consulta.** Clave con contenido de imagen/selección,
+  modelo/pesos/preprocesado; el ranking además depende del lote candidato vigente.
+  *Aceptación:* acierto e invalidación por imagen, selección, modelo y candidatos;
+  no cachear errores ni reutilizar disponibilidad/enlaces caducados como actuales.
 
-## FASE 4 — Catálogo e índice (E4)
+- [ ] **T25-L Medición CPU.** Separar carga, segmentación, preparación, embedding
+  y ranking, con repeticiones, calentamiento y entorno. Anotar memoria si se mide;
+  nunca presentar RAM o tiempos CPU como VRAM/rendimiento CUDA.
+  *Aceptación:* comandos y tabla reproducible en MEDICIONES.
 
-- [ ] **T14 Lista del catálogo.** Reunir 20–30 assets en `ai/catalogo/assets.json` con nombre, origen, licencia y ruta del archivo. Campos desconocidos = `null`. `model_available` solo es `true` si el archivo 3D existe y es accesible.
-  *Aceptación:* el JSON valida; ningún dato inventado.
-  [NEEDS USER] Fuente y licencia del catálogo, o confirmación de qué modelos ya tienen.
+- [ ] **T26-L Reproducción y arranque.** Documentar comandos desde terminal
+  limpia y dependencias realmente usadas. Preparar selección CPU/CUDA y verificación
+  de recursos sin instalaciones implícitas; conservar separado el lock GPU pendiente.
+  *Aceptación:* repetir el flujo local con los comandos documentados y dejar
+  checklist concreto de despliegue para Ángel/Manuel.
 
-- [ ] **T15 Renders de vistas (E4.2).** Si hay GLB, renderizar 4–6 vistas por asset con Blender en segundo plano, con encuadre y fondo consistentes. Si solo hay miniaturas, marcarlo y omitir este paso.
-  *Aceptación:* vistas en `ai/catalogo/vistas/` (fuera de Git) y vínculo vista → asset en el JSON.
-  [NEEDS USER] Confirmar si hay GLB descargables y la versión de Blender disponible.
+- [ ] **T27-L Ensayo y entrega local.** Ejecutar consulta real y errores, preparar
+  descripción de revisión con comportamiento, evidencia y pendientes externos.
+  *Aceptación:* ensayo real y criterios locales cerrados; enumerar aparte las
+  dependencias externas. Si falta evidencia local, registrar avance parcial sin
+  cerrar la fase. No dar por aceptado T27-P al preparar el paquete.
 
-- [ ] **T16 Indexador (E4.3).** Crear `ai/index_catalog.py`: vectores en `.npy` y metadatos JSON con asset, vista, versión de índice, modelo/pesos, dimensión y preprocesado.
-  *Aceptación:* un comando reconstruye el índice completo; no se recalcula en cada consulta.
+**Listo para desplegar** significa: búsqueda real probada en CPU, interfaz propuesta,
+recursos identificados, errores/cachés probados y comandos de arranque preparados.
+No equivale a afirmar que solo falta una URL ni a cerrar los criterios externos.
 
-- [ ] **T17 Verificación del índice (E4.4).** Comprobar que cada vector tiene metadatos, que los IDs son únicos, que los archivos existen y que un índice de otra versión se rechaza.
-  *Aceptación:* pruebas en `ai/tests/test_index.py`.
+## FASE 5 — Validación GPU e integración con el equipo · diferida
 
----
+Estas tareas esperan ejecución en la MSI o coordinación con Manuel; se conservan
+pendientes y no bloquean las fases locales.
 
-## FASE 5 — Búsqueda y evaluación (E5)
+- [ ] **T03 Entorno CUDA real.** Reanudar con `bash ai/preparar_gpu.sh .venv-gpu` y
+  la propuesta aprobada. La MSI ya tiene Python 3.12.16 en `.venv-gpu` de la raíz;
+  inventario de 14 dependencias comunes revisado, sin torch en la última evidencia.
+  *Aceptación:* `pip check`, operación CUDA real, JSON y `ai/requirements-gpu.txt`
+  generados en la MSI. El instalador escrito no cierra esta tarea. [NEEDS USER]
+- [ ] **T04 Modelos en GPU.** SAM Tiny y DINO reales en CUDA; medir carga,
+  inferencia calentada, sincronización y VRAM pico. [NEEDS USER: MSI]
+- [ ] **T05 Arranque del servidor.** Repetir comandos GPU desde terminal limpia;
+  comprobar rutas/recursos y ausencia de dependencia de la carpeta antigua.
+- [ ] **T09-P Aceptación de interfaz.** Manuel confirma por escrito las firmas
+  finales, máscara/PNG, candidatos, ranking y errores, después de actualizar
+  [INTERFAZ_P3.md](INTERFAZ_P3.md). T09 principal permanece pendiente hasta entonces.
+- [ ] **T21-P API y red reales.** Con Manuel: obtención de candidatos externos,
+  descarga/validación de imágenes en P3, llamadas al módulo, tareas y archivos,
+  conectividad y prueba desde clientes. Sin editar otras áreas unilateralmente.
+- [ ] **T22-P Errores de integración.** Fuente caída, imágenes inaccesibles,
+  dispositivo/pesos ausentes y errores del trabajador llegan correctamente al cliente.
+- [ ] **T25-P Medición GPU.** Medir el flujo real desplegado, separado de CPU.
+- [ ] **T26-P Reproducción por otro integrante.** Registrar persona, comando,
+  entorno y resultado; esta sesión local no sustituye esa aceptación.
+- [ ] **T27-P Revisión y cierre.** PR pequeño revisable sin `graphify-out/`,
+  consulta real desde cliente y limitaciones documentadas. Otro integrante revisa.
 
-- [ ] **T18 `search()` (E5.1).** Crear `ai/search.py`: similitud coseno con NumPy, una mejor vista por asset y top-k sin repetir assets.
-  *Aceptación:* pruebas con índice vacío, `k` inválido y `k` mayor que el catálogo.
+## Opcionales posteriores al flujo básico
 
-- [ ] **T19 Formato de respuesta (E5.2).** Traducir el resultado al formato de `docs/CONTRATOS_API.md`, con `similarity_score` tratado como ranking y `model_available` real.
-  *Aceptación:* la salida coincide con el ejemplo del contrato en claves y tipos.
+- [ ] **T24 Fotograma de video.** Solo después del flujo de imagen y si sobra
+  tiempo; revisar FFmpeg disponible antes de proponer instalarlo. No bloquea ninguna fase.
+- [ ] **SAM 3D operativo — fuera del cierre de búsqueda.** T10 ya investigó;
+  cualquier ejecución requiere resolver hardware/recursos, entorno aislado y
+  validación independiente. No es una conexión pendiente garantizada con 8 GB.
 
-- [ ] **T20 Evaluación (E5.3).** Probar 10–15 consultas con referencia conocida y 3–5 sin coincidencia clara. Registrar top-1 y top-5 y tiempos en `ai/EVALUACION.md`.
-  *Aceptación:* resultados reproducibles; no se presentan como porcentaje de acierto.
+## Dependencias externas y estado Git
 
----
+- **B01 Publicación:** el fallo histórico fue autenticación HTTPS. El 10 de
+  noviembre `git fetch origin` pasa y HEAD coincide con la rama remota IA en
+  `87bc082`; esos commits ya están publicados. Esto no garantiza el siguiente push.
+- **B02 Graphify:** regla aclarada; permitido en rama IA, excluido de main.
+- **B03 Main:** merge anterior conservado; `origin/main` en `116f440` tiene
+  cambios posteriores aún no integrados. No fusionar como efecto lateral del plan.
+- **B04 P3/datos:** confirmación de interfaz, mecanismo para obtener candidatos
+  desde la referencia y conjunto real para evaluación. El conector actual busca
+  por texto; DINO compara candidatos y no descubre páginas ni genera esos términos.
+  Preparar la propuesta en IA; coordinar su conexión al llegar a FASE 5.
+- **B05 MSI:** acceso/ejecución para CUDA y mediciones. Pospuesto por decisión
+  de Brandon; no bloquea el desarrollo local ni exige otra aprobación de T02.
 
-## FASE 6 — Integración y caché (E6)
-
-- [ ] **T21 Integración con Manuel (E6.1).** Probar imagen → selección → máscara → embedding → assets con la API real (o un mock acordado).
-  *Aceptación:* una captura del flujo completo con resultados reales en `PROGRESS.md`.
-  [NEEDS USER] Coordinar la prueba con Manuel.
-
-- [ ] **T22 Errores reales (E6.2).** Verificar: selección inválida, pesos ausentes, índice incompatible y memoria insuficiente. Ningún error se muestra como éxito.
-  *Aceptación:* cada error tiene mensaje y prueba.
-
-- [ ] **T23 Caché de consultas (E6.3).** Clave: contenido de la imagen, selección, pesos y preprocesado. No cachear errores.
-  *Aceptación:* pruebas de acierto e invalidación al cambiar la selección o el modelo.
-
-- [ ] **T24 Fotograma de video (E6.4), opcional.** Solo si sobra tiempo: extraer un fotograma con FFmpeg y usar el mismo flujo.
-  *Aceptación:* prueba con un video corto; sin prometer soporte completo.
-
----
-
-## FASE 7 — Cierre (E7)
-
-- [ ] **T25 Medición final (E7.1).** Medir por separado carga, segmentación, preparación, embedding y búsqueda, con dispositivo, repeticiones y VRAM.
-  *Aceptación:* tabla en `ai/MEDICIONES.md`.
-
-- [ ] **T26 Reproducibilidad (E7.2).** Actualizar `ai/README.md` y las dependencias para que otro integrante reproduzca el módulo.
-  *Aceptación:* otra persona ejecuta los comandos sin ayuda.
-
-- [ ] **T27 Ensayo y PR de revisión (E7.3).** Ejecutar una consulta real y los errores esperados. Abrir PR pequeño para revisión por otro integrante.
-  *Aceptación:* PR abierto con descripción, validación y limitaciones conocidas.
-
----
-
-## Bloqueos externos (no son tareas de código)
-
-- [ ] **B01 Publicación GitHub.** Fetch funciona, pero push CLI falla por
-  credenciales HTTPS. El conector muestra permiso push de la cuenta, pero su
-  intento de crear el árbol devolvió 403 `Resource not accessible by integration`.
-  No hay publicación nueva; falta autenticar Git o habilitar escritura de la integración.
-- [x] **B02 Política Graphify aclarada.** Brandon autoriza subirlo a su rama,
-  pero no a main. Regla 6 actualizada; no se pide ignorarlo en la rama de IA.
-  Los PR a main deben excluir estos cambios mediante una rama de integración.
-- [x] **B03 Integración con main.** Resuelta el 9 de noviembre: merge `4425c62`
-  integra `350a42e` y conserva el README propio por indicación de Brandon.
-  `7390afa` recupera los planes/contratos de raíz. `350a42e` es ancestro
-  de la rama actual; no se reescribió el historial. El fetch posterior detectó
-  main en `116f440`, aún no integrado; no forma parte del push solicitado.
-  Publicación pendiente en B01.
+Los criterios de aceptación se basan en comportamiento probado, no en un porcentaje
+estimado de avance. Ninguna fase del servidor se marca completa por reorganizarla.

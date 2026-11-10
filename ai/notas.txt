@@ -1,3 +1,10 @@
 En feature/ai-exploracion se permite versionar y subir graphify-out/.
 No integrar graphify-out/ a main: preparar el PR en una rama sin esos cambios.
 .gitignore no retira los archivos que ya están versionados; revisar el diff del PR.
+
+Orden autorizado el 10 de noviembre de 2026: primero flujo IA completo en CPU;
+al final validación CUDA e integración con Manuel/Ángel. Siguiente tarea: T11.
+TASKS.md es la lista vigente; PLAN_P4_IA.md explica fases y límites.
+T03–T05 y aceptación T09-P diferidas, sin perder avances ni aprobaciones.
+P3 obtiene candidatos externos; P4 compara sus imágenes. No catálogo manual obligatorio.
+SAM 3D sigue no disponible y requiere evaluar hardware/entorno por separado.

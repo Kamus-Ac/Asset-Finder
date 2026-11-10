@@ -4,6 +4,13 @@ Fecha: 9 de noviembre de 2026. Brandon autorizó usar criterio al no haber acuer
 **Implementada y probada en IA; pendiente de confirmación escrita de Manuel.**
 Esta propuesta no cambia el contrato HTTP ni acredita integración con backend.
 
+**Orden actualizado el 10 de noviembre:** la implementación inicial se registra
+como T09-L; la aceptación de Manuel queda en T09-P, FASE 5. No bloquea desarrollar
+recorte/DINO y ranking en CPU. La tabla siguiente describe lo que existe hoy,
+no firmas finales ya acordadas. T14/T18/T19 concretarán la entrada de candidatos
+externos (metadatos e imágenes suministrados por P3) y actualizarán esta propuesta
+antes de pedir aceptación. IA no descargará URLs ni realizará búsquedas web.
+
 ## Decisión de P4
 
 Trabajar con imágenes y máscaras en memoria evita acoplar SAM al almacenamiento

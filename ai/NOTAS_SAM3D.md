@@ -39,11 +39,15 @@ Una evaluación futura exigiría una propuesta de instalación aislada y aprobad
 
 | Equipo | Evidencia disponible | Diferencia frente a SAM 3D |
 | --- | --- | --- |
-| Angel, servidor elegido | RTX 4070 Laptop, 8188 MiB de VRAM, 16 GB RAM; salida Windows recibida de Brandon. WSL/Ubuntu aún pendiente | VRAM por debajo del requisito; entorno Linux objetivo sin diagnóstico |
+| Ángel, servidor elegido | MSI, RTX 4070 Laptop/8188 MiB, driver 610.78, Ubuntu 26.04.1/WSL2; 7.61 GiB RAM visibles. Diagnóstico real del 9 de noviembre | VRAM por debajo de la configuración documentada; PyTorch CUDA aún sin validar |
 | Luis, diagnóstico adicional | RTX 4060, 8188 MiB; Ubuntu 26.04.1 WSL2, Python 3.14.4; informe en `Pruebas/Prueba1_Laptop Luis.json` | VRAM por debajo del requisito; no reemplaza al servidor elegido |
 | Sesión local de desarrollo | `ai/.venv-sam2`: torch 2.15.0+cpu, `torch.cuda.is_available()` = `False` | Pruebas SAM 2 CPU, sin validación SAM 3D |
 
 Referencias internas: [MEDICIONES.md](MEDICIONES.md) y diagnóstico de Luis.
+Actualización de hardware del 10 de noviembre:
+[diagnóstico MSI](Pruebas/Diagnostico_MSI_Angel_2026-11-09.json).
+T10 conserva su conclusión; no se ejecutó SAM 3D. El plan CPU primero no activa
+la generación ni convierte su viabilidad en una conexión pendiente garantizada.
 La RAM del sistema no equivale a VRAM. No se suman memorias de GPU integrada,
 dedicada ni otras laptops para considerar satisfecho el requisito.
 

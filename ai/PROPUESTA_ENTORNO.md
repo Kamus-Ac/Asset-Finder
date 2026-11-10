@@ -1,22 +1,28 @@
 # T02 — Propuesta de entorno CUDA para Angel
 
 Fecha: 5 de noviembre de 2026. **Aprobada por Brandon el 6 de noviembre; no instalada.**
-**Estado actual, 9 de noviembre:** T01 completada con evidencia de la MSI real:
+
+**Plan vigente, 10 de noviembre:** T03–T05 se posponen a FASE 5 de
+[TASKS.md](TASKS.md); primero desarrollamos recorte/DINO y búsqueda en CPU local.
+Se conserva esta aprobación para GPU, sin instalar ni cambiar versiones ahora.
+La última evidencia confirma Python 3.12.16 en `.venv-gpu` raíz y 14 dependencias
+comunes revisadas, sin torch. El instalador actualizado admite ese inventario;
+faltan ejecución CUDA, informe y lock reales. El resto conserva la propuesta y
+su secuencia histórica, no instrucciones para ejecutar de inmediato.
+**Diagnóstico recibido el 9 de noviembre:** T01 completada con evidencia de la MSI real:
 Ubuntu 26.04.1 en WSL2, x86_64, glibc 2.43, Python 3.14.4, 7.61 GiB RAM visibles,
 RTX 4070 Laptop/8188 MiB y driver 610.78 accesibles mediante NVIDIA-SMI.
 Fuente: `Pruebas/Diagnostico_MSI_Angel_2026-11-09.json`.
 
-La combinación aprobada conserva **Python 3.12**. Falta comprobar si ese
-intérprete ya existe en la MSI y revisar los directorios antes de ejecutar T03.
-No se cambia automáticamente a Python 3.14 ni se sobrescriben entornos.
-El preflight posterior sí confirma `python3.12: command not found` en la MSI.
-Las comprobaciones de uv/directorios no se ejecutaron porque se encadenaron
-con `&&`; se solicitan por separado antes de elegir el método de preparación.
+La combinación aprobada conserva **Python 3.12** en un entorno separado del
+Python 3.14 del sistema. El usuario ya creó ese entorno con uv; no hay que
+buscar de nuevo `python3.12` en el PATH ni sobrescribir o recrear el entorno.
 
 **Actualización T03:** el usuario confirmó uv y creó con él **Python 3.12.16**
 en `.venv-gpu` de la raíz de la MSI. También existen `ai/` y `ai/sam2/`.
 Se adopta la ubicación que eligió el usuario; no se crea un segundo entorno.
-Paquetes, revisión exacta de SAM y CUDA aún pendientes de la ejecución del instalador.
+Los 14 paquetes comunes recibidos están revisados; faltan comprobar la revisión
+exacta de SAM y ejecutar la instalación/validación PyTorch CUDA.
 Los índices oficiales torch/torchvision cu126 con ruedas CPython 3.12 Linux
 se volvieron a consultar el 9 de noviembre; no se instalaron paquetes.
 
@@ -74,7 +80,7 @@ Las versiones auxiliares conservan la base CPU existente, sin modificarla.
   nested tensors ni xFormers. **La combinación completa SAM+DINO no está probada**:
   T04 debe cargar los dos modelos y comprobar inferencia real con estos paquetes.
 
-## Ejecución actual de T03 en la MSI
+## Ejecución diferida de T03 en la MSI — FASE 5
 
 Pasar [preparar_gpu.sh](preparar_gpu.sh) a `ai/` de la MSI. Desde el proyecto:
 
@@ -131,12 +137,9 @@ No se ejecutará `requirements-sam2.txt`: conserva las versiones CPU históricas
 Las dependencias transitivas quedarán resueltas y registradas durante T03;
 esta tabla fija dependencias directas, no es un lockfile de GPU ya validado.
 
-Si uv ya está instalado en la MSI, puede gestionar Python 3.12 separado del
-Python del sistema ([documentación oficial](https://docs.astral.sh/uv/guides/install-python/)).
-La consulta **local de metadatos**, sin descargar un intérprete, ofrece CPython
-3.12.16 para Linux x86_64 GNU, dentro de la serie 3.12.x aprobada. Esto no prueba
-que uv o ese intérprete existan en la MSI. No se instaló uv ni Python; el método
-definitivo depende de las dos comprobaciones pendientes.
+El usuario ya utilizó uv para crear Python 3.12.16 separado del Python del sistema.
+Referencia del mecanismo: [documentación oficial de uv](https://docs.astral.sh/uv/guides/install-python/).
+La salida recibida está en [Preparacion_MSI_T03_2026-11-09.txt](Pruebas/Preparacion_MSI_T03_2026-11-09.txt).
 
 Comprobación propuesta para T03, sin descargar modelos:
 
@@ -161,8 +164,8 @@ PY
 ```
 
 Tras aceptación de T03, registrar `pip freeze` en `ai/requirements-gpu.txt` y
-dispositivo/comandos en `MEDICIONES.md`. En T04 fijar revisión del código DINOv2,
-descargar pesos oficiales a una ubicación ignorada y medir carga/inferencia real.
+dispositivo/comandos en `MEDICIONES.md`. T12 fijará revisión/pesos DINOv2 para
+la prueba CPU; T04 reutilizará esos recursos al medir carga/inferencia real en GPU.
 No hacer pasar el script actual `prueba_sam2.py`, que fija CPU, como prueba CUDA.
 
 ## Revisión y decisión pendiente
@@ -172,7 +175,7 @@ No hacer pasar el script actual `prueba_sam2.py`, que fija CPU, como prueba CUDA
 - [x] Bloques Python/shell comprobados estáticamente; sin ejecutar instalaciones.
 - [x] Evidencia recibida de Ubuntu, memoria y Python del WSL objetivo.
 - [x] NVIDIA accesible en WSL de la MSI (diagnóstico real, sin PyTorch todavía).
-- [ ] Python 3.12 y directorios existentes comprobados antes de instalar T03.
+- [x] Python 3.12.16, uv y directorios confirmados en la MSI; entorno en raíz.
 - [x] Aprobación explícita de Brandon recibida el 6 de noviembre de 2026.
 - [ ] Confirmación de Manuel solo si decide compartir este entorno con backend.
 
