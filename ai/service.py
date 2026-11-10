@@ -4,6 +4,7 @@ from io import BytesIO
 
 from .segmentation import ServiceUnavailableError, segment
 from .embedding import embed
+from .search import search
 
 
 __all__ = ["ServiceUnavailableError", "segment", "mask_to_png", "embed", "search"]
@@ -24,6 +25,3 @@ def mask_to_png(mask):
     return output.getvalue()
 
 
-def search(vector, k=5):
-    """Reservada para búsqueda en T18; nunca devuelve coincidencias ficticias."""
-    raise ServiceUnavailableError("servicio no disponible: búsqueda pendiente (T18)")

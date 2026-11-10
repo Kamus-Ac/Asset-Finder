@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T18**. Ver
+servidor e integración al final. Siguiente tarea: **T19**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -679,4 +679,15 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 
 - Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **45 passed, 13 subtests passed in 25.79s**.
 - Sin instalaciones, CUDA ni API del equipo; siguiente T18.
+- Commit por tarea en `feature/ai-exploracion`.
+
+
+## T18 — Desarrollo CPU · 2026-11-10
+
+- search(vector,k,*,index) calcula coseno, toma la mejor vista por asset y resuelve empates de forma determinista. Vacío devuelve lista vacía; vectores/k inválidos e índices incompatibles fallan explícitamente.
+- service.search ahora ejecuta ranking real sobre índice explícito. Pruebas de lógica con vectores sintéticos identificados; los embeddings reales ya se verificaron en T12/T16.
+- Revisión solicitada por Brandon: fetch confirma main 116f440, API textual /catalog/search y /media/exportador presentes; no existen llamadas SAM/DINO en backend. Rama backend no añade API visual posterior. Se conserva ese trabajo de Manuel.
+
+- Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **46 passed, 13 subtests passed in 23.97s**.
+- Sin instalaciones, CUDA ni API del equipo; siguiente T19.
 - Commit por tarea en `feature/ai-exploracion`.

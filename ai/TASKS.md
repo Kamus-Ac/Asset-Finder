@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T18.** Ver evidencia en PROGRESS.
+**Siguiente tarea ejecutable: T19.** Ver evidencia en PROGRESS.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -139,7 +139,7 @@ probados; la conexión a la fuente real sigue siendo responsabilidad de P3.
 
 ## FASE 3 — Ranking y evaluación local
 
-- [ ] **T18 `search()` real.** Similitud coseno NumPy sobre los candidatos
+- [x] **T18 `search()` real.** Similitud coseno NumPy sobre los candidatos
   recibidos, mejor vista por asset y top-k sin repetir assets. Hacer explícito en
   la interfaz cómo se suministra el lote/índice; actualizar propuesta y llamadores
   locales si cambia la firma reservada, antes de pedir aceptación a P3.
