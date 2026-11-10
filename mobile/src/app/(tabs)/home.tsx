@@ -8,11 +8,13 @@ import MediaFeedback from '@/components/media-feedback';
 import { useMedia } from '@/media/context';
 import type { MediaAction } from '@/media/picker';
 import { useAppTheme } from '@/theme';
+import { useNavbarClearance } from '@/hooks/use-navbar-clearance';
 
 export default function Home() {
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
   const compact = height < 740;
+  const navbarClearance = useNavbarClearance();
   const { colors, dark } = useAppTheme();
   const { media, busy, choose } = useMedia();
   const surface = dark ? '#24182F' : '#F3EAF7';
@@ -21,7 +23,7 @@ export default function Home() {
     if (await choose(action)) router.push('/reference');
   }
   return <AppBackground>
-    <View className="flex-1 px-6" style={{ paddingTop: insets.top + 20, paddingBottom: insets.bottom + 112 }}>
+    <View className="flex-1 px-6" style={{ paddingTop: insets.top + 20, paddingBottom: navbarClearance }}>
       <View className="flex-row items-center gap-3">
         <Text accessibilityRole="header" className="flex-1 font-sans-bold text-[30px] leading-9 tracking-tight text-white">Assets finder</Text>
         {media && compact && <Pressable accessibilityRole="button" accessibilityLabel="Abrir última referencia" onPress={() => router.push('/reference')} className="h-10 w-10 items-center justify-center rounded-[14px] bg-white/15"><ImagePlus size={21} color="#FFFFFF" /></Pressable>}

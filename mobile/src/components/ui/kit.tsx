@@ -8,6 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AppBackground from '@/components/app-background';
 import { fontFamily } from '@/theme/fonts';
 import { useAppTheme, tokens } from '@/theme';
+import { useNavbarClearance } from '@/hooks/use-navbar-clearance';
 import { artwork } from '@/mocks/catalog';
 import type { AssetKind } from '@/types/domain';
 
@@ -21,13 +22,14 @@ export function ScreenContainer({ children, title, tab = false, action }: {
   children: ReactNode; title: string; tab?: boolean; action?: ReactNode;
 }) {
   const insets = useSafeAreaInsets();
+  const navbarClearance = useNavbarClearance();
   return <AppBackground>
     <View className="flex-row items-center gap-3 px-6 pb-6" style={{ paddingTop: insets.top + 20 }}>
       {!tab && <IconButton label="Volver" onPress={() => router.canGoBack() ? router.back() : router.replace('/')}><ArrowLeft size={22} color="#FFFFFF" /></IconButton>}
       <Text accessibilityRole="header" className="flex-1 font-sans-bold text-[28px] text-white">{title}</Text>
       {action}
     </View>
-    <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} className="flex-1" contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: insets.bottom + (tab ? 124 : 28), gap: 20, width: '100%', maxWidth: 760, alignSelf: 'center' }}>{children}</ScrollView>
+    <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} className="flex-1" contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: tab ? navbarClearance + 12 : insets.bottom + 28, gap: 20, width: '100%', maxWidth: 760, alignSelf: 'center' }}>{children}</ScrollView>
   </AppBackground>;
 }
 export function AppHeader({ title }: { eyebrow?: string; title: string; subtitle?: string }) { return <Copy size={24} bold>{title}</Copy>; }

@@ -1,3 +1,15 @@
+# Navbar animado · 2026-11-10
+
+- Barra de cinco destinos según la referencia: iconos sólidos blancos, fondo `#0B0911`, círculo `#A805F4` y curva superior móvil. El indicador y la elevación de iconos comparten una animación de resorte; las pantallas usan fundido. Se respeta reducir movimiento.
+- Cámara comparte el componente de captura con `/capture`; Perfil muestra el estado sin sesión. No se agregó autenticación.
+- Se ajustó el espacio inferior según el ancho real de la barra para conservar Inicio sin scroll y evitar superponer el contenido. NativeWind usa `darkMode: 'class'` para evitar el error web al sincronizar el tema con Expo Router.
+- `npm run lint`, `npx tsc --noEmit` y `git diff --check`: correctos.
+- Exportación Android/web correcta en `/tmp/asset-finder-navbar-final-export`.
+- Prueba interactiva en Chrome: cinco rutas, indicador en tránsito y en reposo, pulsaciones rápidas, selección accesible, activación por teclado, reducir movimiento, tamaños de 320/390/673/1024 px y acceso a `/capture` sin navbar visible. Sin errores de ejecución. Script temporal: `%TEMP%/verify-mobile-navbar.cjs`.
+- Se revisaron capturas del navbar y de las pantallas a distintos tamaños. No se verificó en teléfono físico; la exportación Android no sustituye esa prueba.
+
+---
+
 # Cámara y medios reales · 2026-11-09
 
 - Se integraron `expo-image-picker` y `expo-video` compatibles con SDK 58, con mensajes de permisos en la configuración Expo.

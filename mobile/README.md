@@ -20,6 +20,7 @@ Para el túnel desde WSL2: `npx expo start --tunnel ngrok`. Abrir con Expo Go co
 - **Asset:** tres vistas ilustrativas, formatos, información de fuente y guardado en proyectos existentes o nuevos.
 - **Proyectos:** crear, abrir, añadir y quitar assets. Estado compartido durante la sesión.
 - **Ajustes:** apariencia sistema/claro/oscuro y estado de conexión.
+- **Perfil:** estado sin sesión; cuenta aún sin conectar.
 - **Reconstrucción:** servicio sin conectar; cinco estados explícitos de vista previa.
 
 La captura y selección de imágenes son reales mediante `expo-image-picker`; el video se reproduce con `expo-video`. El archivo seleccionado se mantiene solo en memoria durante la sesión, sin subirse a ningún servidor. Android puede recuperar el resultado del selector tras recrear la actividad. La selección de fotogramas de video queda pendiente.
@@ -39,7 +40,7 @@ El catálogo, el ranking, las máscaras y las licencias siguen siendo demostrati
 
 Usar Tailwind mediante `className` para nuevos estilos. Las clases Urbanist son `font-sans`, `font-sans-medium`, `font-sans-semibold`, `font-sans-bold`. Los colores de tema y dimensiones calculadas usan `style`. Usar iconos importados directamente de `lucide-react-native`.
 
-La barra mantiene fondo `#0B0911`, radio 20, separación lateral de 40 más área segura e indicador `#320A3D`. Iconos y etiquetas siempre blancos.
+La barra reproduce la referencia de cinco iconos sólidos blancos, sin etiquetas visibles: Inicio, Proyectos, Cámara, Ajustes y Perfil. Mantiene fondo `#0B0911`, círculo activo `#A805F4` y una curva superior que se desplaza con el círculo. Los iconos se elevan al seleccionarlos y las pantallas cambian con un fundido. Respeta las áreas seguras, admite teclado y lectores de pantalla y desactiva las transiciones cuando el sistema solicita reducir movimiento. Cámara reutiliza la captura existente; Perfil muestra el estado sin sesión.
 
 ## Validación
 
