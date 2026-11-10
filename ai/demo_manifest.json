@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "query": "chair",
+  "snapshot_date": "2026-11-10",
+  "candidates": [
+    {
+      "asset_id": "sketchfab_70fa0927a36a4bc392f3e13c882d287e",
+      "name": "Chairs Pack / Chair Collection",
+      "source": "sketchfab",
+      "source_url": "https://sketchfab.com/3d-models/none-70fa0927a36a4bc392f3e13c882d287e",
+      "thumbnail_url": "https://media.sketchfab.com/models/70fa0927a36a4bc392f3e13c882d287e/thumbnails/6bf454056f6142c790246ab91ac0d9d0/51a32b2bc9144ac0ad3425e693d1483f.jpeg",
+      "license": "Standard",
+      "model_available": false,
+      "views": [
+        {
+          "view_id": "thumbnail",
+          "image_path": "sketchfab_70fa0927a36a4bc392f3e13c882d287e.image"
+        }
+      ]
+    },
+    {
+      "asset_id": "sketchfab_cf2ff39e279f468f9c5489b4ff51ac92",
+      "name": "The Giger's Chair",
+      "source": "sketchfab",
+      "source_url": "https://sketchfab.com/3d-models/none-cf2ff39e279f468f9c5489b4ff51ac92",
+      "thumbnail_url": "https://media.sketchfab.com/models/cf2ff39e279f468f9c5489b4ff51ac92/thumbnails/391e3cd407d04bf79623f5207a77c46f/b94334aa45004fc696cb1c4fd0446988.jpeg",
+      "license": "Editorial",
+      "model_available": false,
+      "views": [
+        {
+          "view_id": "thumbnail",
+          "image_path": "sketchfab_cf2ff39e279f468f9c5489b4ff51ac92.image"
+        }
+      ]
+    },
+    {
+      "asset_id": "sketchfab_2ba6a87c89a7467fad910420aae99ed7",
+      "name": "barber chair",
+      "source": "sketchfab",
+      "source_url": "https://sketchfab.com/3d-models/none-2ba6a87c89a7467fad910420aae99ed7",
+      "thumbnail_url": "https://media.sketchfab.com/models/2ba6a87c89a7467fad910420aae99ed7/thumbnails/71e2f5f9e7614ca3b4f7a6c937c1e824/bbfa84485d9c4427ba1822ca3ca8f910.jpeg",
+      "license": null,
+      "model_available": false,
+      "views": [
+        {
+          "view_id": "thumbnail",
+          "image_path": "sketchfab_2ba6a87c89a7467fad910420aae99ed7.image"
+        }
+      ]
+    },
+    {
+      "asset_id": "sketchfab_2QpgjMeXKHq6L8KIBAJjRrFV3jg",
+      "name": "chair",
+      "source": "sketchfab",
+      "source_url": "https://sketchfab.com/3d-models/none-2QpgjMeXKHq6L8KIBAJjRrFV3jg",
+      "thumbnail_url": "https://media.sketchfab.com/models/2QpgjMeXKHq6L8KIBAJjRrFV3jg/thumbnails/2f3888f8713e485c8a0404fc74f1e9a6/1342a8b814904732a61436183c3f8945.jpeg",
+      "license": null,
+      "model_available": false,
+      "views": [
+        {
+          "view_id": "thumbnail",
+          "image_path": "sketchfab_2QpgjMeXKHq6L8KIBAJjRrFV3jg.image"
+        }
+      ]
+    },
+    {
+      "asset_id": "sketchfab_9aea3b516d3e4e169710049b32282670",
+      "name": "The Wizard's Chair",
+      "source": "sketchfab",
+      "source_url": "https://sketchfab.com/3d-models/none-9aea3b516d3e4e169710049b32282670",
+      "thumbnail_url": "https://media.sketchfab.com/models/9aea3b516d3e4e169710049b32282670/thumbnails/0d1323875aea4916af4533b6c634b720/33496399439944519081eedd1632b0fd.jpeg",
+      "license": "CC Attribution-NonCommercial-NoDerivs",
+      "model_available": false,
+      "views": [
+        {
+          "view_id": "thumbnail",
+          "image_path": "sketchfab_9aea3b516d3e4e169710049b32282670.image"
+        }
+      ]
+    },
+    {
+      "asset_id": "sketchfab_c741dcd8720f4a629de8681bdcd4529b",
+      "name": "Scifi Chair Concept",
+      "source": "sketchfab",
+      "source_url": "https://sketchfab.com/3d-models/none-c741dcd8720f4a629de8681bdcd4529b",
+      "thumbnail_url": "https://media.sketchfab.com/models/c741dcd8720f4a629de8681bdcd4529b/thumbnails/efa67debbcde46e6abcd200a98e1b44d/a3b8817e014f49f4bfaf45e176963cde.jpeg",
+      "license": "CC Attribution",
+      "model_available": false,
+      "views": [
+        {
+          "view_id": "thumbnail",
+          "image_path": "sketchfab_c741dcd8720f4a629de8681bdcd4529b.image"
+        }
+      ]
+    },
+    {
+      "asset_id": "sketchfab_e7c38780b2fa46469796fd32c3a787d0",
+      "name": "Froggy Chairs",
+      "source": "sketchfab",
+      "source_url": "https://sketchfab.com/3d-models/none-e7c38780b2fa46469796fd32c3a787d0",
+      "thumbnail_url": "https://media.sketchfab.com/models/e7c38780b2fa46469796fd32c3a787d0/thumbnails/22b27dd7713547d4b9db646215ca99b3/0b7e41de3df345a5aeb6ce00b1d3553b.jpeg",
+      "license": null,
+      "model_available": false,
+      "views": [
+        {
+          "view_id": "thumbnail",
+          "image_path": "sketchfab_e7c38780b2fa46469796fd32c3a787d0.image"
+        }
+      ]
+    },
+    {
+      "asset_id": "sketchfab_313eaeb022f64e87822727980fa1aa4e",
+      "name": "Capone Barber Chair",
+      "source": "sketchfab",
+      "source_url": "https://sketchfab.com/3d-models/none-313eaeb022f64e87822727980fa1aa4e",
+      "thumbnail_url": "https://media.sketchfab.com/models/313eaeb022f64e87822727980fa1aa4e/thumbnails/5ea46005325d4c9c9db3aebbd8a67240/589d8f56854346108b743b41e718947a.jpeg",
+      "license": "Standard",
+      "model_available": false,
+      "views": [
+        {
+          "view_id": "thumbnail",
+          "image_path": "sketchfab_313eaeb022f64e87822727980fa1aa4e.image"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "url": "https://media.sketchfab.com/models/70fa0927a36a4bc392f3e13c882d287e/thumbnails/6bf454056f6142c790246ab91ac0d9d0/51a32b2bc9144ac0ad3425e693d1483f.jpeg",
+      "sha256": "b6062fdef210dcc213f970b28ef78c9ed34ad58dc2c1703cb71c43ded08f2222",
+      "bytes": 78437,
+      "filename": "sketchfab_70fa0927a36a4bc392f3e13c882d287e.image"
+    },
+    {
+      "url": "https://media.sketchfab.com/models/cf2ff39e279f468f9c5489b4ff51ac92/thumbnails/391e3cd407d04bf79623f5207a77c46f/b94334aa45004fc696cb1c4fd0446988.jpeg",
+      "sha256": "241214d37a493a1138ac60249fcd9ff9fa73b10f8399c80e54257d9f499697cb",
+      "bytes": 85810,
+      "filename": "sketchfab_cf2ff39e279f468f9c5489b4ff51ac92.image"
+    },
+    {
+      "url": "https://media.sketchfab.com/models/2ba6a87c89a7467fad910420aae99ed7/thumbnails/71e2f5f9e7614ca3b4f7a6c937c1e824/bbfa84485d9c4427ba1822ca3ca8f910.jpeg",
+      "sha256": "3c720404ed30fdf1483e29d8321cdfb1f6aa49630ef979062f8dd1d406dd2583",
+      "bytes": 53268,
+      "filename": "sketchfab_2ba6a87c89a7467fad910420aae99ed7.image"
+    },
+    {
+      "url": "https://media.sketchfab.com/models/2QpgjMeXKHq6L8KIBAJjRrFV3jg/thumbnails/2f3888f8713e485c8a0404fc74f1e9a6/1342a8b814904732a61436183c3f8945.jpeg",
+      "sha256": "5d3f8d1e883656f7b9507473b466b2182a67a971b4e7cc3178ec08c1e5ae551e",
+      "bytes": 26410,
+      "filename": "sketchfab_2QpgjMeXKHq6L8KIBAJjRrFV3jg.image"
+    },
+    {
+      "url": "https://media.sketchfab.com/models/9aea3b516d3e4e169710049b32282670/thumbnails/0d1323875aea4916af4533b6c634b720/33496399439944519081eedd1632b0fd.jpeg",
+      "sha256": "c62d59db54fde1f885a402a9201b08855faa180afd09a57287b46767c8376ce9",
+      "bytes": 40146,
+      "filename": "sketchfab_9aea3b516d3e4e169710049b32282670.image"
+    },
+    {
+      "url": "https://media.sketchfab.com/models/c741dcd8720f4a629de8681bdcd4529b/thumbnails/efa67debbcde46e6abcd200a98e1b44d/a3b8817e014f49f4bfaf45e176963cde.jpeg",
+      "sha256": "d4139e0d5500cb361ac9eb426c2e6c8f370d57bc965b667a8797a83c4b8e150a",
+      "bytes": 39137,
+      "filename": "sketchfab_c741dcd8720f4a629de8681bdcd4529b.image"
+    },
+    {
+      "url": "https://media.sketchfab.com/models/e7c38780b2fa46469796fd32c3a787d0/thumbnails/22b27dd7713547d4b9db646215ca99b3/0b7e41de3df345a5aeb6ce00b1d3553b.jpeg",
+      "sha256": "11e2d8679a2f67bddf44351e3b03a14c73efe151b719c7610df174c8bd378666",
+      "bytes": 41965,
+      "filename": "sketchfab_e7c38780b2fa46469796fd32c3a787d0.image"
+    },
+    {
+      "url": "https://media.sketchfab.com/models/313eaeb022f64e87822727980fa1aa4e/thumbnails/5ea46005325d4c9c9db3aebbd8a67240/589d8f56854346108b743b41e718947a.jpeg",
+      "sha256": "a4e1cff16a2f2dedd169e2014618a0a55db64546a2f6621c181215308e11b0a4",
+      "bytes": 36434,
+      "filename": "sketchfab_313eaeb022f64e87822727980fa1aa4e.image"
+    }
+  ],
+  "limitations": [
+    "Snapshot para prueba local; no limita fuentes del producto",
+    "Disponibilidad de archivos 3D no comprobada"
+  ]
+}

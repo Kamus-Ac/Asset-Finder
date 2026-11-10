@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T20.** Ver evidencia en PROGRESS.
+**Siguiente tarea ejecutable: T21-L.** T20 bloqueada solo por datos de relevancia etiquetados.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -158,7 +158,9 @@ probados; la conexión a la fuente real sigue siendo responsabilidad de P3.
   permisos, candidatos, top-1/top-5 y tiempos en `ai/EVALUACION.md`.
   *Aceptación:* conjunto real reproducible y resultados observados, incluidos
   fallos. Un conjunto pequeño da evidencia parcial; pruebas sintéticas no cierran T20.
-  [NEEDS USER si faltan datos] P3/Brandon aporta o confirma las referencias y
+  **[NEEDS USER: Manuel/equipo]** Hay 8 candidatos reales para el ensayo, pero
+  faltan consultas independientes con IDs relevantes conocidos. No se cierra T20.
+  P3/Brandon aporta o confirma las referencias y
   candidatos reales. No impide implementar T18/T19 ni las pruebas locales independientes.
 
 ## FASE 4 — Flujo local y entrega preparada para el servidor

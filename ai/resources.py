@@ -90,5 +90,26 @@ def prepare_dino():
     return {"model": "dinov2_vits14", "revision": info["revision"], "verified": True}
 
 
+def prepare_demo():
+    """Obtiene una captura explícita de prueba; no implementa búsqueda en fuentes."""
+    manifest = json.loads((BASE / "demo_manifest.json").read_text())
+    target = BASE / "demo_data"
+    for info in manifest["resources"]:
+        name = info["filename"]
+        if Path(name).name != name:
+            raise ValueError("Nombre de recurso de demo inválido")
+        download_verified(info, target / name)
+    target.mkdir(parents=True, exist_ok=True)
+    (target / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+"\n")
+    return {"candidates": len(manifest["candidates"]), "snapshot_date": manifest["snapshot_date"]}
+
+
 if __name__ == "__main__":
-    print(json.dumps(prepare_dino(), indent=2))
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--demo", action="store_true", help="Preparar además las ocho imágenes de prueba registradas")
+    args = parser.parse_args()
+    report = {"dino": prepare_dino()}
+    if args.demo:
+        report["demo"] = prepare_demo()
+    print(json.dumps(report, indent=2))

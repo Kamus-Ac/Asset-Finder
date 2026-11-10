@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T20**. Ver
+servidor e integración al final. Siguiente tarea: **T21-L**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -701,3 +701,23 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 - Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **47 passed, 13 subtests passed in 24.08s**.
 - Sin instalaciones, CUDA ni API del equipo; siguiente T20.
 - Commit por tarea en `feature/ai-exploracion`.
+
+
+## T20 — Muestra real disponible; evaluación etiquetada bloqueada · 2026-11-10
+
+- **Estado:** `queued` / NEEDS USER (Manuel/equipo): faltan 10–15 referencias
+  independientes con coincidencias conocidas y 3–5 sin coincidencia clara.
+  T20 permanece [ ]; se avisó a Brandon y se continúa con T21-L independiente.
+- Captura pública Sketchfab de ocho candidatos, procedencia/licencia conocida o
+  null, URL y hashes en demo_manifest.json. Recursos ignorados; CLI explícita
+  `python -m ai.resources --demo` reproduce sus descargas verificadas. No es un
+  nuevo conector de búsqueda ni limita el lote que puede recibir la IA.
+- input_manifest.py carga solo imágenes listadas, valida límites/formato y evita
+  rutas fuera del paquete; no explora carpetas del usuario.
+- Ensayo real: SAM silla amarilla score 0.878883; DINO consulta y ocho miniaturas,
+  cinco resultados con enlace. Primeros cosenos: 0.36499119, 0.34008162, 0.32888782.
+  No hay ground truth de esa silla en la muestra; no se declaran aciertos.
+  Salida local: ai/resultados/preview/ranking.json.
+- Compilación y suite: **48 passed, 13 subtests passed in 26.51s**.
+  Detalle/criterios faltantes en EVALUACION.md. Sin instalaciones ni prueba GPU/API.
+- Commit: `ai(T20): preparar muestra real y documentar evaluacion pendiente`.
