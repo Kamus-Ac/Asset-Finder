@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T25-L**. Ver
+servidor e integración al final. Siguiente tarea: **T26-L**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -752,4 +752,13 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
 
 - Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **52 passed, 13 subtests passed in 39.72s**.
 - Sin instalaciones, CUDA ni API del equipo; siguiente T25-L.
+- Commit por tarea en `feature/ai-exploracion`.
+
+
+## T25-L — Desarrollo CPU · 2026-11-10
+
+Benchmark CPU ejecutado: carga SAM 2.0215 s, DINO 0.3908 s; inferencia calentada mediana 2.8902 s en tres repeticiones, consulta repetida cacheada 0.0478 s. RAM pico de proceso 1,254,408,192 bytes, VRAM null. Muestras y límites en MEDICIONES y ai/resultados/T25/metrics.json. Suite concurrente; no es una medida aislada ni GPU.
+
+- Validación: compilación `ai/*.py` y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **52 passed, 13 subtests passed in 42.85s**.
+- Sin instalaciones, CUDA ni API del equipo; siguiente T26-L.
 - Commit por tarea en `feature/ai-exploracion`.

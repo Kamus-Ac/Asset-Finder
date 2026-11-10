@@ -339,3 +339,25 @@ Cama fotogramas 00000/00030: coseno 0.95553565; cama/silla: 0.34461749.
 Tiempos 0.6564 s primera imagen con carga y 0.1155/0.1264 s posteriores.
 Una ejecución por imagen; no benchmark GPU ni evaluación de modelos 3D.
 Procedencia/recortes/hashes y artefactos locales en `ai/resultados/T13/`.
+
+
+## T25-L — Flujo CPU medido · 10 de noviembre de 2026
+
+Comando: `OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 ai/.venv-sam2/bin/python -m ai.benchmark`.
+Python 3.11.18; 2 hilos, 3 repeticiones tras un calentamiento.
+Caché de consulta desactivada para medir inferencia; ocho candidatos ya cacheados.
+Suite local concurrente: cifras orientativas de esta sesión, no benchmark aislado.
+
+| Etapa | Mediana (s) | Mínimo | Máximo |
+| --- | --- | --- | --- |
+| segment_seconds | 2.741214 | 2.565205 | 3.223809 |
+| prepare_seconds | 0.015770 | 0.013125 | 0.017479 |
+| embed_seconds | 0.095485 | 0.088171 | 0.141889 |
+| index_seconds | 0.036776 | 0.035643 | 0.045331 |
+| search_seconds | 0.000904 | 0.000826 | 0.000930 |
+| total_seconds | 2.890158 | 2.702975 | 3.429449 |
+
+Carga SAM 2.0215 s; DINO 0.3908 s; primera codificación de ocho candidatos 0.9679 s.
+Consulta repetida con caché: 0.0478 s. RAM pico del proceso completo: 1254408192 bytes.
+VRAM no medida (CPU); no se atribuye la RAM a un modelo ni al servidor MSI.
+Configuración, versiones, muestras y límites en `ai/resultados/T25/metrics.json`, ignorado por Git.
