@@ -71,6 +71,16 @@ def embed(image, *, mask=None, device="cpu"):
     except ImportError as error:
         raise ServiceUnavailableError("servicio no disponible: faltan dependencias DINO") from error
     prepared = prepare_image(image, mask)
+    return _encode_prepared(prepared, device=device)
+
+
+def _encode_prepared(prepared, *, device="cpu"):
+    """Uso interno: la imagen ya pasó T11; evita aplicar dos veces el margen."""
+    import numpy as np
+    from PIL import Image
+    import torch
+    if device not in ("cpu", "cuda"):
+        raise ValueError("device debe ser cpu o cuda")
     pixels = np.asarray(prepared.resize((224, 224), Image.Resampling.BICUBIC), dtype=np.float32) / 255
     tensor = torch.from_numpy(np.moveaxis(pixels, -1, 0).copy())
     tensor = (tensor - torch.tensor(TRANSFORM["mean"])[:, None, None]) / torch.tensor(TRANSFORM["std"])[:, None, None]

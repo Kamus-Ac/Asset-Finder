@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T15.** Ver evidencia en PROGRESS.
+**Siguiente tarea ejecutable: T16.** Ver evidencia en PROGRESS.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -115,7 +115,7 @@ Un conjunto guardado sirve para repetir pruebas, no limita las fuentes del produ
   *Aceptación:* casos válidos, duplicados, campos ausentes y errores; fixtures
   sintéticos identificados. Propuesta lista para P3, sin cambiar su contrato HTTP.
 
-- [ ] **T15 Preparación de imágenes candidatas.** Procesar miniaturas o vistas
+- [x] **T15 Preparación de imágenes candidatas.** Procesar miniaturas o vistas
   recibidas con la configuración T11/T12; mantener vínculo vista → asset y
   procedencia. No exigir GLB, Blender ni máscaras SAM para cada candidato.
   *Aceptación:* entradas inválidas o sin imagen identificadas; lote parcial
