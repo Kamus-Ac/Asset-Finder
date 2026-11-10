@@ -5,7 +5,7 @@ Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
 [PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
 
-**Siguiente tarea ejecutable: T11.** Esta reorganización no implementa tareas nuevas.
+**Siguiente tarea ejecutable: T12.** T11 completada con pruebas CPU.
 Primero completamos y probamos el flujo en CPU; después lo validamos en el servidor.
 Los IDs originales se conservan, aunque cambie su orden. Los sufijos `-L` y `-P`
 separan entregas locales y aceptación con P3/servidor; no duplican tareas terminadas.
@@ -77,7 +77,7 @@ del instalador. Es evidencia CPU/local, no una prueba GPU ni de integración HTT
 
 ## FASE 1 — Recorte y embeddings reales en CPU
 
-- [ ] **T11 Preparación del recorte.** Crear `ai/preprocess.py`: validar imagen y
+- [x] **T11 Preparación del recorte.** Crear `ai/preprocess.py`: validar imagen y
   máscara del mismo tamaño, aplicar máscara, recortar al objeto y componer sobre
   fondo RGB uniforme. Definir configuración reproducible para consulta y candidatos;
   cuando el candidato no tenga máscara, usar su imagen completa y registrarlo.

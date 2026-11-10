@@ -1,7 +1,7 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **T11**. Ver
+servidor e integración al final. Siguiente tarea: **T12**. Ver
 [TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
@@ -590,3 +590,15 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   ni consultas reales a Sketchfab. No se instalan paquetes sin propuesta/aprobación.
 - **Commit de merge:** `Merge origin/main into feature/ai-exploracion`.
   Se conserva el historial de ambas ramas; siguiente tarea de desarrollo: T11.
+
+
+## T11 — Recorte determinista CPU · 2026-11-10
+
+- `preprocess.py`: RGB uint8, máscara bool del mismo tamaño, rechazo de máscara
+  vacía, recorte al objeto, fondo blanco y margen del 10% en lienzo cuadrado.
+  Sin máscara se prepara la imagen completa; no muta entradas ni aplica EXIF.
+- Validación: compilación y `ai/.venv-tests/bin/python -m pytest ai/tests -q`: 
+  **37 passed, 5 subtests passed in 21.12s**. Casos numéricos comprueban fondo,
+  recorte, máscara completa, huecos, determinismo y rechazo de entradas inválidas.
+- Sin paquetes nuevos, pesos ni cambios fuera de ai/. Siguiente: T12.
+- Commit: `ai(T11): preparar recortes RGB consistentes`.
