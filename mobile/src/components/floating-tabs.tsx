@@ -75,7 +75,7 @@ function FloatingTabBar({ state, descriptors, emitter, navigateToTab }: TabBarPr
                   accessibilityState={{ selected }}
                   aria-selected={selected}
                   accessibilityLabel={options.tabBarAccessibilityLabel ?? options.title ?? route.name}
-                  className="flex-1 items-center justify-center active:opacity-70 focus-visible:rounded-full focus-visible:border-2 focus-visible:border-white"
+                  className="flex-1 items-center justify-center active:opacity-70 web:focus-visible:opacity-70"
                   style={{ paddingTop: 32 * scale }}
                   onPress={() => {
                     const event = emitter.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
