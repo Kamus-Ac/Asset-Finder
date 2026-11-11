@@ -1,16 +1,18 @@
 from pathlib import Path
 import time
+import importlib.util
 
 import numpy as np
-import torch
 from PIL import Image
-
-from sam2.build_sam import build_sam2
-from sam2.sam2_image_predictor import SAM2ImagePredictor
 
 
 BASE = Path(__file__).resolve().parent
-REPO = BASE / "sam2"
+
+# Cargar el módulo hermano por ruta mantiene el comando -I sin añadir ai/ a
+# sys.path (ai/sam2/ podría ocultar el paquete SAM instalado).
+spec = importlib.util.spec_from_file_location("asset_finder_segmentation", BASE / "segmentation.py")
+segmentation = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(segmentation)
 
 # Abrir la imagen y reducirla para esta prueba en CPU.
 image = Image.open(BASE / "prueba.jpeg").convert("RGB")
@@ -20,17 +22,6 @@ pixels = np.array(image)
 width, height = image.size
 
 print(f"Imagen de prueba: {width} × {height}")
-print("Cargando SAM 2...")
-
-model = build_sam2(
-    "configs/sam2.1/sam2.1_hiera_t.yaml",
-    str(REPO / "checkpoints/sam2.1_hiera_tiny.pt"),
-    device="cpu",
-    apply_postprocessing=False,
-)
-
-predictor = SAM2ImagePredictor(model)
-
 # Rectángulo: izquierda, arriba, derecha, abajo.
 # Estos valores sirven si la silla está centrada
 # y ocupa casi toda la imagen.
@@ -44,19 +35,9 @@ box = np.array([
 print("Seleccionando el objeto en el rectángulo...")
 start = time.perf_counter()
 
-with torch.inference_mode():
-    predictor.set_image(pixels)
-
-    masks, scores, _ = predictor.predict(
-    box=box,
-    multimask_output=False,
-)
+mask, score = segmentation.segment(image, box_xyxy=box, device="cpu")
 
 elapsed = time.perf_counter() - start
-
-# Elegir la máscara con mayor puntuación del modelo.
-mask = masks[int(np.argmax(scores))].astype(bool)
-
 
 # Guardar máscara en blanco y negro.
 Image.fromarray(
@@ -77,7 +58,8 @@ overlay[mask] = (
 
 Image.fromarray(overlay).save(BASE / "seleccion.png")
 
-print(f"Tiempo de segmentación: {elapsed:.2f} segundos")
+print(f"Tiempo de llamada (incluye primera carga): {elapsed:.2f} segundos")
+print(f"Puntuación del modelo: {score:.4f}")
 print("Resultados guardados en:", BASE)
 print("- mascara.png")
 print("- silla_transparente.png")

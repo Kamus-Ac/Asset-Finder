@@ -1,0 +1,7 @@
+# Entorno aislado de pruebas T01, Python 3.14.4. Aprobado por Brandon.
+# No contiene dependencias de SAM ni define el entorno CUDA de T02/T03.
+iniconfig==2.3.1
+packaging==26.3
+pluggy==1.7.0
+pygments==2.21.0
+pytest==9.2.0

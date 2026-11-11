@@ -1,3 +1,5 @@
+# Entorno CPU histórico. Las rutas relativas se resuelven ejecutando desde ai/.
+# No usar esta lista como instalador CUDA.
 antlr4-python3-runtime==4.9.3
 filelock==4.2.4
 fsspec==2026.9.0
@@ -14,7 +16,7 @@ pillow==13.0.0
 pip==26.3
 portalocker==4.4.2
 pyyaml==6.0.3
--e file:///home/admon/projects/asset-finder/ai/sam2
+-e ./sam2
 setuptools==78.1.0
 sympy==1.14.0
 torch==2.15.0+cpu

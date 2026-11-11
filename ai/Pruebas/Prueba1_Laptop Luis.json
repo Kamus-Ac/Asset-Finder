@@ -1,0 +1,68 @@
+la_chepocompu@LaChepocompu:/mnt/c/Users/La Chepocompu/Downloads$ python3 -I diagnostico_servidor.py
+{
+  "schema_version": 1,
+  "collected_at_utc": "2026-11-06T18:17:09.860790+00:00",
+  "host": "LaChepocompu",
+  "system": "Linux",
+  "kernel": "6.18.33.2-microsoft-standard-WSL2",
+  "architecture": "x86_64",
+  "distribution": {
+    "id": "ubuntu",
+    "name": "Ubuntu 26.04.1 LTS",
+    "version_id": "26.04"
+  },
+  "python": {
+    "version": "3.14.4",
+    "executable": "/usr/bin/python3"
+  },
+  "libc": {
+    "name": "glibc",
+    "version": "2.43"
+  },
+  "memory_visible_bytes": 16728621056,
+  "wsl": {
+    "kernel_mentions_microsoft": true,
+    "kernel_mentions_wsl2": true,
+    "dxg_exists": true
+  },
+  "gpu": {
+    "tool": "/usr/lib/wsl/lib/nvidia-smi",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 4060",
+        "driver_version": "610.88",
+        "memory_total_mib": 8188
+      }
+    ],
+    "parse_error": null,
+    "query": {
+      "argv": [
+        "/usr/lib/wsl/lib/nvidia-smi",
+        "--query-gpu=name,driver_version,memory.total",
+        "--format=csv,noheader,nounits"
+      ],
+      "returncode": 0,
+      "stdout": "NVIDIA GeForce RTX 4060, 610.88, 8188",
+      "stderr": ""
+    },
+    "raw_nvidia_smi": {
+      "argv": [
+        "/usr/lib/wsl/lib/nvidia-smi"
+      ],
+      "returncode": 0,
+      "stdout": "Fri Nov  6 12:17:09 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 610.57.01              KMD Version: 610.88        CUDA UMD Version: 13.3     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA GeForce RTX 4060        On  |   00000000:2B:00.0  On |                  N/A |\n|  0%   52C    P0            N/A  /  115W |    2980MiB /   8188MiB |      3%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|    0   N/A  N/A              26      G   /Xwayland                             N/A      |\n+-----------------------------------------------------------------------------------------+",
+      "stderr": ""
+    }
+  },
+  "raw_memory": {
+    "argv": [
+      "free",
+      "-b"
+    ],
+    "returncode": 0,
+    "stdout": "total        used        free      shared  buff/cache   available\nMem:     16728621056   670928896 16063807488     3645440   203554816 16057692160\nSwap:     4294967296           0  4294967296",
+    "stderr": ""
+  },
+  "note": "Salida local: no confirma que este equipo sea el servidor de Angel. Un código 0 del script solo indica que se recopiló el informe."
+}
+la_chepocompu@LaChepocompu:/mnt/c/Users/La Chepocompu/Downloads$

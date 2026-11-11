@@ -1,121 +1,60 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { useEffect, useRef } from 'react'
+import { mountCubePreview } from './main'
+import VisualSearch from './VisualSearch'
 import './App.css'
 
+type Asset = {
+  title: string
+  creator: string
+  color: number
+  category: string
+}
+
+const assets: Asset[] = [
+  { title: 'Cube', creator: 'Mina Park', color: 0xcaffca, category: 'Abstract' },
+  { title: 'Cube', creator: 'Noah Williams', color: 0xffc7a6, category: 'Architecture' },
+  { title: 'Cube', creator: 'Sofia Costa', color: 0xc7d7ff, category: 'Minimal' },
+  { title: 'Cube', creator: 'Luca Rossi', color: 0xffe59a, category: 'Objects' },
+  { title: 'Cube', creator: 'Aya Nakamura', color: 0xe7c7ff, category: 'Abstract' },
+  { title: 'Cube', creator: 'Ethan Cole', color: 0xffb7cf, category: 'Architecture' },
+]
+
+function CubePreview({ color }: { color: number }) {
+  const previewRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!previewRef.current) return
+    return mountCubePreview(previewRef.current, color)
+  }, [color])
+
+  return <div className="cube-preview" ref={previewRef} aria-hidden="true" />
+}
+
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+    <main className="catalog">
+      <VisualSearch />
+      <details className="scene-examples">
+      <summary>Catálogo Three.js de ejemplo</summary>
+      <section className="asset-grid" aria-label="Featured 3D assets">
+        {assets.map((asset) => (
+          <article className="asset-card" key={asset.creator}>
+            <div className={`asset-art`}>
+              {/* <span className="asset-category">{asset.category}</span> */}
+              <CubePreview color={asset.color} />
+              <button className="save-button" type="button" aria-label={`Save ${asset.title}`}>♡</button>
+            </div>
+            <div className="asset-info">
+              <div>
+                <h2>{asset.title}</h2>
+                <p>By {asset.creator}</p>
+              </div>
+            </div>
+          </article>
+        ))}
       </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      </details>
+    </main>
   )
 }
 
