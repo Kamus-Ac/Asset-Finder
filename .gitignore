@@ -45,3 +45,6 @@ dist/
 .DS_Store
 Thumbs.db
 *.log
+
+# Graphify se conserva solo en feature/ai-exploracion, fuera de main.
+/graphify-out/
