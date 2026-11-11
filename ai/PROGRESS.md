@@ -817,3 +817,33 @@ no detectó requisitos rotos; no se instalaron paquetes. Recursos/datos ignorado
   build/lint y comprobación del proxy; no hay prueba automatizada de navegador.
 - F03 requiere que Manuel exponga la cantidad y pagine Sketchfab; la prueba local
   contiene 24 candidatos reales. CUDA y evaluación etiquetada siguen pendientes.
+
+## R03 — Retomar cierre y actualizar el grafo · 2026-11-11
+
+- El commit compartido `366aec5` ya contiene F02, la refactorización R02 y
+  las cachés AST; se conserva su historial sin reescribir ni repetir esos cambios.
+- Grafo anterior pendiente de actualización: 303 nodos/420 relaciones. Se
+  recuperaron los tres fragmentos semánticos completos de ayer y se validaron
+  cobertura, esquema y extremos; el archivo del agente que reportó límite de
+  uso sí había quedado escrito y pasó esa validación.
+- Revalidación local: compilación; 56 pruebas aprobadas y 13 subtests, con la
+  prueba de HTTP separada para ejecutarla con permiso de localhost. Build y
+  lint del frontend pasan; el aviso de tamaño del bundle Three.js ya existía
+  antes de integrar la búsqueda y no impide compilar.
+- README de IA prioriza el frontend oficial; propuesta npm actualizada con su
+  instalación aprobada y commit real. F03 tiene propuesta concreta en
+  API_CANTIDADES_P3.md; su implementación y aceptación siguen con Manuel.
+- Se actualizará Graphify en un commit separado y solo para la rama IA.
+  Reproducción por el equipo, CUDA y evaluación etiquetada siguen pendientes.
+- Validación HTTP independiente: `pytest ai/tests/test_demo.py -q`,
+  1 passed in 0.82s; total revalidado: 57 pruebas y 13 subtests, sin omisiones.
+
+## F04 — Editar cantidades sin bloquear el formulario · 2026-11-11
+
+- Corregido el caso de vaciar un campo numérico: el frontend conserva un valor
+  vacío editable en vez de propagar NaN al top-k. Al reducir candidatos, top-k
+  se ajusta; valores fraccionarios, negativos o superiores al lote no habilitan envío.
+- Reglas separadas en frontend/src/searchControls.ts y usadas por VisualSearch.
+  Sin nuevos paquetes ni cambios de versiones o lockfile.
+- Validación: `node src/searchControls.test.mjs`, 3 pruebas aprobadas; build y
+  lint del frontend aprobados. No sustituye una prueba automatizada de navegador.

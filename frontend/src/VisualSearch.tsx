@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ChangeEvent, PointerEvent } from 'react'
+import { capResults, inputNumber, validCounts } from './searchControls'
+import type { CountValue } from './searchControls'
 import './VisualSearch.css'
 
 type Box = [number, number, number, number]
@@ -40,8 +42,8 @@ export default function VisualSearch() {
   const [image, setImage] = useState('')
   const [box, setBox] = useState<Box | null>(null)
   const [available, setAvailable] = useState(0)
-  const [count, setCount] = useState(1)
-  const [topK, setTopK] = useState(1)
+  const [count, setCount] = useState<CountValue>(1)
+  const [topK, setTopK] = useState<CountValue>(1)
   const [busy, setBusy] = useState(true)
   const [error, setError] = useState('')
   const [result, setResult] = useState<Comparison | null>(null)
@@ -101,8 +103,7 @@ export default function VisualSearch() {
     finally { URL.revokeObjectURL(url); setBusy(false) }
   }
 
-  const valid = box && Number.isInteger(count) && count >= 1 && count <= available
-    && Number.isInteger(topK) && topK >= 1 && topK <= count
+  const valid = box && validCounts(count, topK, available)
   async function compare() {
     if (!valid || busy) return
     setBusy(true); setError(''); setResult(null)
@@ -117,9 +118,10 @@ export default function VisualSearch() {
       <input type="file" accept="image/jpeg,image/png,image/webp" aria-label="Subir referencia" disabled={busy} onChange={event => void upload(event)} />
       <button type="button" disabled={busy} onClick={() => void sample()}>Usar ejemplo</button>
       <label>Candidatos a comparar<input type="number" min={1} max={available} step={1} value={count} disabled={busy} onChange={event => {
-        const value = event.target.valueAsNumber; setCount(value); setTopK(current => Math.min(current, value)); setResult(null)
+        const value = inputNumber(event.target.valueAsNumber)
+        setCount(value); setTopK(current => capResults(current, value)); setResult(null)
       }} /></label>
-      <label>Resultados a mostrar<input type="number" min={1} max={count} step={1} value={topK} disabled={busy} onChange={event => { setTopK(event.target.valueAsNumber); setResult(null) }} /></label>
+      <label>Resultados a mostrar<input type="number" min={1} max={count || undefined} step={1} value={topK} disabled={busy} onChange={event => { setTopK(inputNumber(event.target.valueAsNumber)); setResult(null) }} /></label>
     </div>
     <p>{available} candidatos disponibles en esta muestra de prueba de Sketchfab.</p>
     <canvas ref={canvasRef} aria-label="Selección del objeto" onPointerDown={event => {

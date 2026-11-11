@@ -246,10 +246,14 @@ pendientes y no bloquean las fases locales.
   añadir carga/selección, máscaras/resultados y controles de cantidades. Proxy
   local a IA para probar sin duplicar FastAPI. Compilar/lint con su lockfile exacto,
   aprobado por Brandon; commit separado y descripción de revisión para Ángel.
+- [x] **F04 Edición de cantidades.** Permitir vaciar y reescribir los campos
+  sin propagar NaN ni bloquear top-k; validar límites antes de enviar. Tres
+  pruebas del control, build y lint aprobados el 11 de noviembre.
 - [ ] **F03 Cantidad en la fuente y paginación.** [NEEDS USER: Manuel]
   La API actual fija count=10; preparar propuesta para pasar cantidad desde web,
   recuperar más páginas cuando se pidan más de 24 y mostrar cantidades efectivas.
-  Sin modificar backend ni dar por integrada esa parte.
+  Propuesta concreta en API_CANTIDADES_P3.md. Sin modificar backend ni dar por
+  integrada esa parte.
 
 ## Opcionales posteriores al flujo básico
 
