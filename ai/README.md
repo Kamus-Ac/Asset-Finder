@@ -4,35 +4,43 @@
 → DINOv2 → ranking de candidatos externos. La conexión a la API y CUDA se validan
 con Manuel y Ángel; generación SAM 3D sigue no disponible.
 
-## Probar desde el frontend oficial de Ángel
+## Iniciar la demo
 
-Desde la raíz, en dos terminales:
+Comandos para Ubuntu/WSL, ejecutados desde la raíz del repositorio. Requieren
+`ai/.venv-sam2` con las dependencias CPU y los pesos e imágenes ya preparados.
+Si faltan recursos, sigue [preparar recursos](docs/REPRODUCIR_CPU.md).
+
+### Frontend oficial de Ángel
+
+Abre dos terminales. Inicia el servidor IA en la primera y Vite en la segunda:
 
 ```bash
+# Terminal 1 · raíz del repositorio
 ai/.venv-sam2/bin/python -m ai.demo
 ```
 
 ```bash
+# Terminal 2 · raíz del repositorio
 cd frontend
 npm run dev -- --host 127.0.0.1 --port 5173
 ```
 
-Abrir **http://127.0.0.1:5173**. Incluye subida de foto, selección por rectángulo,
-máscara, recorte y resultados. Elegir candidatos a comparar (1–24 en esta muestra)
-y resultados a mostrar (top-k). El diseño y los ejemplos Three.js de Ángel se
-conservan. El proxy local usa el puerto 8765 de IA; la conexión a FastAPI sigue
-pendiente con Manuel. Dependencias npm del lockfile ya instaladas con aprobación.
+Abre **http://127.0.0.1:5173**. Podrás subir una foto, seleccionar el objeto y
+elegir cuántos candidatos comparar y cuántos resultados mostrar. Vite envía las
+solicitudes al servidor local de IA en el puerto 8765.
 
-## Demo aislada de IA desde la raíz
+### Demo aislada de IA
+
+Desde otra terminal, en la raíz, ejecuta:
 
 ```bash
 ai/.venv-sam2/bin/python -m ai.demo
 ```
 
-Abre **http://127.0.0.1:8765**. Usa el ejemplo o sube una foto, dibuja el rectángulo
-y pulsa **Comparar objeto**. Verás máscara, recorte y enlaces de los resultados.
-La demo solo escucha en localhost; detener con Ctrl+C. Si ese puerto está ocupado,
-usar `--port 8766` y abrir ese puerto. `--manifest` permite otro lote preparado por P3.
+Abre **http://127.0.0.1:8765**. Puedes subir una foto, dibujar el rectángulo y
+comparar. Para detener el servidor, presiona Ctrl+C. Si el puerto 8765 está ocupado,
+agrega `--port 8766` y abre http://127.0.0.1:8766. Para usar otro lote de candidatos,
+añade `--manifest /ruta/al/manifest.json`.
 
 ### Prueba por consola
 
