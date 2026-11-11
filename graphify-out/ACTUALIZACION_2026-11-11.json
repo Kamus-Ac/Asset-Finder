@@ -1,0 +1,270 @@
+{
+  "semantic_coverage_files": 25,
+  "semantic_obsolete_edges_removed": 0,
+  "changed_files": 77,
+  "nodes": 646,
+  "edges": 1193,
+  "base_commit": "5c880569248b56d91ca8fb197b9bc5b0e81499ba",
+  "token_usage_available": false,
+  "semantic_policy_review": "Nodo histórico preservado y corregido contra líneas explícitas 1-3 de ai/notas.txt",
+  "communities": 43,
+  "raw_diagnostics": {
+    "node_count": 342,
+    "unverified_node_count": 0,
+    "raw_edge_count": 846,
+    "non_object_edges": 0,
+    "missing_endpoint_edges": 0,
+    "dangling_endpoint_edges": 198,
+    "external_reference_edges": 7,
+    "self_loop_edges": 2,
+    "valid_candidate_edges": 641,
+    "exact_duplicate_edges": 0,
+    "directed_unique_endpoint_pairs": 619,
+    "directed_same_endpoint_collapsed_edges": 22,
+    "undirected_unique_endpoint_pairs": 619,
+    "undirected_same_endpoint_collapsed_edges": 22,
+    "same_endpoint_group_count": 21,
+    "relation_variant_groups": 19,
+    "source_file_variant_groups": 0,
+    "source_location_variant_groups": 2,
+    "context_variant_groups": 0,
+    "post_build_graph_type": "Graph",
+    "post_build_node_count": 395,
+    "post_build_edge_count": 820,
+    "post_build_error": "",
+    "producer_suppression": {
+      "path": "/home/user/.local/share/uv/tools/graphifyy/lib/python3.11/site-packages/graphify/extract.py",
+      "total_sites": 12,
+      "sites": [
+        {
+          "line": 1859,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids = {n[\"id\"] for n in nodes}"
+        },
+        {
+          "line": 2554,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids = {n[\"id\"] for n in nodes}"
+        },
+        {
+          "line": 2556,
+          "name": "seen_doc_refs",
+          "tuple_arity": 0,
+          "sample": "seen_doc_refs: set[str] = set()"
+        },
+        {
+          "line": 3223,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = {n[\"id\"] for n in nodes}"
+        },
+        {
+          "line": 3370,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids = {n.get(\"id\") for n in nodes}"
+        },
+        {
+          "line": 4784,
+          "name": "seen_keys",
+          "tuple_arity": 0,
+          "sample": "seen_keys: set[tuple] = set()"
+        },
+        {
+          "line": 4970,
+          "name": "seen_keys",
+          "tuple_arity": 0,
+          "sample": "seen_keys: set[tuple] = set()"
+        },
+        {
+          "line": 8790,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 8898,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 8977,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 9502,
+          "name": "seen_ids",
+          "tuple_arity": 0,
+          "sample": "seen_ids: set[str] = set()"
+        },
+        {
+          "line": 9503,
+          "name": "seen_edges",
+          "tuple_arity": 4,
+          "sample": "seen_edges: set[tuple[str, str, str, str | None]] = set()"
+        }
+      ],
+      "error": ""
+    },
+    "examples": [
+      {
+        "source": "ai_pipeline_run_search",
+        "target": "ai_pipeline_run_search_compute",
+        "edge_count": 3,
+        "relations": [
+          "calls",
+          "contains",
+          "indirect_call"
+        ],
+        "source_files": [
+          "ai/pipeline.py"
+        ],
+        "source_locations": [
+          "L62",
+          "L78",
+          "L80"
+        ],
+        "contexts": [
+          "",
+          "argument",
+          "call"
+        ]
+      },
+      {
+        "source": "ai_errors_memory_errors",
+        "target": "ai_errors_memory_errors_wrapped",
+        "edge_count": 2,
+        "relations": [
+          "contains",
+          "indirect_call"
+        ],
+        "source_files": [
+          "ai/errors.py"
+        ],
+        "source_locations": [
+          "L11",
+          "L22"
+        ],
+        "contexts": [
+          "",
+          "return"
+        ]
+      },
+      {
+        "source": "ai_tests_test_candidate_images_candidateimagetests",
+        "target": "ai_tests_cpu_case_cpucase",
+        "edge_count": 2,
+        "relations": [
+          "inherits",
+          "uses"
+        ],
+        "source_files": [
+          "ai/tests/test_candidate_images.py"
+        ],
+        "source_locations": [
+          "L4"
+        ],
+        "contexts": [
+          ""
+        ]
+      },
+      {
+        "source": "ai_tests_test_demo_demotests",
+        "target": "ai_tests_cpu_case_cpucase",
+        "edge_count": 2,
+        "relations": [
+          "inherits",
+          "uses"
+        ],
+        "source_files": [
+          "ai/tests/test_demo.py"
+        ],
+        "source_locations": [
+          "L4"
+        ],
+        "contexts": [
+          ""
+        ]
+      },
+      {
+        "source": "ai_tests_test_embedding_embeddingtests",
+        "target": "ai_tests_cpu_case_cpucase",
+        "edge_count": 2,
+        "relations": [
+          "inherits",
+          "uses"
+        ],
+        "source_files": [
+          "ai/tests/test_embedding.py"
+        ],
+        "source_locations": [
+          "L4"
+        ],
+        "contexts": [
+          ""
+        ]
+      }
+    ]
+  },
+  "final_self_loops": 0,
+  "semantic_coverage": {
+    "/home/user/projects/Asset-Finder/README.md": 279,
+    "/home/user/projects/Asset-Finder/ai/README.md": 155,
+    "/home/user/projects/Asset-Finder/ai/TASKS.md": 289,
+    "/home/user/projects/Asset-Finder/ai/PLAN_P4_IA.md": 143,
+    "/home/user/projects/Asset-Finder/ai/PROGRESS.md": 849,
+    "/home/user/projects/Asset-Finder/ai/CANDIDATOS_P3.md": 35,
+    "/home/user/projects/Asset-Finder/ai/ENTREGA_EQUIPO.md": 76,
+    "/home/user/projects/Asset-Finder/ai/EVALUACION.md": 74,
+    "/home/user/projects/Asset-Finder/ai/INTERFAZ_P3.md": 95,
+    "/home/user/projects/Asset-Finder/ai/MEDICIONES.md": 363,
+    "/home/user/projects/Asset-Finder/ai/NOTAS_SAM3D.md": 95,
+    "/home/user/projects/Asset-Finder/ai/PROPUESTA_ENTORNO.md": 184,
+    "/home/user/projects/Asset-Finder/ai/PROPUESTA_FRONTEND.md": 62,
+    "/home/user/projects/Asset-Finder/ai/REPRODUCIR_CPU.md": 37,
+    "/home/user/projects/Asset-Finder/ai/RESUMEN_PROYECTO.md": 43,
+    "/home/user/projects/Asset-Finder/ai/REVISION.md": 38,
+    "/home/user/projects/Asset-Finder/ai/notas.txt": 16,
+    "/home/user/projects/Asset-Finder/ai/web/demo.html": 85,
+    "/home/user/projects/Asset-Finder/ai/Pruebas/Angel_GPU_Windows_2026-11-09.txt": 11,
+    "/home/user/projects/Asset-Finder/ai/Pruebas/Equipo_Dell_2026-11-09.txt": 24,
+    "/home/user/projects/Asset-Finder/ai/Pruebas/Inventario_MSI_T03_2026-11-09.txt": 3,
+    "/home/user/projects/Asset-Finder/ai/Pruebas/Preparacion_MSI_T03_2026-11-09.txt": 8,
+    "/home/user/projects/Asset-Finder/graphify-out/memory/query_20261109_174938_b1bce96d_generame_un_pequeño_archivo_de_resumen_que_me_expl.md": 83,
+    "/home/user/projects/Asset-Finder/graphify-out/memory/query_20261109_175811_d0d52162_listo__ya_podemos_continuar_con_las_tasks__ahora_a.md": 23,
+    "/home/user/projects/Asset-Finder/ai/API_CANTIDADES_P3.md": 44
+  },
+  "source_hashes": {
+    "/home/user/projects/Asset-Finder/README.md": "232342fdf91d9a23df2ed7c1665000151ecdd53b604916954898c54682a494cc",
+    "/home/user/projects/Asset-Finder/ai/README.md": "1900bb1b1c8b700b9268bcab6432f1a119916a4d00fb5f4e9af899cd4c36be72",
+    "/home/user/projects/Asset-Finder/ai/TASKS.md": "7fb0184233ec20a6790a7e56b633bf891f846c3a13012bc73a564fafd4d13130",
+    "/home/user/projects/Asset-Finder/ai/PLAN_P4_IA.md": "60cc22d2c7e6179f77c9be9f6e4dcd2d70d430ba07b0ae53eb5aec64e7a7f5aa",
+    "/home/user/projects/Asset-Finder/ai/PROGRESS.md": "ed06a20314ec32c85098d67ab4b6bb4942f9760dc732b493ea1705f4a88464c7",
+    "/home/user/projects/Asset-Finder/ai/CANDIDATOS_P3.md": "4004af58b6584583214daeafdc7484271042762dcb145c8735b1315565ebbbe1",
+    "/home/user/projects/Asset-Finder/ai/ENTREGA_EQUIPO.md": "b103b4ddaf5347fab8625a68f4c94cdbca933acf9c66a372619aff2d54f9dd8d",
+    "/home/user/projects/Asset-Finder/ai/EVALUACION.md": "089f09ca872ba13a785cc09bc070c1085e85a920a73298b1151badd5faf57fa5",
+    "/home/user/projects/Asset-Finder/ai/INTERFAZ_P3.md": "14ebe3cac1b6c8d950e01cb30d04af5eb3ad0ec959e9c8f4183a39b0d08bf227",
+    "/home/user/projects/Asset-Finder/ai/MEDICIONES.md": "dd1b04af064727b617fa48912673e994e40d201327c52494e9f9cb9ecb9757c5",
+    "/home/user/projects/Asset-Finder/ai/NOTAS_SAM3D.md": "58256367e808caac9c9746ed65011357ee86c2eefc7a39403656eeb56aa71767",
+    "/home/user/projects/Asset-Finder/ai/PROPUESTA_ENTORNO.md": "4910f30048833bd851c78896763a05adf171901eef9302c81ba0e00bd12c40e2",
+    "/home/user/projects/Asset-Finder/ai/PROPUESTA_FRONTEND.md": "ba114a98fc68f20f071d7fa555a4f147a9303c98192f1c925c364fd2b0bcfe59",
+    "/home/user/projects/Asset-Finder/ai/REPRODUCIR_CPU.md": "9c78df5f5c68f451ba1d8f4c244c2fdd50d497b55d1bc01099b6ebfaea9199a0",
+    "/home/user/projects/Asset-Finder/ai/RESUMEN_PROYECTO.md": "e358459e659640a5ba893d41765818bf5236761182105f9ae6509701741898e8",
+    "/home/user/projects/Asset-Finder/ai/REVISION.md": "dade330cb515c102b2e6d9f62ea0cdeff189a414c05327f469f0b7de7c0f9cca",
+    "/home/user/projects/Asset-Finder/ai/notas.txt": "2eb0b60a05389362431dac140918549ef6aef5962be927acfb68727636f772bf",
+    "/home/user/projects/Asset-Finder/ai/web/demo.html": "f3c22f83f3c1b825ec30c758fe1799f7f3a9cacf0e55ea3903eb5a1b44123090",
+    "/home/user/projects/Asset-Finder/ai/Pruebas/Angel_GPU_Windows_2026-11-09.txt": "f246f331038fd2694d4f4bc9010f4e476473ba460cf87b91d07bcf6fbaa63bea",
+    "/home/user/projects/Asset-Finder/ai/Pruebas/Equipo_Dell_2026-11-09.txt": "8b0f7bf01e32b0c2e6984d121c6493481c493d6ff194556f77c8da85ce079e7b",
+    "/home/user/projects/Asset-Finder/ai/Pruebas/Inventario_MSI_T03_2026-11-09.txt": "b87694e268a4c713bab5af1f4b176c977cd0ecedd9f57827dcbdecf8e8a16beb",
+    "/home/user/projects/Asset-Finder/ai/Pruebas/Preparacion_MSI_T03_2026-11-09.txt": "27e237405d47d8cd83ba623d747dad060bd4decb97c8178d52a196986b9742c4",
+    "/home/user/projects/Asset-Finder/graphify-out/memory/query_20261109_174938_b1bce96d_generame_un_pequeño_archivo_de_resumen_que_me_expl.md": "9b6eecc8cfc463b18f0cad84d373eb8ffda7034e4c1095cf36881f2a56e6900d",
+    "/home/user/projects/Asset-Finder/graphify-out/memory/query_20261109_175811_d0d52162_listo__ya_podemos_continuar_con_las_tasks__ahora_a.md": "95c85bd92cffae8bc94bd53c091bbd8af8b3d14d4a6e7cfa802c7b666d94de6b",
+    "/home/user/projects/Asset-Finder/ai/API_CANTIDADES_P3.md": "462a4cca60e7e6ac6a2b045d6730f33fb85f11c136f0077386d02b0d8a451cba"
+  },
+  "token_usage_note": "No disponible; ceros son marcadores, no costo medido"
+}
