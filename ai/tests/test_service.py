@@ -39,7 +39,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 from ai.service import segment, mask_to_png, ServiceUnavailableError
-image = Image.open(Path(sys.argv[1]) / 'ai/prueba.jpeg').convert('RGB')
+image = Image.open(Path(sys.argv[1]) / 'ai/examples/prueba.jpeg').convert('RGB')
 image.thumbnail((1024, 1024))
 mask, score = segment(image, [222, 355, 430, 562])
 assert mask.dtype == bool and mask.shape == (image.height, image.width)

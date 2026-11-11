@@ -1,4 +1,4 @@
-"""Entrada Python de IA; propuesta de integración descrita en INTERFAZ_P3.md."""
+"""Entrada Python de IA; propuesta de integración en docs/INTERFAZ_P3.md."""
 
 from io import BytesIO
 

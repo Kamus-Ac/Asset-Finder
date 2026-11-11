@@ -26,8 +26,8 @@ ai/.venv-sam2/bin/python -m ai.pipeline
 El código DINO se carga de su copia oficial fijada; no necesita instalar xFormers
 ni timm para este backbone. Proveedor, pesos y datos quedan ignorados por Git.
 
-Los recursos se registran en `sam_resources.json`, `dino_resources.json` y
-`demo_manifest.json`. SAM Tiny: 156,008,466 bytes; DINO ViT-S/14: 88,283,115 bytes,
+Los recursos se registran en `ai/manifests/sam_resources.json`, `ai/manifests/dino_resources.json` y
+`ai/manifests/demo_manifest.json`. SAM Tiny: 156,008,466 bytes; DINO ViT-S/14: 88,283,115 bytes,
 más código y ocho miniaturas pequeñas. La CLI verifica hashes antes de usarlos.
 Si encuentra una copia incompatible, se detiene sin sobrescribirla; revisar el
 mensaje antes de volver a ejecutar, sin borrar entornos o archivos para forzar éxito.

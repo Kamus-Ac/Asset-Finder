@@ -11,7 +11,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 
-BASE = Path(__file__).resolve().parent
+BASE = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("asset_finder_segmentation_t08", BASE / "segmentation.py")
 SEGMENTATION = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(SEGMENTATION)
@@ -29,7 +29,7 @@ CASES = {
 
 
 def run(output, device="cpu"):
-    image_path = BASE / "prueba.jpeg"
+    image_path = BASE / "examples/prueba.jpeg"
     with Image.open(image_path) as source:
         image = source.convert("RGB")
     image.thumbnail((1024, 1024))
@@ -37,7 +37,7 @@ def run(output, device="cpu"):
         raise ValueError("T08 usa prompts para prueba.jpeg a 1024×631; revisar la imagen")
     output.mkdir(parents=True, exist_ok=True)
     pixels = np.array(image)
-    report = {"image": "ai/prueba.jpeg", "sha256": hashlib.sha256(image_path.read_bytes()).hexdigest(),
+    report = {"image": "ai/examples/prueba.jpeg", "sha256": hashlib.sha256(image_path.read_bytes()).hexdigest(),
               "size": list(image.size), "device": device, "target": "silla amarilla visible",
               "note": "Scores brutos SAM; sin ground truth ni evaluación automática de identidad.",
               "cases": {}}

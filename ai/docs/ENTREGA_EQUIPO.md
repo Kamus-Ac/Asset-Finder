@@ -55,7 +55,7 @@ No hace falta programar otra herramienta para correrlo al recibir las referencia
 
 1. Conservar `.venv-gpu` de la raíz y el inventario revisado. No copiar el entorno
    CPU ni ejecutar su requirements sobre GPU.
-2. T03: desde la raíz, `bash ai/preparar_gpu.sh .venv-gpu`. Si falla, conservar
+2. T03: desde la raíz, `bash ai/scripts/preparar_gpu.sh .venv-gpu`. Si falla, conservar
    la salida y revisar el estado parcial antes de reintentar. Compartir JSON y lock.
 3. Preparar recursos oficiales con `python3 -m ai.resources --sam --demo`;
    si hay código SAM local incompatible, el comando se detiene sin sobrescribir.

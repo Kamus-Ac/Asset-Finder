@@ -20,13 +20,18 @@ Asset-Finder/
 ├── .gitignore                       ← Archivos locales que no deben subirse a Git
 │
 ├── ai/                              ← P4 · Brandon: IA y catálogo
-│   ├── README.md                     ← Comparación de carpetas y prueba CPU local
-│   ├── PLAN_P4_IA.md                 ← Etapas, checklist de avance y siguiente tarea
-│   ├── PROPUESTA_ENTORNO.md          ← Versiones CUDA propuestas para el servidor WSL
-│   ├── MEDICIONES.md                 ← Resultados observados y límites de las pruebas
-│   ├── prueba_sam2.py                ← Prueba de segmentación con SAM en CPU
-│   ├── prueba.jpeg                   ← Imagen de entrada de la prueba
-│   └── requirements-sam2.txt         ← Dependencias registradas del entorno SAM
+│   ├── README.md / TASKS.md / PROGRESS.md ← Inicio, tareas e historial
+│   ├── service.py / pipeline.py      ← Interfaz de IA y flujo completo
+│   ├── segmentation.py / embedding.py / search.py ← SAM, DINO y ranking
+│   ├── docs/                        ← Plan, integración P3, mediciones y propuestas
+│   ├── scripts/                     ← Diagnóstico y preparación del entorno GPU
+│   ├── examples/                    ← Pruebas manuales y foto de referencia
+│   ├── manifests/                   ← Versiones, origen y hashes de recursos
+│   ├── infrastructure/              ← Persistencia compartida de vectores
+│   ├── web/                         ← HTML de la demo aislada
+│   ├── tests/                       ← Suite de validación
+│   ├── Pruebas/                     ← Informes de las laptops
+│   └── requirements-*.txt           ← Dependencias fijadas de SAM y pruebas
 │
 ├── backend/                         ← P3 · Manuel: API y servidor
 │   ├── main.py                      ← Aplicación FastAPI; contiene GET /health
@@ -35,7 +40,8 @@ Asset-Finder/
 ├── frontend/                        ← P2 · Angel: web y futura escena 3D
 │   ├── src/
 │   │   ├── main.tsx                 ← Monta React en el HTML
-│   │   ├── App.tsx                  ← Componente principal; aún es la plantilla inicial
+│   │   ├── App.tsx                  ← Búsqueda visual y ejemplos de escena de Ángel
+│   │   ├── VisualSearch.tsx         ← Foto, selección y resultados de la prueba IA
 │   │   ├── App.css                  ← Estilos del componente principal
 │   │   ├── index.css                ← Estilos generales
 │   │   └── assets/                  ← Imágenes y logotipos importados por React
@@ -66,13 +72,13 @@ La IA se ejecutará en el servidor, nunca en el teléfono ni en el navegador.
 ```text
 Usuario → móvil o web: imagen y selección    [clientes pendientes de integrar]
 │
-└── API del servidor · backend/              [actualmente solo /health]
+└── API del servidor · backend/              [/health, /media y búsqueda textual]
     │
-    ├── Recibir imagen y selección           [pendiente]
+    ├── Recibir imagen                       [/media implementado; selección por integrar]
     ├── Ejecutar el procesamiento · ai/
-    │   ├── SAM → máscara del objeto         [hay una prueba independiente en CPU]
-    │   ├── DINO → vector visual             [pendiente]
-    │   └── Búsqueda → assets similares      [pendiente]
+    │   ├── SAM → máscara del objeto         [implementado y probado en CPU]
+    │   ├── DINO → vector visual             [implementado y probado en CPU]
+    │   └── Búsqueda → assets similares      [ranking local implementado; API por conectar]
     └── Devolver resultados y guardar proyecto/escena [pendiente]
         │
         └── Web: colocar modelos GLB en una escena   [pendiente]
@@ -94,9 +100,9 @@ bajo `docs/`.
 2. [PLAN_EQUIPO.md](PLAN_EQUIPO.md): tu rol y las tareas previstas para cada día.
 3. [CONTRATOS_API.md](CONTRATOS_API.md): qué datos intercambiarán las áreas.
 4. El código de tu área: para **Brandon / P4**, empieza por
-   [ai/prueba_sam2.py](ai/prueba_sam2.py). Lee la carga de imagen, el rectángulo,
-   la predicción y el guardado de máscara/recorte. Sigue las tareas y su avance
-   en [ai/PLAN_P4_IA.md](ai/PLAN_P4_IA.md).
+   [ai/README.md](ai/README.md), después [ai/service.py](ai/service.py) y
+   [ai/pipeline.py](ai/pipeline.py). Las guías están en [ai/docs/](ai/docs/README.md)
+   y el avance en [ai/TASKS.md](ai/TASKS.md).
 5. [Contexto completo](Asset_Finder_Contexto_Claude_Equipo.md): consulta el diseño
    amplio y los antecedentes cuando necesites más detalle. El plan del equipo
    distingue el alcance de una semana del roadmap original de seis semanas.
@@ -120,19 +126,19 @@ búsqueda forman parte de las simplificaciones recomendadas en el plan.
 
 ## Estado
 
-SAM 2.1 Tiny probado para segmentar imágenes en CPU.
-Indexación y búsqueda visual en desarrollo.
+Flujo visual CPU implementado: SAM → recorte → DINOv2 → índice y ranking.
+El frontend oficial permite probarlo con 24 candidatos y cantidades configurables.
 
 La prueba CPU usa el entorno propio `ai/.venv-sam2`, sin depender de la carpeta
 antigua. Comando y resultados en
-[ai/README.md](ai/README.md) y [ai/MEDICIONES.md](ai/MEDICIONES.md).
+[ai/README.md](ai/README.md) y [ai/docs/MEDICIONES.md](ai/docs/MEDICIONES.md).
 El entorno CUDA del servidor de Angel en Ubuntu/WSL sigue pendiente.
-El script usa un rectángulo fijo y guarda
-`mascara.png`, `silla_transparente.png` y `seleccion.png` dentro de `ai/`.
-La selección actual toma fondo/pared; falta validar la selección del objeto.
-Las funciones reutilizables `segment`, `embed` y `search` siguen pendientes.
+La demo permite seleccionar el objeto. El ejemplo histórico
+`ai/examples/prueba_sam2.py` conserva su rectángulo fijo y guarda sus imágenes
+en `ai/resultados/prueba_sam2/`. Las funciones `segment`, `embed` y `search`
+están disponibles mediante `ai.service`.
 
-CUDA, catálogo indexado, conexión Tailscale y flujo completo requieren validación.
+CUDA, conexión de la API visual, Tailscale y flujo completo requieren validación.
 SAM 3D es solo investigación: **servicio no disponible** para la integración.
 
 ## Entorno
@@ -275,5 +281,5 @@ Abrir http://127.0.0.1:5173. El proxy local reenvía las llamadas a IA en el pue
 La interfaz aislada de pruebas permanece en `ai/web/demo.html`, servida por
 `ai/demo.py`. Persistencia común en `ai/infrastructure/arrays.py`.
 Comandos, recursos y pendientes: [README de IA](ai/README.md) y
-[entrega al equipo](ai/ENTREGA_EQUIPO.md). Graphify se guarda solo en la rama IA,
+[entrega al equipo](ai/docs/ENTREGA_EQUIPO.md). Graphify se guarda solo en la rama IA,
 excluido de cualquier PR a main.

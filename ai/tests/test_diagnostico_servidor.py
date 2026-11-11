@@ -4,7 +4,7 @@ import subprocess
 import unittest
 from unittest.mock import patch
 
-from ai.diagnostico_servidor import collect_report, nvidia_tool, parse_gpu_csv, run_command
+from ai.scripts.diagnostico_servidor import collect_report, nvidia_tool, parse_gpu_csv, run_command
 
 
 class GpuCsvTest(unittest.TestCase):
@@ -33,31 +33,31 @@ class GpuCsvTest(unittest.TestCase):
 
 
 class CommandTest(unittest.TestCase):
-    @patch("ai.diagnostico_servidor.shutil.which", return_value=None)
-    @patch("ai.diagnostico_servidor.Path.is_file", return_value=True)
-    @patch("ai.diagnostico_servidor.os.access", return_value=True)
+    @patch("ai.scripts.diagnostico_servidor.shutil.which", return_value=None)
+    @patch("ai.scripts.diagnostico_servidor.Path.is_file", return_value=True)
+    @patch("ai.scripts.diagnostico_servidor.os.access", return_value=True)
     def test_wsl_tool_is_found_outside_path(self, _access, _file, _which):
         self.assertEqual(nvidia_tool(), "/usr/lib/wsl/lib/nvidia-smi")
 
-    @patch("ai.diagnostico_servidor.subprocess.run", side_effect=FileNotFoundError)
+    @patch("ai.scripts.diagnostico_servidor.subprocess.run", side_effect=FileNotFoundError)
     def test_missing_command_is_recorded(self, _run):
         result = run_command(["comando-inexistente"])
         self.assertEqual(result["returncode"], 127)
         self.assertIn("servicio no disponible", result["stderr"])
 
-    @patch("ai.diagnostico_servidor.subprocess.run", side_effect=PermissionError)
+    @patch("ai.scripts.diagnostico_servidor.subprocess.run", side_effect=PermissionError)
     def test_permission_error_does_not_abort_report(self, _run):
         self.assertEqual(run_command(["nvidia-smi"])["returncode"], 126)
 
-    @patch("ai.diagnostico_servidor.subprocess.run",
+    @patch("ai.scripts.diagnostico_servidor.subprocess.run",
            side_effect=subprocess.TimeoutExpired("nvidia-smi", 10))
     def test_timeout_is_recorded(self, _run):
         self.assertEqual(run_command(["nvidia-smi"])["returncode"], 124)
 
 
 class ReportTest(unittest.TestCase):
-    @patch("ai.diagnostico_servidor.nvidia_tool", return_value=None)
-    @patch("ai.diagnostico_servidor.run_command")
+    @patch("ai.scripts.diagnostico_servidor.nvidia_tool", return_value=None)
+    @patch("ai.scripts.diagnostico_servidor.run_command")
     def test_absent_gpu_does_not_report_empty_success(self, command, _tool):
         command.return_value = {"returncode": 127, "stdout": "", "stderr": "ausente"}
         report = collect_report()
@@ -65,8 +65,8 @@ class ReportTest(unittest.TestCase):
         self.assertIsNone(report["gpu"]["tool"])
         self.assertIn("version", report["python"])
 
-    @patch("ai.diagnostico_servidor.nvidia_tool", return_value="/ruta/simulada/nvidia-smi")
-    @patch("ai.diagnostico_servidor.run_command")
+    @patch("ai.scripts.diagnostico_servidor.nvidia_tool", return_value="/ruta/simulada/nvidia-smi")
+    @patch("ai.scripts.diagnostico_servidor.run_command")
     def test_bad_gpu_output_preserves_diagnostic(self, command, _tool):
         command.return_value = {"returncode": 0, "stdout": "salida inesperada", "stderr": ""}
         report = collect_report()

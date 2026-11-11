@@ -9,7 +9,7 @@ de búsqueda de assets con las pruebas de funcionamiento disponibles.
   video, frente a la silla de la referencia. Coseno 0.95553565 / 0.34461749.
   Son vistas correlacionadas, no consultas independientes de assets 3D.
 - Captura pública Sketchfab `chair`: ocho modelos con miniaturas reales, enlace
-  de origen y SHA-256 de los archivos. Se registra en `demo_manifest.json`;
+  de origen y SHA-256 de los archivos. Se registra en `ai/manifests/demo_manifest.json`;
   imágenes fuera de Git. La licencia conocida se conserva; desconocida es null.
 - La demo comparará selecciones reales contra ese lote. Que una miniatura se
   recupere a sí misma no se contará como relevancia en fotos nuevas.

@@ -2,8 +2,8 @@
 
 **Brandon / P4 · actualizado el 10 de noviembre de 2026.**
 Trabajo en `ai/`, rama `feature/ai-exploracion`.
-[TASKS.md](TASKS.md) es la lista única de tareas, estados y aceptación;
-[PROGRESS.md](PROGRESS.md) conserva la evidencia. Este archivo explica el orden.
+[TASKS.md](../TASKS.md) es la lista única de tareas, estados y aceptación;
+[PROGRESS.md](../PROGRESS.md) conserva la evidencia. Este archivo explica el orden.
 
 ## Objetivo
 
@@ -73,8 +73,8 @@ no se limita el producto a una colección manual ni a carpetas del usuario.
 - **Orden por dependencias:** el avance se mide con aceptación y evidencia,
   no con los días del calendario original ni un porcentaje estimado.
 
-Los documentos de raíz [PLAN_P4.md](../PLAN_P4.md),
-[PLAN_EQUIPO.md](../PLAN_EQUIPO.md) y [CONTRATOS_API.md](../CONTRATOS_API.md)
+Los documentos de raíz [PLAN_P4.md](../../PLAN_P4.md),
+[PLAN_EQUIPO.md](../../PLAN_EQUIPO.md) y [CONTRATOS_API.md](../../CONTRATOS_API.md)
 son antecedentes compartidos. Este plan actualiza el trabajo de P4 por autorización
 de Brandon; no cambia endpoints ni compromisos de otros integrantes.
 

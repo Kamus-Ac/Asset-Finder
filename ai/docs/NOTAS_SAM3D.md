@@ -45,7 +45,7 @@ Una evaluación futura exigiría una propuesta de instalación aislada y aprobad
 
 Referencias internas: [MEDICIONES.md](MEDICIONES.md) y diagnóstico de Luis.
 Actualización de hardware del 10 de noviembre:
-[diagnóstico MSI](Pruebas/Diagnostico_MSI_Angel_2026-11-09.json).
+[diagnóstico MSI](../Pruebas/Diagnostico_MSI_Angel_2026-11-09.json).
 T10 conserva su conclusión; no se ejecutó SAM 3D. El plan CPU primero no activa
 la generación ni convierte su viabilidad en una conexión pendiente garantizada.
 La RAM del sistema no equivale a VRAM. No se suman memorias de GPU integrada,

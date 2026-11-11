@@ -14,7 +14,7 @@ from .embedding import _get_model, model_identity
 from .index import build_index
 from .input_manifest import load_manifest, load_rgb
 from .pipeline import run_search
-from .resources import BASE
+from .resources import BASE, SAMPLE_IMAGE
 from .segmentation import _get_predictor, _CHECKPOINT
 
 
@@ -35,7 +35,7 @@ def main():
     _get_model("cpu")
     dino_load = time.perf_counter()-started
     candidates = load_manifest(BASE / "demo_data/manifest.json")
-    image = load_rgb(BASE / "prueba.jpeg")
+    image = load_rgb(SAMPLE_IMAGE)
     image.thumbnail((1024,1024))
     box = [222,355,430,562]
     with tempfile.TemporaryDirectory() as cache:

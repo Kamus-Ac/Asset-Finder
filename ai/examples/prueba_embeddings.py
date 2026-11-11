@@ -5,8 +5,8 @@ import json
 from pathlib import Path
 import time
 
-from .embedding import embed, model_identity
-from .resources import BASE, sha256
+from ..embedding import embed, model_identity
+from ..resources import BASE, SAMPLE_IMAGE, sha256
 
 
 def main():
@@ -20,7 +20,7 @@ def main():
     sources = [
         (BASE / "sam2/notebooks/videos/bedroom/00000.jpg", (0, 450, 700, 540)),
         (BASE / "sam2/notebooks/videos/bedroom/00030.jpg", (0, 450, 700, 540)),
-        (BASE / "prueba.jpeg", None),
+        (SAMPLE_IMAGE, None),
     ]
     args.output.mkdir(parents=True, exist_ok=True)
     records, vectors = [], []

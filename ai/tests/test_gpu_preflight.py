@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 
 
-SCRIPT = Path(__file__).resolve().parents[1] / 'preparar_gpu.sh'
+SCRIPT = Path(__file__).resolve().parents[1] / 'scripts/preparar_gpu.sh'
 PREFLIGHT = SCRIPT.read_text(encoding='utf-8').split("<<'PY'\n", 1)[1].split('\nPY\n', 1)[0]
 # Inventario compartido por el usuario desde la MSI; no es una salida GPU simulada.
 MSI_INVENTORY = {

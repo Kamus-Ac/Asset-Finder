@@ -1,6 +1,6 @@
 # Asset Finder — resumen para Brandon
 
-Estado: **10 de noviembre de 2026**.
+Estado: **11 de noviembre de 2026**.
 
 ## Proyecto y responsabilidades
 
@@ -20,8 +20,8 @@ Asset-Finder/
 
 - **IA CPU:** flujo completo implementado y probado con imágenes reales; caché,
   validación, errores, mediciones y comandos reproducibles. DINO de 384 componentes.
-- **Prueba disponible:** `ai/.venv-sam2/bin/python -m ai.demo`; abrir
-  http://127.0.0.1:8765. Subir foto, marcar objeto y comparar. Muestra de ocho modelos
+- **Prueba disponible:** frontend oficial en http://127.0.0.1:5173; comandos en
+  [ai/README.md](../README.md). Subir foto, marcar objeto y comparar. Muestra de 24 modelos
   reales; no garantiza que contenga el objeto exacto ni mide precisión.
 - **Backend existente:** búsqueda textual `/catalog/search`, referencias `/media`
   y exportador JSON. Aún no llama SAM/DINO en el código remoto inspeccionado.
@@ -39,5 +39,9 @@ ni duplica el conector de Manuel. La demo usa una captura externa para repetir
 pruebas, no limita el producto a un catálogo manual. En producción la IA corre
 centralizada en servidor, aunque se haya desarrollado en CPU local.
 
-Guías: [README](README.md) · [TASKS](TASKS.md) · [Plan](PLAN_P4_IA.md) ·
+Guías: [README](../README.md) · [TASKS](../TASKS.md) · [Plan](PLAN_P4_IA.md) ·
 [Entrega al equipo](ENTREGA_EQUIPO.md) · [Evaluación pendiente](EVALUACION.md).
+
+Organización de IA: `docs/` reúne estas guías, `scripts/` las herramientas del
+entorno, `examples/` las pruebas manuales, `manifests/` los JSON de recursos y
+`tests/` la suite. Los módulos públicos, README, TASKS y PROGRESS siguen en `ai/`.

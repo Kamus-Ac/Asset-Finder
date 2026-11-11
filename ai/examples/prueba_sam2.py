@@ -6,7 +6,9 @@ import numpy as np
 from PIL import Image
 
 
-BASE = Path(__file__).resolve().parent
+BASE = Path(__file__).resolve().parents[1]
+OUTPUT = BASE / "resultados/prueba_sam2"
+OUTPUT.mkdir(parents=True, exist_ok=True)
 
 # Cargar el módulo hermano por ruta mantiene el comando -I sin añadir ai/ a
 # sys.path (ai/sam2/ podría ocultar el paquete SAM instalado).
@@ -15,7 +17,7 @@ segmentation = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(segmentation)
 
 # Abrir la imagen y reducirla para esta prueba en CPU.
-image = Image.open(BASE / "prueba.jpeg").convert("RGB")
+image = Image.open(BASE / "examples/prueba.jpeg").convert("RGB")
 image.thumbnail((1024, 1024))
 
 pixels = np.array(image)
@@ -42,12 +44,12 @@ elapsed = time.perf_counter() - start
 # Guardar máscara en blanco y negro.
 Image.fromarray(
     (mask.astype(np.uint8) * 255)
-).save(BASE / "mascara.png")
+).save(OUTPUT / "mascara.png")
 
 # Guardar el objeto con fondo transparente.
 cutout = image.convert("RGBA")
 cutout.putalpha(Image.fromarray(mask.astype(np.uint8) * 255))
-cutout.save(BASE / "silla_transparente.png")
+cutout.save(OUTPUT / "silla_transparente.png")
 
 # Guardar una vista de la selección sobre la foto.
 overlay = pixels.copy()
@@ -56,11 +58,11 @@ overlay[mask] = (
     pixels[mask] * 0.5 + color * 0.5
 ).astype(np.uint8)
 
-Image.fromarray(overlay).save(BASE / "seleccion.png")
+Image.fromarray(overlay).save(OUTPUT / "seleccion.png")
 
 print(f"Tiempo de llamada (incluye primera carga): {elapsed:.2f} segundos")
 print(f"Puntuación del modelo: {score:.4f}")
-print("Resultados guardados en:", BASE)
+print("Resultados guardados en:", OUTPUT)
 print("- mascara.png")
 print("- silla_transparente.png")
 print("- seleccion.png")

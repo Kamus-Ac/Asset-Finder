@@ -2,7 +2,7 @@
 
 ## B0 — Prueba CPU inicial · 5 de noviembre de 2026
 
-Comando reproducible: [README, prueba CPU local](README.md#repetir-la-prueba-cpu-local).
+Comando reproducible: [README, prueba CPU local](../README.md#repetir-la-prueba-cpu-local).
 Una ejecución; no representa un promedio ni el rendimiento del servidor previsto.
 
 | Campo | Resultado observado |
@@ -234,7 +234,7 @@ Las imágenes y métricas son locales, ignoradas; no se instalaron dependencias.
 ## T01 — Primer diagnóstico Ubuntu/WSL de Angel · 9 de noviembre de 2026
 
 Brandon atribuye este informe a Angel. JSON original recibido, sin completar
-campos ausentes: [Diagnostico_Angel_2026-11-09.json](Pruebas/Diagnostico_Angel_2026-11-09.json).
+campos ausentes: [Diagnostico_Angel_2026-11-09.json](../Pruebas/Diagnostico_Angel_2026-11-09.json).
 Recopilación: `2026-11-09T18:01:49.751695+00:00`; host `DESKTOP-N56N5FO`.
 Comando del recolector: `python3 -I diagnostico_servidor.py`, copiable sin repo.
 
@@ -264,7 +264,7 @@ No se cambian paquetes ni se instala un driver NVIDIA Linux en WSL.
 ### Comprobación adicional desde PowerShell
 
 Salida compartida por Brandon:
-[Angel_GPU_Windows_2026-11-09.txt](Pruebas/Angel_GPU_Windows_2026-11-09.txt).
+[Angel_GPU_Windows_2026-11-09.txt](../Pruebas/Angel_GPU_Windows_2026-11-09.txt).
 La consulta `Win32_VideoController` enumera únicamente **Intel(R) UHD Graphics**,
 driver **31.0.101.2134**, estado **OK**. No enumera NVIDIA; esto no demuestra
 ausencia física ni determina si hay un dispositivo deshabilitado o sin controlador.
@@ -281,7 +281,7 @@ dependencias ni se atribuye la causa automáticamente al driver o a MSI Center.
 
 ### Identificación del equipo de las últimas pruebas: Dell, no MSI
 
-Fuente recibida: [Equipo_Dell_2026-11-09.txt](Pruebas/Equipo_Dell_2026-11-09.txt).
+Fuente recibida: [Equipo_Dell_2026-11-09.txt](../Pruebas/Equipo_Dell_2026-11-09.txt).
 `Win32_ComputerSystem`: **Dell Inc., Latitude 3410**. La clase Display de PnP
 solo devuelve **Intel UHD, OK**. La consulta de dispositivos presentes en
 ERROR/DEGRADED/UNKNOWN no devuelve coincidencias: el mensaje CIM no implica
@@ -296,7 +296,7 @@ No se instala nada ni se modifican modos gráficos mientras se aclara el equipo.
 ## T01 completada — Diagnóstico real de la MSI de Angel · 9 de noviembre de 2026
 
 Brandon comparte la salida de la laptop correcta. JSON original conservado:
-[Diagnostico_MSI_Angel_2026-11-09.json](Pruebas/Diagnostico_MSI_Angel_2026-11-09.json).
+[Diagnostico_MSI_Angel_2026-11-09.json](../Pruebas/Diagnostico_MSI_Angel_2026-11-09.json).
 Host `MSI`; recopilación `2026-11-09T18:28:09.100424+00:00`.
 Comando recibido: `python3 -I diagnostico_servidor.py`, con una copia independiente
 del script. El primer intento falló porque no estaba en esa ruta; el segundo

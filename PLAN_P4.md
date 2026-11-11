@@ -21,7 +21,7 @@ Manuel necesita **firmas de funciones desde el día 2**, no la IA terminada. Pub
 - Instalar PyTorch con CUDA desde https://pytorch.org/get-started/locally/ y comprobar `torch.cuda.is_available()`.
 - Instalar lo que falta (numpy, Pillow) y descargar los pesos de SAM 2.1 Tiny desde el repo oficial. Pesos fuera de Git.
 - **Listo cuando:** `prueba_sam2.py` corre y da la máscara de la silla, primero en CPU (línea base) y luego en CUDA.
-- Anota tiempos y VRAM en `ai/MEDICIONES.md`.
+- Anota tiempos y VRAM en `ai/docs/MEDICIONES.md`.
 
 ### Paso 1 — `segment()` reutilizable (día 2)
 - Archivo `ai/segmentation.py`: carga el modelo **una sola vez**; recibe imagen, `box_xyxy` y `points` (`label` 1/0); devuelve máscara + puntuación.

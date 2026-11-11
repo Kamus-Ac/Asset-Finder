@@ -10,7 +10,7 @@ from PIL import Image
 from unittest.mock import patch
 from ai.embedding import embed, _CACHE, model_identity
 from ai import resources
-image = Image.open(Path(sys.argv[1])/'ai/prueba.jpeg').convert('RGB')
+image = Image.open(Path(sys.argv[1])/'ai/examples/prueba.jpeg').convert('RGB')
 with patch('urllib.request.urlopen', side_effect=AssertionError('Inferencia no descarga')):
     a=embed(image); b=embed(image)
 assert a.dtype == np.float32 and a.shape == (384,) and np.isfinite(a).all()

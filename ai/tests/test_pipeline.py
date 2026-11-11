@@ -32,7 +32,7 @@ import tempfile
 from pathlib import Path
 from PIL import Image
 from ai.pipeline import run_search,save_outcome
-image=Image.open(Path(sys.argv[1])/'ai/prueba.jpeg').convert('RGB');image.thumbnail((1024,1024))
+image=Image.open(Path(sys.argv[1])/'ai/examples/prueba.jpeg').convert('RGB');image.thumbnail((1024,1024))
 candidates=[{'asset_id':'test_reference_crop','source_url':'https://example.invalid/test',
  'views':[{'view_id':'crop','image':image.crop((222,355,430,562))}]}]
 with tempfile.TemporaryDirectory() as directory:

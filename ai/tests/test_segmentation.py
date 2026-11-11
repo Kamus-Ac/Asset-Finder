@@ -62,7 +62,7 @@ module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
 """
         result = subprocess.run([str(CPU_PYTHON), "-I", "-c", setup + source,
-                                 str(AI / "segmentation.py"), str(AI / "prueba.jpeg")],
+                                 str(AI / "segmentation.py"), str(AI / "examples/prueba.jpeg")],
                                 capture_output=True, text=True, timeout=90)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 

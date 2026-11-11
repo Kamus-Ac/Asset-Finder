@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # T03: instalar la combinación aprobada; permite la base común ya revisada.
 # Copiar este archivo a la MSI y ejecutar desde cualquier carpeta del repo:
-# bash ai/preparar_gpu.sh .venv-gpu
+# bash ai/scripts/preparar_gpu.sh .venv-gpu
 set -euo pipefail
 
 TASK_ROOT=$(git rev-parse --show-toplevel)

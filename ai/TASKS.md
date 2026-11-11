@@ -2,8 +2,8 @@
 
 Reorganizado con autorización de Brandon el **10 de noviembre de 2026**.
 Área: `ai/`. Rama de trabajo y publicación: **`feature/ai-exploracion`**.
-Plan operativo: [PLAN_P4_IA.md](PLAN_P4_IA.md). Evidencia histórica:
-[PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](MEDICIONES.md).
+Plan operativo: [PLAN_P4_IA.md](docs/PLAN_P4_IA.md). Evidencia histórica:
+[PROGRESS.md](PROGRESS.md) y [MEDICIONES.md](docs/MEDICIONES.md).
 
 **F01/F02 implementadas**, cantidades configurables y conexión local al frontend oficial,
 solicitadas por Brandon. T20 y FASE 5 conservan sus dependencias externas.
@@ -64,7 +64,7 @@ otras que sean independientes. No marcar la tarea principal completa si falta un
   Ubuntu 26.04.1/WSL2, RTX 4070 Laptop/8188 MiB, driver 610.78, RAM visible 7.61 GiB.
   NVIDIA-SMI funciona; esto no acredita inferencia CUDA. Informes Dell/Luis separados.
 - [x] **T02 Propuesta GPU aprobada.** Se conserva la combinación aprobada el
-  6 de noviembre en [PROPUESTA_ENTORNO.md](PROPUESTA_ENTORNO.md); no reinstalar ahora.
+  6 de noviembre en [PROPUESTA_ENTORNO.md](docs/PROPUESTA_ENTORNO.md); no reinstalar ahora.
 - [x] **T06 Segmentación reutilizable.** SAM 2.1 Tiny real en CPU, caché por
   dispositivo/pesos y selección por caja/puntos; CUDA seleccionable pero sin validar.
 - [x] **T07 Entradas validadas.** RGB uint8, dimensiones, cajas, puntos y labels
@@ -74,10 +74,10 @@ otras que sean independientes. No marcar la tarea principal completa si falta un
 - [x] **T09-L Interfaz inicial local.** `service.py` expone segmentación real y PNG;
   `embed`/`search` ya son reales desde T12/T18; falta aceptación T09-P.
 - [x] **T10 Investigación SAM 3D.** Requisitos/licencia documentados en
-  [NOTAS_SAM3D.md](NOTAS_SAM3D.md). Generación no disponible; no bloquea la búsqueda.
+  [NOTAS_SAM3D.md](docs/NOTAS_SAM3D.md). Generación no disponible; no bloquea la búsqueda.
 
-Última suite de código registrada: **56 pruebas y 13 subtests**, incluidas regresiones
-del instalador. Es evidencia CPU/local, no una prueba GPU ni de integración HTTP.
+Última suite de código registrada: **57 pruebas y 13 subtests**, incluidas regresiones
+del instalador y transporte HTTP de la demo local. No acredita GPU ni API del equipo.
 
 ## FASE 1 — Recorte y embeddings reales en CPU
 
@@ -159,7 +159,7 @@ probados; la conexión a la fuente real sigue siendo responsabilidad de P3.
 - [ ] **T20 Evaluación con candidatos reales.** Usar 10–15 consultas con referencia
   conocida y 3–5 sin coincidencia clara, o documentar el tamaño real disponible
   y el faltante. Separar fotos de consulta de vistas comparadas; registrar fuente,
-  permisos, candidatos, top-1/top-5 y tiempos en `ai/EVALUACION.md`.
+  permisos, candidatos, top-1/top-5 y tiempos en `ai/docs/EVALUACION.md`.
   *Aceptación:* conjunto real reproducible y resultados observados, incluidos
   fallos. Un conjunto pequeño da evidencia parcial; pruebas sintéticas no cierran T20.
   **[NEEDS USER: Manuel/equipo]** Hay 8 candidatos reales para el ensayo, pero
@@ -212,7 +212,7 @@ No equivale a afirmar que solo falta una URL ni a cerrar los criterios externos.
 Estas tareas esperan ejecución en la MSI o coordinación con Manuel; se conservan
 pendientes y no bloquean las fases locales.
 
-- [ ] **T03 Entorno CUDA real.** Reanudar con `bash ai/preparar_gpu.sh .venv-gpu` y
+- [ ] **T03 Entorno CUDA real.** Reanudar con `bash ai/scripts/preparar_gpu.sh .venv-gpu` y
   la propuesta aprobada. La MSI ya tiene Python 3.12.16 en `.venv-gpu` de la raíz;
   inventario de 14 dependencias comunes revisado, sin torch en la última evidencia.
   *Aceptación:* `pip check`, operación CUDA real, JSON y `ai/requirements-gpu.txt`
@@ -223,7 +223,7 @@ pendientes y no bloquean las fases locales.
   comprobar rutas/recursos y ausencia de dependencia de la carpeta antigua.
 - [ ] **T09-P Aceptación de interfaz.** [NEEDS USER: Manuel] Manuel confirma por escrito las firmas
   finales, máscara/PNG, candidatos, ranking y errores, después de actualizar
-  [INTERFAZ_P3.md](INTERFAZ_P3.md). T09 principal permanece pendiente hasta entonces.
+  [INTERFAZ_P3.md](docs/INTERFAZ_P3.md). T09 principal permanece pendiente hasta entonces.
 - [ ] **T21-P API y red reales.** [NEEDS USER: Manuel/Ángel] Con Manuel: obtención de candidatos externos,
   descarga/validación de imágenes en P3, llamadas al módulo, tareas y archivos,
   conectividad y prueba desde clientes. Sin editar otras áreas unilateralmente.
@@ -252,8 +252,15 @@ pendientes y no bloquean las fases locales.
 - [ ] **F03 Cantidad en la fuente y paginación.** [NEEDS USER: Manuel]
   La API actual fija count=10; preparar propuesta para pasar cantidad desde web,
   recuperar más páginas cuando se pidan más de 24 y mostrar cantidades efectivas.
-  Propuesta concreta en API_CANTIDADES_P3.md. Sin modificar backend ni dar por
+  Propuesta concreta en [API_CANTIDADES_P3.md](docs/API_CANTIDADES_P3.md). Sin modificar backend ni dar por
   integrada esa parte.
+
+## Organización del área — solicitud de Brandon del 11 de noviembre
+
+- [x] **R04 Reducir archivos en la raíz de ai/.** Reubicar documentación en
+  `docs/`, herramientas en `scripts/`, ejemplos en `examples/` y JSON en
+  `manifests/`. Conservar entradas públicas, comandos principales, locks y
+  seguimiento. Actualizar referencias y verificar suite, recursos y ejemplo SAM real.
 
 ## Opcionales posteriores al flujo básico
 

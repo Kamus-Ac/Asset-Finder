@@ -12,7 +12,7 @@ from urllib.parse import urlsplit
 
 from .input_manifest import decode_rgb, load_manifest, load_rgb
 from .pipeline import run_search
-from .resources import BASE
+from .resources import BASE, SAMPLE_IMAGE
 from .segmentation import ServiceUnavailableError
 
 
@@ -49,7 +49,7 @@ def handler_for(candidates, *, device="cpu", cache_dir=None):
             if path == "/":
                 self.reply(200, (BASE/"web/demo.html").read_bytes(), "text/html; charset=utf-8")
             elif path == "/sample":
-                image = load_rgb(BASE/"prueba.jpeg")
+                image = load_rgb(SAMPLE_IMAGE)
                 image.thumbnail((1024,1024))
                 self.reply(200, {"image":png_data(image), "box":[222,355,430,562],
                                  "candidate_count":len(candidates)})

@@ -12,7 +12,7 @@ from .embedding import _encode_prepared, model_identity
 from .index import build_index
 from .input_manifest import load_manifest, load_rgb
 from .preprocess import prepare_image
-from .resources import BASE
+from .resources import BASE, SAMPLE_IMAGE
 from .results import format_results
 from .search import search
 from .segmentation import segment, ServiceUnavailableError
@@ -113,7 +113,7 @@ def save_outcome(outcome, image, directory):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--image", type=Path, default=BASE / "prueba.jpeg")
+    parser.add_argument("--image", type=Path, default=SAMPLE_IMAGE)
     parser.add_argument("--manifest", type=Path, default=BASE / "demo_data/manifest.json")
     parser.add_argument("--box", nargs=4, type=float)
     parser.add_argument("--points", help="Lista JSON de {x,y,label}")
@@ -133,7 +133,7 @@ def main():
     points = json.loads(args.points) if args.points else None
     box = args.box
     if box is None and not points:
-        if args.image.resolve() != (BASE / "prueba.jpeg").resolve():
+        if args.image.resolve() != SAMPLE_IMAGE.resolve():
             parser.error("Indica --box o --points en píxeles de la imagen normalizada a máximo 1024")
         box = [222,355,430,562]
     outcome = run_search(image, load_manifest(args.manifest), box_xyxy=box, points=points,

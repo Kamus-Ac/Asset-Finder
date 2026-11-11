@@ -3,7 +3,7 @@
 Fecha: 5 de noviembre de 2026. **Aprobada por Brandon el 6 de noviembre; no instalada.**
 
 **Plan vigente, 10 de noviembre:** T03–T05 se posponen a FASE 5 de
-[TASKS.md](TASKS.md); primero desarrollamos recorte/DINO y búsqueda en CPU local.
+[TASKS.md](../TASKS.md); primero desarrollamos recorte/DINO y búsqueda en CPU local.
 Se conserva esta aprobación para GPU, sin instalar ni cambiar versiones ahora.
 La última evidencia confirma Python 3.12.16 en `.venv-gpu` raíz y 14 dependencias
 comunes revisadas, sin torch. El instalador actualizado admite ese inventario;
@@ -82,10 +82,10 @@ Las versiones auxiliares conservan la base CPU existente, sin modificarla.
 
 ## Ejecución diferida de T03 en la MSI — FASE 5
 
-Pasar [preparar_gpu.sh](preparar_gpu.sh) a `ai/` de la MSI. Desde el proyecto:
+Pasar [preparar_gpu.sh](../scripts/preparar_gpu.sh) a `ai/scripts/` de la MSI. Desde el proyecto:
 
 ```bash
-bash ai/preparar_gpu.sh .venv-gpu
+bash ai/scripts/preparar_gpu.sh .venv-gpu
 ```
 
 El script inspecciona el intérprete/paquetes, NVIDIA y la revisión de SAM antes
@@ -139,7 +139,7 @@ esta tabla fija dependencias directas, no es un lockfile de GPU ya validado.
 
 El usuario ya utilizó uv para crear Python 3.12.16 separado del Python del sistema.
 Referencia del mecanismo: [documentación oficial de uv](https://docs.astral.sh/uv/guides/install-python/).
-La salida recibida está en [Preparacion_MSI_T03_2026-11-09.txt](Pruebas/Preparacion_MSI_T03_2026-11-09.txt).
+La salida recibida está en [Preparacion_MSI_T03_2026-11-09.txt](../Pruebas/Preparacion_MSI_T03_2026-11-09.txt).
 
 Comprobación propuesta para T03, sin descargar modelos:
 

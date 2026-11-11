@@ -22,7 +22,7 @@ El módulo no duplica la búsqueda HTTP del backend ni limita sus candidatos a l
 - Benchmark CPU: carga separada, calentamiento, tres repeticiones y medidas por
   etapa en [MEDICIONES.md](MEDICIONES.md). No acredita CUDA.
 - Procedencia, licencias conocidas y hashes de ocho miniaturas de prueba en
-  `demo_manifest.json`; pesos, imágenes, cachés y resultados fuera de Git.
+  `ai/manifests/demo_manifest.json`; pesos, imágenes, cachés y resultados fuera de Git.
 
 ## Pendientes para aceptar la integración
 

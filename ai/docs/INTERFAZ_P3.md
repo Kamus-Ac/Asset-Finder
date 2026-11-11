@@ -23,7 +23,7 @@ Importar desde la raíz del proyecto, usando el entorno CPU documentado:
 from PIL import Image
 from ai.service import ServiceUnavailableError, segment, mask_to_png
 
-image = Image.open("ai/prueba.jpeg").convert("RGB")
+image = Image.open("ai/examples/prueba.jpeg").convert("RGB")
 image.thumbnail((1024, 1024))  # Solo esta prueba usa estas coordenadas.
 mask, score = segment(image, box_xyxy=[222, 355, 430, 562], device="cpu")
 png_bytes = mask_to_png(mask)

@@ -1,10 +1,13 @@
 # PROGRESS.md — Bitácora de P4 (IA y ranking visual)
 
 **Orden vigente desde el 10 de noviembre de 2026:** CPU local primero;
-servidor e integración al final. Siguiente tarea: **F02**. Ver
-[TASKS.md](TASKS.md) y [PLAN_P4_IA.md](PLAN_P4_IA.md).
+servidor e integración al final. **F01, F02, F04 y R04 completas localmente**; los
+pendientes del equipo se mantienen en
+[TASKS.md](TASKS.md) y [PLAN_P4_IA.md](docs/PLAN_P4_IA.md).
 Las entradas anteriores conservan el orden y bloqueos que había en cada fecha;
 no sustituyen el tablero actual ni se reescriben sus resultados.
+Desde R04, las guías están en `docs/`, las herramientas en `scripts/` y los
+ejemplos en `examples/`. Las rutas literales de entradas históricas se conservan.
 
 Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado · limitaciones · commit.
 
@@ -31,7 +34,7 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   la versión Python reportada corresponde al WSL objetivo.
 - **Diagnóstico local:** `nvidia-smi`, `python --version`, `python3 --version`,
   `uname -srm`, `free -b` y `/etc/os-release`. Salidas y distinción entre equipos
-  en [MEDICIONES.md](MEDICIONES.md#t01--diagnóstico-parcial--5-de-noviembre-de-2026).
+  en [MEDICIONES.md](docs/MEDICIONES.md#t01--diagnóstico-parcial--5-de-noviembre-de-2026).
 - **Cambios de T01:** `tests/test_smoke.py` comprueba las marcas JPEG del recurso
   local sin cargar IA; `requirements-tests.txt` fija el entorno de pruebas.
 - **Aprobación:** Brandon autorizó `pytest==9.2.0` y sus dependencias en
@@ -100,7 +103,7 @@ Formato de cada entrada: fecha · ID de tarea · comando ejecutado · resultado 
   Brandon el 6 de noviembre de 2026. No se instalaron dependencias ni modelos GPU.
 - **Autorización:** Brandon pidió T02 con límite de 10 minutos y un commit que
   incluya todos los cambios pendientes realizados, también README y plan raíz.
-- **Evidencia:** [PROPUESTA_ENTORNO.md](PROPUESTA_ENTORNO.md). Fuentes oficiales
+- **Evidencia:** [PROPUESTA_ENTORNO.md](docs/PROPUESTA_ENTORNO.md). Fuentes oficiales
   de PyTorch, Meta/SAM, Meta/DINOv2, NVIDIA y PyPI. Candidata: Python 3.12.x,
   torch 2.14.1 + torchvision 0.29.1, CUDA 12.6, NumPy 2.4.6 y Pillow 13.0.0.
 - **Revisión:** pareja publicada y ruedas CPython 3.12 Linux x86_64 verificadas;
@@ -847,3 +850,33 @@ no detectó requisitos rotos; no se instalaron paquetes. Recursos/datos ignorado
   Sin nuevos paquetes ni cambios de versiones o lockfile.
 - Validación: `node src/searchControls.test.mjs`, 3 pruebas aprobadas; build y
   lint del frontend aprobados. No sustituye una prueba automatizada de navegador.
+
+## R04 — Organizar archivos de ai/ · 2026-11-11
+
+- Solicitud de Brandon: agrupar los archivos de la raíz que no necesitan estar allí.
+  Se pasa de 48 a 23 archivos, reubicando 25 sin eliminar su contenido.
+- `docs/`: guías, planes, contratos propuestos, mediciones y notas; `scripts/`:
+  diagnóstico e instalador GPU; `examples/`: scripts manuales y foto de referencia;
+  `manifests/`: origen, revisiones y hashes SAM/DINO/demo. Foto y JSON idénticos.
+  Auxiliares Windows conservados en `docs/metadata/`; PNG locales conservados en
+  `resultados/legacy/`. El ejemplo SAM genera nuevos resultados en `resultados/`.
+- README, TASKS, PROGRESS, locks y módulos públicos permanecen en la raíz.
+  `ai.service`, `ai.demo`, `ai.pipeline`, `ai.resources`, `ai.benchmark` y
+  `ai.evaluate` conservan sus rutas. Diagnóstico: `python3 -I
+  ai/scripts/diagnostico_servidor.py`; GPU: `bash ai/scripts/preparar_gpu.sh .venv-gpu`.
+- Validación: `ai/.venv-tests/bin/python -m py_compile ai/*.py ai/scripts/*.py
+  ai/examples/*.py ai/infrastructure/*.py`; `bash -n ai/scripts/preparar_gpu.sh`;
+  `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **57 passed, 13 subtests passed
+  in 63.58s**, sin omisiones. Transporte HTTP autorizado solo en localhost.
+- Ejemplo real: `OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 ai/.venv-sam2/bin/python -I
+  ai/examples/prueba_sam2.py`, máscara y recorte guardados; llamada de 6.43 s,
+  score bruto 0.4343, sin ground truth. Diagnóstico independiente produjo JSON
+  válido; CLI de ejemplos/importaciones verificados. 88 enlaces locales válidos.
+- CLI completa: `ai/.venv-sam2/bin/python -m ai.pipeline --candidate-limit 2
+  --k 1 --output /tmp/asset-finder-r04-pipeline`; usa la foto reubicada, compara
+  2 candidatos reales de los 24 disponibles y devuelve 1 enlace, máscara y recorte.
+- No se instalaron paquetes ni se modificaron dependencias, backend o frontend.
+  CUDA, integración P3 y evaluación etiquetada siguen pendientes. Main remoto ya
+  recibió la entrega anterior en PR #3 (`85e36b9`); este trabajo queda en rama IA.
+- Graphify consultado para orientar la separación; su grafo anterior describe las
+  rutas previas y se marca para regeneración, sin presentar esa salida como actualizada.

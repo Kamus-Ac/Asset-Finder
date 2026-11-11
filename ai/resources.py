@@ -12,6 +12,8 @@ from urllib.request import Request, urlopen
 
 
 BASE = Path(__file__).resolve().parent
+MANIFESTS = BASE / "manifests"
+SAMPLE_IMAGE = BASE / "examples/prueba.jpeg"
 DINO_SOURCE = BASE / "vendor/dinov2"
 DINO_WEIGHTS = BASE / "checkpoints/dinov2_vits14_pretrain.pth"
 
@@ -22,7 +24,7 @@ def sha256(path):
 
 
 def dino_manifest():
-    return json.loads((BASE / "dino_resources.json").read_text())
+    return json.loads((MANIFESTS / "dino_resources.json").read_text())
 
 
 def source_digest(root):
@@ -93,7 +95,7 @@ def prepare_dino():
 
 def prepare_demo():
     """Obtiene una captura explícita de prueba; no implementa búsqueda en fuentes."""
-    manifest = json.loads((BASE / "demo_manifest.json").read_text())
+    manifest = json.loads((MANIFESTS / "demo_manifest.json").read_text())
     target = BASE / "demo_data"
     for info in manifest["resources"]:
         name = info["filename"]
@@ -116,7 +118,7 @@ def sam_source_digest(root):
 
 
 def prepare_sam():
-    info = json.loads((BASE/"sam_resources.json").read_text())
+    info = json.loads((MANIFESTS/"sam_resources.json").read_text())
     source = BASE/"sam2"
     if not source.exists():
         vendor = BASE/"vendor"
