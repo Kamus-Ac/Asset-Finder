@@ -1,0 +1,6 @@
+# HTTP layer to add to the existing SAM/DINO environment.
+fastapi==0.162.0
+uvicorn==0.54.0
+httpx==0.28.1
+python-multipart==0.0.33
+python-dotenv==1.2.4

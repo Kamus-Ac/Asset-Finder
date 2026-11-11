@@ -6,10 +6,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api/ai': {
-        target: process.env.ASSET_FINDER_AI_TARGET || 'http://127.0.0.1:8765',
+      '/api': {
+        target: process.env.ASSET_FINDER_API_TARGET || 'http://127.0.0.1:8000',
         changeOrigin: false,
-        rewrite: path => path.replace(/^\/api\/ai/, ''),
+        rewrite: path => path.replace(/^\/api/, ''),
       },
     },
   },
