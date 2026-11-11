@@ -74,28 +74,28 @@
   filter: blur(419.1px);
 }
 
-/* ── Chrome 3D images ── */
+/* ── Chrome 3D images — buried at bottom ── */
 
 .chrome-left {
   @apply pointer-events-none absolute;
   left: -516px;
-  top: 51px;
+  bottom: -300px;
   width: auto;
-  height: 110vh;
-  max-height: 900px;
+  height: 900px;
   object-fit: contain;
+  z-index: 1;
 }
 
 .chrome-right {
   @apply pointer-events-none absolute;
-  left: 261px;
-  top: 232px;
+  right: -260px;
+  bottom: -250px;
   width: auto;
-  height: 100vh;
-  max-height: 800px;
+  height: 800px;
   transform: rotate(30.91deg);
   transform-origin: center center;
   object-fit: contain;
+  z-index: 1;
 }
 
 /* ── Search panel container ── */
@@ -154,6 +154,10 @@
 
 .action-btn:hover {
   background: rgba(255, 255, 255, 0.08);
+}
+
+.action-icon {
+  @apply w-8 h-8;
 }
 
 .action-btn svg {

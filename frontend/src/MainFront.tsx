@@ -1,6 +1,9 @@
 import './MainFront.css'
 import chrome2 from './assets/chrome2.png'
 import chrome4 from './assets/chrome4.png'
+import folderOpenIcon from './assets/folder-open-solid.svg'
+import scanIcon from './assets/scan-square.svg'
+import moundShovelIcon from './assets/mound-shovel.svg'
 
 /* ── SVG Icons ── */
 
@@ -9,38 +12,6 @@ function SearchIcon() {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="11" cy="11" r="8" />
       <line x1="21" y1="21" x2="16.65" y2="16.65" />
-    </svg>
-  )
-}
-
-function FolderPlusIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
-      <line x1="12" y1="11" x2="12" y2="17" />
-      <line x1="9" y1="14" x2="15" y2="14" />
-    </svg>
-  )
-}
-
-function ScanIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 7V5a2 2 0 012-2h2" />
-      <path d="M17 3h2a2 2 0 012 2v2" />
-      <path d="M21 17v2a2 2 0 01-2 2h-2" />
-      <path d="M7 21H5a2 2 0 01-2-2v-2" />
-      <rect x="7" y="7" width="10" height="10" rx="1" />
-    </svg>
-  )
-}
-
-function BrushIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18.37 2.63L14 7l-1.59-1.59a2 2 0 00-2.82 0L8 7l9 9 1.59-1.59a2 2 0 000-2.82L17 10l4.37-4.37a2.12 2.12 0 10-3-3z" />
-      <path d="M9 8c-2 3-4 3.5-7 4l8 10c2-1 6-5 6-7" />
-      <path d="M14.5 17.5L4.5 15" />
     </svg>
   )
 }
@@ -57,7 +28,7 @@ export default function MainFront() {
       <div className="glow-layer glow-top-left-orange" aria-hidden="true" />
       <div className="glow-layer glow-behind-chrome-right" aria-hidden="true" />
 
-      {/* ── Chrome 3D renders ── */}
+      {/* ── Chrome 3D renders — buried at bottom ── */}
       <img
         src={chrome2}
         alt=""
@@ -87,15 +58,15 @@ export default function MainFront() {
           {/* Action buttons */}
           <div className="action-grid">
             <button className="action-btn" type="button">
-              <FolderPlusIcon />
+              <img src={folderOpenIcon} alt="" className="action-icon" />
               <span>Abrir archivo</span>
             </button>
             <button className="action-btn" type="button">
-              <ScanIcon />
+              <img src={scanIcon} alt="" className="action-icon" />
               <span>Escanear objeto</span>
             </button>
             <button className="action-btn" type="button">
-              <BrushIcon />
+              <img src={moundShovelIcon} alt="" className="action-icon" />
               <span>Crear entorno</span>
             </button>
           </div>
