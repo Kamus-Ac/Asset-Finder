@@ -1,0 +1,8 @@
+tobias@MSI:~/projects/Asset-Finder$ uv venv --python 3.12 .venv-gpu && source .venv-gpu/bin/activate && python --version && ls -ld ai ai/sam2
+Using CPython 3.12.16
+Creating virtual environment at: .venv-gpu
+Activate with: source .venv-gpu/bin/activate
+Python 3.12.16
+drwxr-xr-x  4 tobias tobias 4096 Nov  9 12:27 ai
+drwxr-xr-x 12 tobias tobias 4096 Nov  9 10:39 ai/sam2
+(.venv-gpu) tobias@MSI:~/projects/Asset-Finder$

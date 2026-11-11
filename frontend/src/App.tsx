@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { mountCubePreview } from './main'
+import VisualSearch from './VisualSearch'
 import './App.css'
 
 type Asset = {
@@ -32,9 +33,12 @@ function CubePreview({ color }: { color: number }) {
 function App() {
   return (
     <main className="catalog">
+      <VisualSearch />
+      <details className="scene-examples">
+      <summary>Catálogo Three.js de ejemplo</summary>
       <section className="asset-grid" aria-label="Featured 3D assets">
         {assets.map((asset) => (
-          <article className="asset-card" key={asset.title}>
+          <article className="asset-card" key={asset.creator}>
             <div className={`asset-art`}>
               {/* <span className="asset-category">{asset.category}</span> */}
               <CubePreview color={asset.color} />
@@ -49,6 +53,7 @@ function App() {
           </article>
         ))}
       </section>
+      </details>
     </main>
   )
 }

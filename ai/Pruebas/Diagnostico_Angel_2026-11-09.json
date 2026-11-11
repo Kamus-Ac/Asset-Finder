@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "collected_at_utc": "2026-11-09T18:01:49.751695+00:00",
+  "host": "DESKTOP-N56N5FO",
+  "system": "Linux",
+  "kernel": "6.18.54.1-microsoft-standard-WSL2",
+  "architecture": "x86_64",
+  "distribution": {
+    "id": "ubuntu",
+    "name": "Ubuntu 26.04.1 LTS",
+    "version_id": "26.04"
+  },
+  "python": {
+    "version": "3.14.4",
+    "executable": "/usr/bin/python3"
+  },
+  "libc": {
+    "name": "glibc",
+    "version": "2.43"
+  },
+  "memory_visible_bytes": 8203730944,
+  "wsl": {
+    "kernel_mentions_microsoft": true,
+    "kernel_mentions_wsl2": true,
+    "dxg_exists": true
+  },
+  "gpu": {
+    "tool": null,
+    "devices": null,
+    "parse_error": null,
+    "query": {
+      "argv": [
+        "nvidia-smi",
+        "--query-gpu=name,driver_version,memory.total",
+        "--format=csv,noheader,nounits"
+      ],
+      "returncode": 127,
+      "stdout": "",
+      "stderr": "servicio no disponible: comando ausente"
+    },
+    "raw_nvidia_smi": {
+      "argv": [
+        "nvidia-smi"
+      ],
+      "returncode": 127,
+      "stdout": "",
+      "stderr": "servicio no disponible: comando ausente"
+    }
+  },
+  "raw_memory": {
+    "argv": [
+      "free",
+      "-b"
+    ],
+    "returncode": 0,
+    "stdout": "total        used        free      shared  buff/cache   available\nMem:      8203730944  1370337280  6070231040     4296704   934404096  6833393664\nSwap:     2147483648           0  2147483648",
+    "stderr": ""
+  },
+  "note": "Salida local: no confirma que este equipo sea el servidor de Angel. Un código 0 del script solo indica que se recopiló el informe."
+}

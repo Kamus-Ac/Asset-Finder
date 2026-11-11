@@ -1,0 +1,363 @@
+# Mediciones de IA
+
+## B0 — Prueba CPU inicial · 5 de noviembre de 2026
+
+Comando reproducible: [README, prueba CPU local](README.md#repetir-la-prueba-cpu-local).
+Una ejecución; no representa un promedio ni el rendimiento del servidor previsto.
+
+| Campo | Resultado observado |
+| --- | --- |
+| Código probado | `Asset-Finder/ai/prueba_sam2.py`, sin cambiar su lógica |
+| Python | 3.11.18, entorno `asset-finder/ai/.venv-sam2` |
+| PyTorch / torchvision | `2.15.0+cpu` / `0.29.2+cpu` |
+| NumPy / Pillow | `2.4.6` / `13.0.0` |
+| Modelo y origen | SAM 2.1 Tiny; copia local del commit `2b90b9f5ceec907a1c18123530e92e794ad901a4` |
+| Import SAM comprobado | `/home/user/projects/Asset-Finder/ai/sam2/sam2/__init__.py` |
+| Checkpoint | 156,008,466 bytes; hash idéntico al archivo de origen |
+| SHA-256 local | `7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69` |
+| Entrada procesada | RGB, 1024 × 631, rectángulo proporcional fijo del script |
+| Tiempo impreso | **2.00 s**, incluye `set_image` y `predict`; excluye carga y guardado |
+| Máscara | Modo L, valores 0/255; 60,327 píxeles seleccionados (9.3365 %) |
+| Recorte / superposición | RGBA / RGB, ambos 1024 × 631; alfa idéntico a la máscara |
+| Revisión visual | Selecciona fondo/pared; no demuestra segmentación correcta de un objeto |
+| CUDA | `torch.version.cuda = null`, disponible `false`, dispositivos `0` |
+| VRAM pico / RAM pico | `null` / `null`: no medidos |
+| Salida del proceso | Código 0; advertencia FutureWarning de torch.jit, sin impedir la ejecución |
+
+Conclusión: SAM carga y produce archivos válidos en CPU desde el proyecto actual,
+usando dependencias del entorno antiguo. Calidad de selección, entorno propio,
+CUDA, DINO y recuperación del catálogo siguen sin validar. Las próximas entradas
+deben registrar comando, dispositivo, preparación, repeticiones y qué mide cada tiempo.
+
+
+## T01 — Diagnóstico parcial · 5 de noviembre de 2026
+
+Estado inicial: avance local validado, antes de recibir la salida de Angel.
+La evidencia posterior está en «Datos del servidor de Angel recibidos» y la
+eliminación de la dependencia anterior en «B1 — Entorno CPU independiente».
+
+### Servidor de IA indicado por Brandon
+
+| Campo | Información proporcionada, sin medición directa |
+| --- | --- |
+| Equipo | MSI, distinto del equipo de esta sesión |
+| Procesador | Intel Core i7-12650H de 12.ª generación, 2.30 GHz |
+| RAM instalada | 16.0 GB (15.7 GB utilizables), declarados |
+| GPU dedicada | NVIDIA GeForce RTX 4070 Laptop GPU, 8 GB declarados |
+| GPU integrada | Intel UHD Graphics, 128 MB declarados |
+| Sistema del equipo | Windows 11 Home 25H2 |
+| Entorno de ejecución IA | `null`: Windows nativo o WSL2 por confirmar con Manuel |
+| Driver NVIDIA / VRAM detectada | `null` / `null`: falta salida real de nvidia-smi |
+| Python del servidor | `null`: falta salida real de python --version |
+
+### Equipo de desarrollo inspeccionado
+
+| Campo | Observación local |
+| --- | --- |
+| Host | DESKTOP-81SP2N7 |
+| Sistema | Ubuntu 26.04.1 LTS sobre WSL2, x86_64 |
+| Python global | /usr/bin/python3, 3.14.4; comando python ausente |
+| RAM visible | 8,195,334,144 bytes, aproximadamente 7.632 GiB |
+| GPU / driver / VRAM detectada | `null` / `null` / `null`; herramienta no disponible |
+| Dispositivos | /dev/nvidia0 y /dev/dxg ausentes |
+| Entorno de pruebas | ai/.venv-tests, Python 3.14.4, pytest 9.2.0 |
+
+La RAM visible es la que reporta este entorno WSL2; no representa la RAM
+instalada de la MSI. La ausencia de GPU aquí no prueba ausencia de GPU allí.
+
+### Comandos y salidas locales
+
+```text
+$ nvidia-smi
+nvidia-smi: command not found
+[código de salida: 127]
+```
+
+```text
+$ python --version
+python: command not found
+[código de salida: 127]
+```
+
+```text
+$ python3 --version
+Python 3.14.4
+[código de salida: 0]
+```
+
+```text
+$ uname -srm
+Linux 6.18.54.1-microsoft-standard-WSL2 x86_64
+[código de salida: 0]
+```
+
+```text
+$ free -b
+               total        used        free      shared  buff/cache   available
+Mem:      8195334144  1830895616  4271833088    52170752  2345664512  6364438528
+Swap:     2147483648           0  2147483648
+[código de salida: 0]
+```
+
+### Validación del avance local
+
+```text
+$ ai/.venv-tests/bin/python -m py_compile ai/*.py
+[código de salida: 0]
+$ ai/.venv-tests/bin/python -m pytest ai/tests -q
+.                                                                        [100%]
+1 passed in 0.01s
+[código de salida: 0]
+```
+
+Brandon autorizó pytest 9.2.0 y sus dependencias en un entorno exclusivo de
+pruebas. Versiones exactas en `requirements-tests.txt`; referencia de la versión:
+[pytest 9.2.0 en PyPI](https://pypi.org/project/pytest/9.2.0/).
+La prueba comprueba cabecera y cierre del JPEG local; no carga SAM ni DINO.
+T01 permanecía pendiente al escribir esta primera entrada; actualización abajo.
+
+### Datos del servidor de Angel recibidos
+
+Brandon confirma Ubuntu sobre WSL en la laptop de Angel. La salida siguiente fue
+facilitada por Angel a través de Brandon; no se ejecutó desde esta sesión.
+La captura incluye WDDM y procesos Windows. Falta identificar la distribución
+Ubuntu y su memoria visible, y confirmar Python dentro del WSL objetivo.
+
+```text
+Thu Nov  5 12:30:03 2026
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.78                 KMD Version: 610.78        CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                  Driver-Model | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 4070 ...  WDDM  |   00000000:01:00.0 Off |                  N/A |
+| N/A   54C    P8              3W /   80W |     480MiB /   8188MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+Python 3.12.1
+```
+
+Extracto de la captura: se omitió la tabla de procesos, que muestra Unity.exe.
+NVIDIA-SMI/KMD reportan 610.78; VRAM total 8188 MiB y ocupada 480 MiB en la captura.
+La etiqueta CUDA UMD 13.3 se conserva tal como fue recibida; no se ha validado
+una instalación PyTorch/CUDA en Ubuntu. RAM instalada: 16 GB declarados previamente;
+RAM asignada a WSL y versión de Ubuntu: `null`, pendientes de medición allí.
+
+## B1 — Entorno CPU independiente · 5 de noviembre de 2026
+
+Brandon autorizó reinstalar las mismas versiones CPU. Se creó un entorno nuevo,
+sin copiar el anterior ni modificar sus paquetes; fuente de versiones:
+`requirements-sam2.txt`. La prueba GPU de Angel sigue pendiente.
+
+| Campo | Resultado observado |
+| --- | --- |
+| Entorno actual | `Asset-Finder/ai/.venv-sam2`, Python 3.11.18 |
+| Versiones | Las 23 entradas fijadas coinciden con las instaladas |
+| Dependencias | `pip check`: código 0, `No broken requirements found.` |
+| PyTorch / torchvision | 2.15.0+cpu / 0.29.2+cpu, instalados en este proyecto |
+| NumPy / Pillow | 2.4.6 / 13.0.0, instalados en este proyecto |
+| SAM | Editable desde `Asset-Finder/ai/sam2`; configuración y pesos locales |
+| Comando de uso | `ai/.venv-sam2/bin/python -I ai/prueba_sam2.py` desde la raíz |
+| Prueba auditada | Desde `/tmp`, Python aislado, `runpy.run_path` y audit hook |
+| Accesos supervisados | 4,889 eventos; acceso Python a la carpeta antigua bloqueado |
+| Orígenes importados | Ningún módulo proviene de la carpeta antigua |
+| Archivos de entorno | Enlaces, .pth, .egg-link, direct_url.json y pyvenv.cfg sin rutas antiguas |
+| Tiempo de segmentación | 2.17 s; una ejecución, incluye set_image/predict y excluye carga/guardado |
+| Comando publicado | También ejecutado directamente desde la raíz: código 0, 2.05 s |
+| Máscara | 1024 × 631, valores 0/255; 60,327 píxeles seleccionados |
+| Recorte | Alfa idéntico a la máscara; tamaño 1024 × 631 |
+| Limitación visual | La misma selección de fondo/pared del rectángulo fijo; no se cambió su lógica |
+| Salida | Código 0; advertencia FutureWarning de torch.jit sin impedir la ejecución |
+
+Conclusión: la ejecución CPU y el entorno de pruebas ya no dependen de la carpeta
+antigua. Los registros B0/T01 iniciales describen el estado histórico, no el
+comando actual. Las dos ejecuciones (auditada y directa) no son un promedio de
+rendimiento. La distribución y memoria WSL del servidor aún requieren evidencia.
+
+## Aclaración del servidor · 6 de noviembre de 2026
+
+Brandon confirma que Angel **todavía no tiene WSL/Ubuntu instalado** y pide
+dejar esa preparación pendiente. Las salidas NVIDIA/Python compartidas no son
+evidencia de ejecución en Ubuntu/WSL. T01 y las validaciones GPU posteriores
+siguen pendientes; la aprobación de versiones de T02 se conserva. No se instaló
+WSL, Ubuntu ni el entorno CUDA. Las pruebas locales CPU mantienen su validez.
+
+## Evidencia adicional de Luis · 6 de noviembre de 2026
+
+Se revisó `ai/Pruebas/Prueba1_Laptop Luis.json`, aportado por Brandon. Contiene
+una transcripción de terminal alrededor de JSON; se extrajo el objeto para
+leerlo sin alterar ni versionar el archivo original.
+Reporta Ubuntu 26.04.1 en WSL2, Python 3.14.4, glibc 2.43, `/dev/dxg` presente,
+RAM visible 16,728,621,056 bytes, RTX 4060 con 8188 MiB y driver 610.88.
+No acredita PyTorch/CUDA instalado, inferencia real ni el estado de la laptop
+de Angel. Se mantiene la asignación de servidor acordada; T01 sigue pendiente.
+
+## T06 — Segmentación reutilizable en CPU · 6 de noviembre de 2026
+
+- `ai/segmentation.py` usa los mismos pesos SAM y dependencias CPU existentes;
+  no se instalaron paquetes. `prueba_sam2.py` llama a `segment()`.
+- Validación: `ai/.venv-tests/bin/python -m py_compile ai/*.py` y
+  `ai/.venv-tests/bin/python -m pytest ai/tests -q`: **19 passed, 3 subtests
+  passed in 12.63s**. Incluye pruebas sintéticas explícitas y prueba SAM real.
+- En la prueba real, dos llamadas CPU produjeron máscaras booleanas H×W
+  idénticas y puntuación finita; la construcción del modelo ocurrió una vez.
+- También se ejecutó desde `/tmp` el comando con rutas absolutas equivalente a
+  `ai/.venv-sam2/bin/python -I ai/prueba_sam2.py`: salida 0, imagen 1024 × 631,
+  tiempo de primera llamada 5.51 s y score bruto SAM 0.4343.
+- Ese tiempo incluye la primera carga y se obtuvo mientras corría pytest;
+  no es un benchmark ni es comparable con los 2.00/2.17 s que excluían carga.
+- Se generaron los tres archivos locales habituales, ignorados por Git.
+  El ejemplo conserva su caja fija: no se declara selección correcta de un
+  objeto ni precisión por esa puntuación. T07, T08 y la validación GPU siguen pendientes.
+
+## T08 — Selección real de silla amarilla · 9 de noviembre de 2026
+
+Comando: `ai/.venv-sam2/bin/python -I ai/prueba_seleccion.py`. CPU, SAM 2.1 Tiny,
+misma imagen/pesos de las pruebas anteriores. Imagen procesada: 1024×631.
+Entrada SHA-256: `c66ec024c699b44be7a6b8d1cdb0127716ee9a375b81a2af0daf75a5f49ff741`.
+
+| Selección | Score bruto | Píxeles | Tiempo de llamada |
+| --- | --- | --- | --- |
+| Caja [222,355,430,562] | 0.878883 | 17,425 | 6.633 s, incluye primera carga |
+| Tres puntos positivos y tres negativos | 0.848000 | 17,086 | 1.889 s, modelo ya cargado |
+
+Prompts exactos, límites de máscara y valores completos: `ai/resultados/T08/metrics.json`.
+Se verificaron máscaras binarias 0/255, dimensiones y canal alfa de cada recorte.
+Revisión visual de ambas superposiciones: seleccionan respaldo, brazos y partes
+visibles amarillas de la silla; excluyen los bancos grises y el resto principal
+de la escena. No se inferían partes ocultas. No hay ground truth ni IoU de
+precisión; son dos pruebas de selección manual, no un benchmark de recuperación.
+Las imágenes y métricas son locales, ignoradas; no se instalaron dependencias.
+
+## T01 — Primer diagnóstico Ubuntu/WSL de Angel · 9 de noviembre de 2026
+
+Brandon atribuye este informe a Angel. JSON original recibido, sin completar
+campos ausentes: [Diagnostico_Angel_2026-11-09.json](Pruebas/Diagnostico_Angel_2026-11-09.json).
+Recopilación: `2026-11-09T18:01:49.751695+00:00`; host `DESKTOP-N56N5FO`.
+Comando del recolector: `python3 -I diagnostico_servidor.py`, copiable sin repo.
+
+| Campo | Evidencia recibida |
+| --- | --- |
+| Sistema | Ubuntu 26.04.1 LTS, Linux x86_64 |
+| Kernel | 6.18.54.1-microsoft-standard-WSL2 |
+| Python | 3.14.4 en `/usr/bin/python3` |
+| glibc | 2.43 |
+| RAM visible para WSL | 8,203,730,944 bytes ≈ 7.64 GiB |
+| Swap según `free -b` | 2,147,483,648 bytes = 2 GiB |
+| Interfaz WSL GPU | `/dev/dxg` presente |
+| NVIDIA-SMI | Ejecutable no localizado; consulta y salida completa: código 127 |
+| GPU, driver y VRAM dentro de Linux | `null`; no disponibles en este informe |
+
+La RAM visible en WSL no equivale a la RAM física de Windows ni a la VRAM.
+El recolector ya intenta `/usr/lib/wsl/lib/nvidia-smi` si no está en PATH; ese
+fallback no encontró un archivo ejecutable. No es evidencia suficiente para
+atribuir la causa a PATH, al driver o a la ausencia de una GPU NVIDIA física.
+`/dev/dxg` presente tampoco acredita inferencia CUDA.
+
+T01 sigue parcial; T03 no se ejecuta. Se solicitan las comprobaciones de
+PowerShell/WSL del README. Python 3.14.4 es el valor real de `python3`, distinto
+del 3.12 aprobado en T02; falta comprobar si `python3.12` está instalado.
+No se cambian paquetes ni se instala un driver NVIDIA Linux en WSL.
+
+### Comprobación adicional desde PowerShell
+
+Salida compartida por Brandon:
+[Angel_GPU_Windows_2026-11-09.txt](Pruebas/Angel_GPU_Windows_2026-11-09.txt).
+La consulta `Win32_VideoController` enumera únicamente **Intel(R) UHD Graphics**,
+driver **31.0.101.2134**, estado **OK**. No enumera NVIDIA; esto no demuestra
+ausencia física ni determina si hay un dispositivo deshabilitado o sin controlador.
+
+Los comandos `wsl -d Ubuntu -- ...` sí se ejecutaron dentro de Linux:
+`/dev/dxg` existe, `/usr/lib/wsl/lib/nvidia-smi` y `libcuda.so.1` no existen,
+y `python3.12` no está accesible por nombre. La salida anterior de PowerShell
+que intentaba usar directamente `ls -l` no servía para comprobar esos archivos.
+También se recibió WSL 3.0.3.0 y distribución Ubuntu en versión WSL 2.
+
+Se piden modelo exacto y dispositivos PnP para aclarar la discrepancia con la
+RTX 4070 reportada inicialmente. T01 parcial y T03 sin ejecutar; no se cambian
+dependencias ni se atribuye la causa automáticamente al driver o a MSI Center.
+
+### Identificación del equipo de las últimas pruebas: Dell, no MSI
+
+Fuente recibida: [Equipo_Dell_2026-11-09.txt](Pruebas/Equipo_Dell_2026-11-09.txt).
+`Win32_ComputerSystem`: **Dell Inc., Latitude 3410**. La clase Display de PnP
+solo devuelve **Intel UHD, OK**. La consulta de dispositivos presentes en
+ERROR/DEGRADED/UNKNOWN no devuelve coincidencias: el mensaje CIM no implica
+una avería adicional ni confirma la ausencia física de una GPU.
+
+Esto no coincide con la MSI/RTX 4070 reportada al principio. Se conserva la
+evidencia previa sin renombrarla ni completar sus campos; no debe presentarse
+como validación de la MSI. Brandon debe confirmar el equipo definitivo: si es
+la MSI, diagnosticar allí; si es esta Dell, acordar una alternativa CPU con P3.
+No se instala nada ni se modifican modos gráficos mientras se aclara el equipo.
+
+## T01 completada — Diagnóstico real de la MSI de Angel · 9 de noviembre de 2026
+
+Brandon comparte la salida de la laptop correcta. JSON original conservado:
+[Diagnostico_MSI_Angel_2026-11-09.json](Pruebas/Diagnostico_MSI_Angel_2026-11-09.json).
+Host `MSI`; recopilación `2026-11-09T18:28:09.100424+00:00`.
+Comando recibido: `python3 -I diagnostico_servidor.py`, con una copia independiente
+del script. El primer intento falló porque no estaba en esa ruta; el segundo
+produjo el informe completo. En el repo, la ruta del archivo es `ai/diagnostico_servidor.py`.
+
+| Campo | Evidencia MSI |
+| --- | --- |
+| Sistema | Ubuntu 26.04.1 LTS; Linux x86_64; WSL2 |
+| Kernel | 6.18.54.1-microsoft-standard-WSL2 |
+| Python | 3.14.4 en `/usr/bin/python3` |
+| glibc | 2.43 |
+| RAM visible WSL | 8,172,498,944 bytes ≈ 7.61 GiB |
+| Swap | 2 GiB |
+| GPU | NVIDIA GeForce RTX 4070 Laptop GPU |
+| Driver consultado | 610.78 |
+| VRAM total | 8188 MiB |
+| NVIDIA-SMI | `/usr/lib/wsl/lib/nvidia-smi`; ambas consultas devuelven 0 |
+| Dispositivo WSL GPU | `/dev/dxg` presente |
+
+NVIDIA-SMI muestra versión de herramienta 610.55, KMD 610.78 y CUDA UMD 13.3;
+esa etiqueta no identifica el runtime de PyTorch instalado. No se ejecutó
+PyTorch CUDA ni SAM/DINO en esta GPU. T03/T04 siguen pendientes.
+
+Validación local: `ai/.venv-tests/bin/python -m py_compile ai/*.py` código 0;
+`ai/.venv-tests/bin/python -m pytest ai/tests -q`: **31 passed, 5 subtests passed
+in 22.39s**. Son pruebas locales CPU/contratos Python, no inferencia GPU remota.
+Con el informe del servidor y esa validación se cierra T01.
+
+Siguiente: comprobar si también existe `python3.12` y los directorios SAM/entorno
+en la MSI. No se instala nada todavía. Los informes de la Dell y Luis permanecen
+separados y no sustituyen esta evidencia del servidor.
+
+
+## T12–T13 — DINOv2 ViT-S/14 CPU · 10 de noviembre de 2026
+
+Entorno CPU existente, PyTorch 2.15.0+cpu, Python 3.11.18, 2 hilos. Código/pesos
+identificados en `dino_resources.json`; 384 componentes float32 con norma 1.
+Comando: `OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 ai/.venv-sam2/bin/python -m ai.prueba_embeddings`.
+Cama fotogramas 00000/00030: coseno 0.95553565; cama/silla: 0.34461749.
+Tiempos 0.6564 s primera imagen con carga y 0.1155/0.1264 s posteriores.
+Una ejecución por imagen; no benchmark GPU ni evaluación de modelos 3D.
+Procedencia/recortes/hashes y artefactos locales en `ai/resultados/T13/`.
+
+
+## T25-L — Flujo CPU medido · 10 de noviembre de 2026
+
+Comando: `OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 ai/.venv-sam2/bin/python -m ai.benchmark`.
+Python 3.11.18; 2 hilos, 3 repeticiones tras un calentamiento.
+Caché de consulta desactivada para medir inferencia; ocho candidatos ya cacheados.
+Suite local concurrente: cifras orientativas de esta sesión, no benchmark aislado.
+
+| Etapa | Mediana (s) | Mínimo | Máximo |
+| --- | --- | --- | --- |
+| segment_seconds | 2.741214 | 2.565205 | 3.223809 |
+| prepare_seconds | 0.015770 | 0.013125 | 0.017479 |
+| embed_seconds | 0.095485 | 0.088171 | 0.141889 |
+| index_seconds | 0.036776 | 0.035643 | 0.045331 |
+| search_seconds | 0.000904 | 0.000826 | 0.000930 |
+| total_seconds | 2.890158 | 2.702975 | 3.429449 |
+
+Carga SAM 2.0215 s; DINO 0.3908 s; primera codificación de ocho candidatos 0.9679 s.
+Consulta repetida con caché: 0.0478 s. RAM pico del proceso completo: 1254408192 bytes.
+VRAM no medida (CPU); no se atribuye la RAM a un modelo ni al servidor MSI.
+Configuración, versiones, muestras y límites en `ai/resultados/T25/metrics.json`, ignorado por Git.

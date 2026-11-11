@@ -1,0 +1,14 @@
+{
+  "source": {
+    "url": "https://codeload.github.com/facebookresearch/dinov2/tar.gz/7764ea0f912e53c92e82eb78a2a1631e92725fc8",
+    "sha256": "c27dcdaf50e9fb5bbdf2bb529da357716372e19c6afab17d5350f3f0094aed4b",
+    "bytes": 2869642,
+    "tree_sha256": "ee9382413c2d7bb6e9f4b2f6520ddd8054935f0d4d6c711f421f3626e8758902"
+  },
+  "weights": {
+    "url": "https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth",
+    "sha256": "b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9",
+    "bytes": 88283115
+  },
+  "revision": "7764ea0f912e53c92e82eb78a2a1631e92725fc8"
+}
