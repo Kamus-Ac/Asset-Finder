@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Plus } from 'lucide-react-native';
 import { Button, ConfirmationModal, EmptyState, Field, IconButton, ScreenContainer, SculpturePanel, SectionHeader } from '@/components/ui/kit';
 import { ProjectCard } from '@/components/projects/project-card';
-import { useDemoSession } from '@/mocks/session';
+import { useSession } from '@/session/context';
 import { useAppTheme } from '@/theme';
 
 export default function Projects() {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
-  const { projects, createProject } = useDemoSession();
+  const { projects, createProject } = useSession();
   const { colors } = useAppTheme();
   return <ScreenContainer title="Proyectos" tab action={<IconButton label="Crear proyecto" onPress={() => setOpen(true)}><Plus size={21} color={colors.text} strokeWidth={1.6} /></IconButton>}>
     <SculpturePanel title={'Tu biblioteca\ncreativa.'} caption={`${projects.length} proyectos · esta sesión`} />

@@ -3,11 +3,11 @@ import { View } from 'react-native';
 import { router } from 'expo-router';
 import { Button, Copy, Panel, ScreenContainer, SculpturePanel, StatusBadge } from '@/components/ui/kit';
 import { useAppTheme } from '@/theme';
-import { useDemoSession } from '@/mocks/session';
+import { useSession } from '@/session/context';
 
 export default function Profile() {
   const { colors } = useAppTheme();
-  const { projects } = useDemoSession();
+  const { projects } = useSession();
   const count = new Set(projects.flatMap(project => project.assetIds)).size;
   return <ScreenContainer title="Perfil" tab>
     <SculpturePanel title={'Tu espacio\ncreativo.'} caption="Assets Finder" variant="ribbon" />

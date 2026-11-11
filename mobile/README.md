@@ -1,53 +1,47 @@
-# Assets finder · Mobile
+# Assets Finder · Mobile
 
-Expo SDK 58, React Native, Expo Router, TypeScript, NativeWind/Tailwind, LINE Seed JP y Lucide. Interfaz en español con degradados violeta/naranja, tema oscuro por defecto y navegación flotante.
+Expo SDK 58, React Native, Expo Router, TypeScript, NativeWind, LINE Seed JP y Lucide. Diseño compartido con Inicio: degradados suaves, tarjetas discretas, renders decorativos y navegación flotante.
 
 ## Ejecutar
 
 ```bash
 cd mobile
+npm install
 npx expo start --clear
 ```
 
-Para el túnel desde WSL2: `npx expo start --tunnel ngrok`. Abrir con Expo Go compatible con SDK 58.
+Guía de servidores, variables, Expo Go y límites: [INTEGRATION.md](INTEGRATION.md). El backend debe estar funcionando para buscar y enviar referencias; no hay un reemplazo silencioso con datos de ejemplo.
 
 ## Recorridos
 
-- **Inicio:** sin scroll. Buscar assets, abrir una imagen, escanear un objeto, crear un entorno y abrir Perfil.
-- **Captura / referencia:** cámara del sistema para foto y video, selector nativo de imágenes, vista previa de la foto real y reproducción del video grabado. Permisos solicitados al usar la cámara. Cancelar conserva la referencia anterior.
-- **Selección:** muestra la imagen real elegida; área movible al tocar, puntos y máscara ilustrativa; reinicio y acceso a resultados de ejemplo.
-- **Resultados:** búsqueda por nombre, filtro por modelos/referencias y orden por nombre o ranking de ejemplo.
-- **Asset:** tres vistas ilustrativas, formatos, información de fuente y guardado en proyectos existentes o nuevos.
-- **Proyectos:** crear, abrir, añadir y quitar assets. Estado compartido durante la sesión.
-- **Ajustes:** apariencia sistema/claro/oscuro y estado de conexión.
-- **Perfil:** estado sin sesión, resumen de proyectos/assets y acceso a colecciones locales.
-- **Reconstrucción:** servicio sin conectar; cinco estados explícitos de vista previa.
+- **Inicio:** buscar modelos externos, abrir archivo de imagen, capturar y crear una colección local.
+- **Resultados:** búsqueda textual real de Sketchfab o resultados de comparación visual; filtros y orden. Miniaturas/enlaces reales; puntuación solo si la respuesta incluye similitud.
+- **Referencia:** foto/galería reales y video local. El envío explícito normaliza la imagen a hasta 1024 px y usa `POST /media`.
+- **Selección:** rectángulo/puntos sobre la imagen normalizada, coordenadas sin márgenes, cantidades y comparación con el servicio visual existente cuando esté disponible.
+- **Modelo:** miniatura de la fuente, enlace original, información disponible y guardado en una colección local. No se ofrece un archivo 3D si el servidor no proporciona una URL verificada.
+- **Proyectos y entorno:** colecciones de los modelos consultados, conservadas durante esta sesión. Aún no hay persistencia común con web.
+- **Ajustes:** claro/oscuro/sistema y comprobación separada del backend y de IA.
+- **Perfil:** estado sin sesión y resumen de colecciones locales.
+- **Reconstrucción:** deshabilitada hasta que exista el servicio; no muestra estados de éxito ficticios.
 
-La captura y selección de imágenes son reales mediante `expo-image-picker`; el video se reproduce con `expo-video`. El archivo seleccionado se mantiene solo en memoria durante la sesión, sin subirse a ningún servidor. Android puede recuperar el resultado del selector tras recrear la actividad. La selección de fotogramas de video queda pendiente.
+## Estructura
 
-El catálogo, el ranking, las máscaras y las licencias siguen siendo demostrativos; no hay IA, descarga 3D, autenticación, persistencia o backend conectado. Los datos de proyectos se reinician al recargar. Los controles de servicio no disponible permanecen deshabilitados.
-
-## Diseño y estructura
-
-- `src/app/`: pantallas y layouts; Inicio usa `View`, las demás pantallas admiten scroll.
-- `src/components/ui/kit.tsx`: controles, campos, modales y contenedor de pantalla.
-- `src/components/floating-tabs.tsx`: barra flotante e indicador animado.
-- `src/components/app-background.tsx` y `app-backdrop.tsx`: degradados violeta/naranja compartidos con Inicio; PNG locales a partir de SVG para mantener el resultado en Android y web.
-- `src/theme/`: paletas y LINE Seed JP; oscuro `#100E1B` por defecto, claro `#F5F1F8` y selección del sistema disponibles.
-- `src/media/`: apertura del selector/cámara, referencia actual y permisos.
-- `src/mocks/`: catálogo y estado local de proyectos.
-- `assets/images/demo/`: seis ilustraciones SVG locales.
-
-Usar Tailwind mediante `className` para nuevos estilos. Las clases LINE Seed JP son `font-sans`, `font-sans-medium`, `font-sans-semibold`, `font-sans-bold`. Los colores de tema y dimensiones calculadas usan `style`. Usar iconos de `lucide-react-native`, salvo los SVG proporcionados para Inicio. Los renders abstractos decorativos se reutilizan con `Sculpture` y `SculpturePanel`.
-
-La barra reproduce la referencia de cinco iconos sólidos blancos, sin etiquetas visibles: Inicio, Proyectos, Cámara, Ajustes y Perfil. Mantiene fondo `#0B0911`, círculo activo `#B34149` y una curva superior que se desplaza con el círculo. Los iconos se elevan al seleccionarlos y las pantallas cambian con un fundido. Respeta las áreas seguras, admite teclado y lectores de pantalla y desactiva las transiciones cuando el sistema solicita reducir movimiento. Cámara reutiliza la captura existente; Perfil muestra el estado sin sesión.
+- `src/app/api/`: adaptadores de servidor Expo para los endpoints Python actuales.
+- `src/server/`: transporte hacia los servicios; nunca importado por componentes cliente.
+- `src/services/`: cliente HTTP, contratos y validación/adaptación de respuestas.
+- `src/media/`: selector/cámara, normalización, subida y geometría de selección.
+- `src/session/`: caché de metadatos consultados y colecciones locales de sesión.
+- `src/components/ui/kit.tsx`: controles, campos, estados, modales y contenedor.
+- `src/theme/`, `src/components/app-backdrop.tsx`: tipografía, paletas y fondos compartidos.
+- `src/mocks/`: ejemplos históricos; no son un fallback de los recorridos conectados.
 
 ## Validación
 
 ```bash
-npx tsc --noEmit
+npm run test:integration
 npm run lint
-npx expo export --platform android --platform web --output-dir /tmp/asset-finder-export
+npx tsc --noEmit
+npx expo export --platform android --platform web --max-workers 1 --output-dir /tmp/asset-finder-mobile-integration-export
 ```
 
-Revisar en dispositivo el recorrido completo, áreas seguras, teclado y Android Atrás. Las exportaciones verifican empaquetado; no sustituyen una prueba en Android. Ver `VALIDATION.md`.
+Ver [VALIDATION.md](VALIDATION.md). Las pruebas en navegador y las exportaciones no sustituyen comprobar cámara, permisos, áreas seguras y conexión en un teléfono físico.

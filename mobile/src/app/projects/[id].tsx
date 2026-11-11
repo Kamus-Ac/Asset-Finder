@@ -2,14 +2,13 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Check, Pencil, Plus, Trash2 } from 'lucide-react-native';
-import { assets } from '@/mocks/catalog';
-import { useDemoSession } from '@/mocks/session';
+import { useSession } from '@/session/context';
 import { useAppTheme } from '@/theme';
 import { AssetGrid } from '@/components/assets/asset-card';
 import { Button, Copy, EmptyState, IconButton, ScreenContainer } from '@/components/ui/kit';
 export default function ProjectDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { projects, removeAsset } = useDemoSession();
+  const { projects, removeAsset, assets } = useSession();
   const project = projects.find(p => p.id === id);
   const [editing, setEditing] = useState(false);
   const { colors } = useAppTheme();

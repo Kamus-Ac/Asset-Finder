@@ -3,10 +3,13 @@ export interface Asset {
   id: string;
   name: string;
   source: string;
-  kind: AssetKind;
+  kind?: AssetKind;
+  thumbnailUrl?: string;
+  sourceUrl?: string;
+  modelUrl?: string;
   format: string;
   available: boolean;
-  score: number;
+  score: number | null;
   description: string;
   license: string;
 }

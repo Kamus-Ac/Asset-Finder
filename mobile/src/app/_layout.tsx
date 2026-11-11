@@ -6,7 +6,7 @@ import { Stack, ThemeProvider, DarkTheme, DefaultTheme } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { AppTheme, useAppTheme } from '@/theme';
 import { MediaProvider } from '@/media/context';
-import { DemoSessionProvider } from '@/mocks/session';
+import { SessionProvider } from '@/session/context';
 import { fontFamily } from '@/theme/fonts';
 
 void SplashScreen.preventAutoHideAsync();
@@ -41,6 +41,6 @@ export default function RootLayout() {
   if (!loaded) return null;
 
   return <AppTheme>
-    <MediaProvider><DemoSessionProvider><Navigation /></DemoSessionProvider></MediaProvider>
+    <MediaProvider><SessionProvider><Navigation /></SessionProvider></MediaProvider>
   </AppTheme>;
 }

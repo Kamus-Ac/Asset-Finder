@@ -1,3 +1,18 @@
+# Conexión inicial con backend e IA · 2026-11-11
+
+- Cambios solo en `mobile/`. Rutas Expo de servidor para salud, catálogo y referencias de FastAPI; adaptador opcional a la demo visual existente. Targets configurables solo en servidor y URL pública opcional del gateway. No se modificaron contratos ni dependencias ajenas.
+- Búsqueda real, metadatos/miniaturas/enlaces de origen, errores/reintentos/cancelación y caché durante navegación. Retirado el catálogo de ejemplo como fuente de los recorridos conectados. Colecciones locales identificadas como estado de sesión.
+- Envío explícito: Expo ImageManipulator compatible con SDK 58, PNG con lado mayor de hasta 1024 px, multipart, referencia normalizada e invalidación/cancelación al cambiar la imagen. Selección convierte coordenadas de `contain`, ignora márgenes y soporta eventos nativos y web sin `locationX/Y`.
+- Adaptador visual pasa ID, imagen normalizada, selección y cantidades al servicio IA existente; muestra únicamente los resultados, máscaras y puntuaciones recibidos. Las simulaciones de reconstrucción y máscaras previas se retiraron del flujo conectado.
+- Exportación final Android/web correcta en `/tmp/asset-finder-mobile-integration-final-export`, incluidas las dos rutas de servidor Expo. Salir de Referencia durante una subida cancela la espera y no provoca navegación posterior; prueba interactiva con respuesta demorada.
+- Nueve grupos de pruebas de contratos/HTTP con transporte controlado (`npm run test:integration`): correctos. Lint y TypeScript: correctos.
+- Navegador con FastAPI real y Sketchfab: diez modelos, ficha/enlace de origen y guardado en proyecto local; selección de PNG 1280×640, normalización/subida y recuperación de PNG 1024×512. Ajustes comprueba correctamente el backend disponible y el servicio IA ausente. Sin errores de ejecución.
+- Prueba UI con contrato IA simulado: cantidades 8/2, punto en píxeles normalizados y márgenes ignorados, máscara/recorte/resultados. Fallo de fuente simulado: error visible y reintento, sin fallback. Estas comprobaciones no ejecutan inferencia real.
+- Scripts interactivos temporales: `%TEMP%/verify-mobile-backend.cjs` y `%TEMP%/verify-integration-settings.cjs`. Capturas revisadas del catálogo real y estados de selección/error.
+- El entorno backend original no tenía HTTPX; se usó un entorno temporal de pruebas sin cambiar requirements. La preparación verificada de recursos IA encontró la copia SAM incompleta (falta LICENSE) y se detuvo sin sobrescribirla. No se declara SAM/DINO real, CUDA, teléfono físico ni persistencia de proyectos en servidor.
+
+---
+
 # Estilo de Inicio en toda la app · 2026-11-11
 
 - LINE Seed JP Regular/Bold en pantallas, campos, estados y modales; ExtraBold conserva el logo de Inicio. Se mantiene la composición de Inicio.

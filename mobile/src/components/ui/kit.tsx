@@ -10,7 +10,7 @@ import Sculpture from '@/components/sculpture';
 import { fontFamily } from '@/theme/fonts';
 import { useAppTheme, tokens } from '@/theme';
 import { useNavbarClearance } from '@/hooks/use-navbar-clearance';
-import { artwork } from '@/mocks/catalog';
+import { artwork } from '@/constants/asset-artwork';
 import type { AssetKind } from '@/types/domain';
 
 export function Copy({ children, tone = 'text', size = 14, bold = false }: {
