@@ -1,3 +1,17 @@
+# Estilo de Inicio en toda la app · 2026-11-11
+
+- LINE Seed JP Regular/Bold en pantallas, campos, estados y modales; ExtraBold conserva el logo de Inicio. Se mantiene la composición de Inicio.
+- Paleta oscura por defecto `#100E1B`, degradados violeta/naranja, bordes sutiles, tarjetas redondeadas y acciones principales `#B34149`. Se conservan las opciones claro/sistema y se adapta su contraste. El indicador de todas las pestañas usa el rojo de Inicio, sin contornos blancos.
+- Fondos SVG rasterizados a 2× para obtener el mismo degradado en Android y web. Segundo render del usuario incorporado como ornamento; se alterna con el render de Inicio. Las decoraciones no interceptan toques ni se anuncian como contenido a lectores de pantalla.
+- Se adaptaron Proyectos, Perfil, Ajustes, Capturar, Resultados, detalle de asset/proyecto, Crear entorno, Referencia, Selección, Reconstrucción, estados vacíos y modales. El catálogo conserva sus objetos originales, con fondos/sombras ajustados.
+- `npm run lint`, `npx tsc --noEmit` y `git diff --check`: correctos.
+- Exportación Android y web correcta con `npx expo export --platform android --platform web --max-workers 1 --output-dir /tmp/asset-finder-app-redesign-export`, incluidos los tres pesos de LINE Seed JP, fondos y renders.
+- Chrome interactivo: cinco pestañas, indicador sin bordes, modo claro/oscuro, creación de proyecto y nombre obligatorio, búsqueda/filtros/orden/estado vacío, vistas de asset, información y guardado en modal, guardar y quitar asset, selector con imagen real, puntos/reinicio/máscara y resultados, crear entorno con dos assets, estados de reconstrucción y cambio Foto/Video. Sin errores de ejecución.
+- Revisión visual de 12 rutas y modales. Anchos 320/390/430/768 px sin scroll horizontal; Inicio conserva su diseño sin scroll. Scripts temporales: `%TEMP%/verify-app-redesign.cjs` y `%TEMP%/capture-app-redesign.cjs`.
+- Sin backend, autenticación ni generación 3D. No se verificó hardware, teclado del sistema ni renderizado en un teléfono físico.
+
+---
+
 # Inicio según referencia · 2026-11-11
 
 - Inicio sin scroll con proporciones de la referencia: logotipo en dos líneas, acceso a Perfil, pregunta, buscador, Abrir archivo, Escanear objeto y Crear entorno. LINE Seed JP Regular/ExtraBold locales con licencia OFL; iconos SVG proporcionados por el usuario. La pieza 3D del SVG adjunto se rasterizó con transparencia a 804 × 930 px para usar el mismo recurso en Android y web.

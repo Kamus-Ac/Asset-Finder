@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --font-display: Urbanist_400Regular, sans-serif;
-  --font-mono: Urbanist_400Regular, sans-serif;
-  --font-rounded: Urbanist_400Regular, sans-serif;
-  --font-serif: Urbanist_400Regular, sans-serif;
+  --font-display: LINESeedJP_Regular, sans-serif;
+  --font-mono: LINESeedJP_Regular, sans-serif;
+  --font-rounded: LINESeedJP_Regular, sans-serif;
+  --font-serif: LINESeedJP_Regular, sans-serif;
 }

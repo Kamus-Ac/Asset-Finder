@@ -1,6 +1,6 @@
 export const fontFamily = {
-  regular: 'Urbanist_400Regular',
-  medium: 'Urbanist_500Medium',
-  semibold: 'Urbanist_600SemiBold',
-  bold: 'Urbanist_700Bold',
+  regular: 'LINESeedJP_Regular',
+  medium: 'LINESeedJP_Regular',
+  semibold: 'LINESeedJP_Bold',
+  bold: 'LINESeedJP_Bold',
 };

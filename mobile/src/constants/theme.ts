@@ -9,28 +9,28 @@ import { Platform } from 'react-native';
 
 export const Colors = {
   light: {
-    text: '#000000',
-    background: '#ffffff',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
+    text: '#251C32',
+    background: '#F5F1F8',
+    backgroundElement: '#FFFFFF',
+    backgroundSelected: '#E8DEF5',
+    textSecondary: '#766A84',
   },
   dark: {
-    text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
+    text: '#F8F5FC',
+    background: '#100E1B',
+    backgroundElement: '#1C1725',
+    backgroundSelected: '#251E30',
+    textSecondary: '#B4AABC',
   },
 } as const;
 
 export type ThemeColor = keyof typeof Colors.light & keyof typeof Colors.dark;
 
 export const Fonts = {
-  sans: 'Urbanist_400Regular',
-  serif: 'Urbanist_400Regular',
-  rounded: 'Urbanist_400Regular',
-  mono: 'Urbanist_400Regular',
+  sans: 'LINESeedJP_Regular',
+  serif: 'LINESeedJP_Regular',
+  rounded: 'LINESeedJP_Regular',
+  mono: 'LINESeedJP_Regular',
 };
 
 export const Spacing = {

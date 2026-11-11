@@ -60,7 +60,7 @@ function FloatingTabBar({ state, descriptors, emitter, navigateToTab }: TabBarPr
             <Svg width="100%" height="100%" viewBox="0 0 180 140">
               <Path fill={BAR_COLOR} d="M0 38H8C16 38 17 29 30 20C45 6 61 0 80 0C104 0 118 10 137 27C147 36 155 38 170 38H180V140H0Z" />
             </Svg>
-            <View className="absolute rounded-full" style={{ width: 96 * scale, height: 96 * scale, left: 32 * scale, top: 24 * scale, backgroundColor: state.routes[state.index]?.name === 'home' ? '#B34149' : '#A805F4' }} />
+            <View className="absolute rounded-full" style={{ width: 96 * scale, height: 96 * scale, left: 32 * scale, top: 24 * scale, backgroundColor: '#B34149' }} />
           </Animated.View>
           <View className="absolute inset-0 flex-row" style={{ paddingHorizontal: padding }}>
             {state.routes.map((route, index) => {

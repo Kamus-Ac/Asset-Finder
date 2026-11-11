@@ -1,10 +1,6 @@
 import '../global.css';
 import { useEffect } from 'react';
 import { useFonts } from 'expo-font';
-import { Urbanist_400Regular } from '@expo-google-fonts/urbanist/400Regular';
-import { Urbanist_500Medium } from '@expo-google-fonts/urbanist/500Medium';
-import { Urbanist_600SemiBold } from '@expo-google-fonts/urbanist/600SemiBold';
-import { Urbanist_700Bold } from '@expo-google-fonts/urbanist/700Bold';
 import * as SplashScreen from 'expo-splash-screen';
 import { Stack, ThemeProvider, DarkTheme, DefaultTheme } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -34,7 +30,7 @@ function Navigation() {
 }
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    Urbanist_400Regular, Urbanist_500Medium, Urbanist_600SemiBold, Urbanist_700Bold,
+    LINESeedJP_Bold: require('@/assets/fonts/LINESeedJP-Bold.otf'),
     LINESeedJP_Regular: require('@/assets/fonts/LINESeedJP-Regular.otf'),
     LINESeedJP_ExtraBold: require('@/assets/fonts/LINESeedJP-ExtraBold.otf'),
   });
