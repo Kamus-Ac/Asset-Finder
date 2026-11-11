@@ -1,5 +1,11 @@
 # Graph Report - Asset-Finder  (2026-11-11)
 
+> **Pendiente de regeneración tras R04 (`106cf97`).** Los nodos y relaciones de
+> este informe, `graph.json` y `graph.html` conservan las rutas previas a la
+> reorganización de `ai/`. El mapa vigente está en `ai/README.md`; los renombres
+> se registran en `REORGANIZACION_AI_2026-11-11.json`. Las cifras siguientes
+> corresponden a la extracción anterior, no a una nueva extracción.
+
 ## Corpus Check
 - 110 files · ~48,484 words
 - Verdict: corpus is large enough that graph structure adds value.

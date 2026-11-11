@@ -1,0 +1,54 @@
+{
+  "status": "needs_reextraction",
+  "code_commit": "106cf971c057f582aa040235a1b8bbc476652ffa",
+  "scope": "Organización de ai/; el grafo JSON/HTML no ha sido regenerado.",
+  "root_files_before": 48,
+  "root_files_after": 23,
+  "moved_files": {
+    "ai/PLAN_P4_IA.md": "ai/docs/PLAN_P4_IA.md",
+    "ai/INTERFAZ_P3.md": "ai/docs/INTERFAZ_P3.md",
+    "ai/PROPUESTA_FRONTEND.md": "ai/docs/PROPUESTA_FRONTEND.md",
+    "ai/CANDIDATOS_P3.md": "ai/docs/CANDIDATOS_P3.md",
+    "ai/NOTAS_SAM3D.md": "ai/docs/NOTAS_SAM3D.md",
+    "ai/PROPUESTA_ENTORNO.md": "ai/docs/PROPUESTA_ENTORNO.md",
+    "ai/RESUMEN_PROYECTO.md": "ai/docs/RESUMEN_PROYECTO.md",
+    "ai/API_CANTIDADES_P3.md": "ai/docs/API_CANTIDADES_P3.md",
+    "ai/EVALUACION.md": "ai/docs/EVALUACION.md",
+    "ai/MEDICIONES.md": "ai/docs/MEDICIONES.md",
+    "ai/ENTREGA_EQUIPO.md": "ai/docs/ENTREGA_EQUIPO.md",
+    "ai/REPRODUCIR_CPU.md": "ai/docs/REPRODUCIR_CPU.md",
+    "ai/REVISION.md": "ai/docs/REVISION.md",
+    "ai/diagnostico_servidor.py": "ai/scripts/diagnostico_servidor.py",
+    "ai/preparar_gpu.sh": "ai/scripts/preparar_gpu.sh",
+    "ai/prueba_sam2.py": "ai/examples/prueba_sam2.py",
+    "ai/prueba_seleccion.py": "ai/examples/prueba_seleccion.py",
+    "ai/prueba_embeddings.py": "ai/examples/prueba_embeddings.py",
+    "ai/prueba.jpeg": "ai/examples/prueba.jpeg",
+    "ai/sam_resources.json": "ai/manifests/sam_resources.json",
+    "ai/dino_resources.json": "ai/manifests/dino_resources.json",
+    "ai/demo_manifest.json": "ai/manifests/demo_manifest.json",
+    "ai/notas.txt": "ai/docs/notas.txt",
+    "ai/TASKS.md:Zone.Identifier": "ai/docs/metadata/TASKS.md:Zone.Identifier",
+    "ai/PROGRESS.md:Zone.Identifier": "ai/docs/metadata/PROGRESS.md:Zone.Identifier"
+  },
+  "stable_entries": [
+    "ai.service",
+    "ai.demo",
+    "ai.pipeline",
+    "ai.resources",
+    "ai.benchmark",
+    "ai.evaluate"
+  ],
+  "validation": {
+    "tests_passed": 57,
+    "subtests_passed": 13,
+    "local_links_checked": 88,
+    "manual_sam": "CPU real, sin ground truth",
+    "pipeline_cli": {
+      "available": 24,
+      "compared": 2,
+      "returned": 1
+    }
+  },
+  "branch_policy": "Solo feature/ai-exploracion; excluir graphify-out de main."
+}
