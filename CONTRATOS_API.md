@@ -69,3 +69,13 @@ Un asset puede tener varias instancias. No asumir medidas físicas reales.
 
 ## Mocks
 Guardar una respuesta de ejemplo por endpoint en `docs/mocks/<endpoint>.json`. P1/P2 los usan hasta que P3/P4 entreguen lo real.
+
+
+## Implementación de búsqueda visual — 11 nov 2026
+
+El contrato ejecutable de `/media`, `/catalog/search`, `/segmentations`,
+`/searches`, `/tasks` y artefactos PNG se documenta en
+[Integración de búsqueda y móvil](docs/INTEGRACION_BUSQUEDA_MOVIL.md) y en
+`/docs` de FastAPI. La propuesta anterior para proyectos/assets/escenas sigue
+pendiente. `/generations` responde 503. Búsqueda requiere `q` y selección;
+retorna una tarea 202 cuyo resultado contiene ranking DINO y avisos por fuente.
