@@ -6,6 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        'seed': ['LINESeedJP_Regular'],
+        'seed-extrabold': ['LINESeedJP_ExtraBold'],
         sans: ['Urbanist_400Regular'],
         'sans-medium': ['Urbanist_500Medium'],
         'sans-semibold': ['Urbanist_600SemiBold'],

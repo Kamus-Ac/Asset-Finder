@@ -9,7 +9,6 @@ import { useReducedMotion } from '@/hooks/use-reduced-motion';
 type TabBarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0];
 
 const BAR_COLOR = '#0B0911';
-const ACTIVE_COLOR = '#A805F4';
 
 function FloatingTabBar({ state, descriptors, emitter, navigateToTab }: TabBarProps) {
   const insets = useSafeAreaInsets();
@@ -45,7 +44,7 @@ function FloatingTabBar({ state, descriptors, emitter, navigateToTab }: TabBarPr
     <View
       pointerEvents="box-none"
       className="absolute items-center"
-      style={{ left: insets.left + 20, right: insets.right + 20, bottom: insets.bottom + 16 }}>
+      style={{ left: insets.left, right: insets.right, bottom: insets.bottom }}>
       <View
         testID="floating-navbar"
         className="w-full max-w-[618px] overflow-hidden"
@@ -61,7 +60,7 @@ function FloatingTabBar({ state, descriptors, emitter, navigateToTab }: TabBarPr
             <Svg width="100%" height="100%" viewBox="0 0 180 140">
               <Path fill={BAR_COLOR} d="M0 38H8C16 38 17 29 30 20C45 6 61 0 80 0C104 0 118 10 137 27C147 36 155 38 170 38H180V140H0Z" />
             </Svg>
-            <View className="absolute rounded-full" style={{ width: 96 * scale, height: 96 * scale, left: 32 * scale, top: 24 * scale, backgroundColor: ACTIVE_COLOR }} />
+            <View className="absolute rounded-full" style={{ width: 96 * scale, height: 96 * scale, left: 32 * scale, top: 24 * scale, backgroundColor: state.routes[state.index]?.name === 'home' ? '#B34149' : '#A805F4' }} />
           </Animated.View>
           <View className="absolute inset-0 flex-row" style={{ paddingHorizontal: padding }}>
             {state.routes.map((route, index) => {

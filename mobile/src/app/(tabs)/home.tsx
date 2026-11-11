@@ -1,60 +1,70 @@
-import { ActivityIndicator, Pressable, Text, View, useWindowDimensions } from 'react-native';
+import { useState } from 'react';
+import { ActivityIndicator, Keyboard, Pressable, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import { router } from 'expo-router';
-import { Camera, ImagePlus, Video, ArrowUpRight, Boxes, Box, ChevronRight } from 'lucide-react-native';
+import { Search, UserRound } from 'lucide-react-native';
 import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import AppBackground from '@/components/app-background';
+import HomeBackdrop from '@/components/home/backdrop';
+import HomeActionIcon from '@/components/home/action-icon';
 import MediaFeedback from '@/components/media-feedback';
 import { useMedia } from '@/media/context';
-import type { MediaAction } from '@/media/picker';
-import { useAppTheme } from '@/theme';
 import { useNavbarClearance } from '@/hooks/use-navbar-clearance';
 
 export default function Home() {
   const insets = useSafeAreaInsets();
-  const { height } = useWindowDimensions();
-  const compact = height < 740;
+  const { width, height } = useWindowDimensions();
+  const [query, setQuery] = useState('');
+  const { busy, choose } = useMedia();
   const navbarClearance = useNavbarClearance();
-  const { colors, dark } = useAppTheme();
-  const { media, busy, choose } = useMedia();
-  const surface = dark ? '#24182F' : '#F3EAF7';
-  const border = dark ? '#614169' : '#D3B3DE';
-  async function open(action: MediaAction) {
-    if (await choose(action)) router.push('/reference');
+  // Preserve the reference composition on short screens without scrolling.
+  const scale = Math.max(.1, Math.min((width - insets.left - insets.right) / 390, (height - insets.top - insets.bottom) / 844, (height - insets.top - navbarClearance) / 627, 1.4));
+
+  function search() {
+    Keyboard.dismiss();
+    router.push({ pathname: '/results', params: { query: query.trim() } });
   }
-  return <AppBackground>
-    <View className="flex-1 px-6" style={{ paddingTop: insets.top + 20, paddingBottom: navbarClearance }}>
-      <View className="flex-row items-center gap-3">
-        <Text accessibilityRole="header" className="flex-1 font-sans-bold text-[30px] leading-9 tracking-tight text-white">Assets finder</Text>
-        {media && compact && <Pressable accessibilityRole="button" accessibilityLabel="Abrir última referencia" onPress={() => router.push('/reference')} className="h-10 w-10 items-center justify-center rounded-[14px] bg-white/15"><ImagePlus size={21} color="#FFFFFF" /></Pressable>}
-      </View>
-      <View className="mt-5 flex-1 gap-3" style={{ maxWidth: 520, width: '100%', alignSelf: 'center' }}>
-        {!compact && <Text className="mb-1 font-sans-semibold text-xl text-white">Nueva búsqueda</Text>}
-        <MediaFeedback />
-        <Pressable accessibilityRole="button" accessibilityState={{ disabled: busy }} disabled={busy} onPress={() => { void open('photo'); }} className="flex-1 justify-between rounded-[24px] border border-[#E67AF6] bg-[#68167C] p-5 active:opacity-80" style={{ minHeight: compact ? 128 : 150 }}>
-          <View className="flex-row items-start justify-between">
-            <View className="h-12 w-12 items-center justify-center rounded-[16px] bg-white/15">{busy ? <ActivityIndicator color="#FFFFFF" /> : <Camera size={26} color="#FFFFFF" strokeWidth={1.6} />}</View>
-            <ArrowUpRight size={24} color="#FFFFFF" strokeWidth={1.5} />
-          </View>
-          <Text className="mt-2 font-sans-semibold text-[26px] leading-8 text-white">Tomar foto</Text>
+
+  async function openFile() {
+    if (await choose('library')) router.push('/reference');
+  }
+
+  return <View testID="home-screen" className="flex-1 overflow-hidden bg-[#100E14]">
+    <HomeBackdrop />
+    <View className="self-center" style={{ width: 390 * scale, height: 844 * scale, marginTop: insets.top }}>
+      <View className="absolute flex-row items-start justify-between" style={{ top: 63 * scale, left: 24 * scale, right: 28 * scale }}>
+        <View>
+          <Text accessibilityRole="header" accessibilityLabel="Assets Finder" className="font-seed-extrabold text-white" style={{ fontSize: 19 * scale, lineHeight: 21 * scale, letterSpacing: -.9 * scale }}>{'Assets\nFinder'}</Text>
+          <Text className="mt-1 font-seed text-[#A092E0]" style={{ fontSize: 6.5 * scale, opacity: .6 }}>Powered by Sumalab</Text>
+        </View>
+        <Pressable accessibilityRole="button" accessibilityLabel="Abrir perfil" onPress={() => router.navigate('/profile')} hitSlop={8} className="items-center justify-center rounded-full bg-[#140A2B] active:opacity-70" style={{ width: 44 * scale, height: 44 * scale, marginTop: 2 * scale }}>
+          <UserRound color="#FFFFFF" size={22 * scale} strokeWidth={1.5} />
         </Pressable>
-        <View className="flex-1 flex-row gap-3" style={{ minHeight: compact ? 96 : 112, maxHeight: compact ? 112 : 176 }}>
-          <Pressable accessibilityRole="button" accessibilityLabel="Seleccionar imagen" accessibilityState={{ disabled: busy }} disabled={busy} onPress={() => { void open('library'); }} className="flex-1 justify-between gap-3 rounded-[20px] border p-4 active:opacity-70" style={{ minHeight: compact ? 84 : 112, backgroundColor: surface, borderColor: border }}>
-            <ImagePlus size={25} color={colors.text} strokeWidth={1.6} /><Text className="font-sans-semibold text-base" style={{ color: colors.text }}>Seleccionar foto</Text>
+      </View>
+      <Text accessibilityRole="header" className="absolute font-seed text-white" style={{ left: 38 * scale, top: 225 * scale, fontSize: 22.5 * scale, lineHeight: 24 * scale, letterSpacing: -1.25 * scale }}>{'¿Qué asset\nencontraremos hoy?'}</Text>
+      <View className="absolute border border-white/10" style={{ top: 313 * scale, left: 40 * scale, width: 310 * scale, height: 200 * scale, borderRadius: 32 * scale, padding: 19 * scale, backgroundColor: '#FFFFFF0D' }}>
+        <View className="flex-row items-center border border-white/15 bg-[#100D18]/60" style={{ height: 42 * scale, borderRadius: 24 * scale, paddingHorizontal: 13 * scale, gap: 11 * scale }}>
+          <Pressable accessibilityRole="button" accessibilityLabel="Buscar assets" hitSlop={10} onPress={search} className="active:opacity-60"><Search size={19 * scale} color="#97909F" strokeWidth={1.7} /></Pressable>
+          <TextInput accessibilityLabel="¿Qué buscas?" placeholder="¿Qué buscas?" placeholderTextColor="#97909F" value={query} onChangeText={setQuery} onSubmitEditing={search} returnKeyType="search" maxLength={120} className="h-full flex-1 font-seed text-white" style={{ fontSize: 10 * scale, padding: 0 }} />
+        </View>
+        <View className="flex-1 flex-row" style={{ marginTop: 12 * scale, gap: 13 * scale }}>
+          <Pressable accessibilityRole="button" accessibilityLabel="Abrir archivo" accessibilityState={{ disabled: busy }} disabled={busy} onPress={() => { void openFile(); }} className="flex-1 items-center justify-center border border-white/15 bg-[#0D0B12]/80 active:bg-white/10" style={{ borderRadius: 16 * scale, gap: 2 * scale }}>
+            {busy ? <ActivityIndicator color="#FFFFFF" size="small" /> : <HomeActionIcon name="folder" size={48 * scale} />}
+            <Text className="font-seed text-white" style={{ fontSize: 9 * scale }}>Abrir archivo</Text>
           </Pressable>
-          <Pressable accessibilityRole="button" accessibilityLabel="Grabar video" accessibilityState={{ disabled: busy }} disabled={busy} onPress={() => { void open('video'); }} className="flex-1 justify-between gap-3 rounded-[20px] border p-4 active:opacity-70" style={{ minHeight: compact ? 84 : 112, backgroundColor: surface, borderColor: border }}>
-            <Video size={25} color={colors.text} strokeWidth={1.6} /><Text className="font-sans-semibold text-base" style={{ color: colors.text }}>Grabar video</Text>
+          <Pressable accessibilityRole="button" accessibilityLabel="Escanear objeto" onPress={() => router.push('/capture')} className="flex-1 items-center justify-center border border-white/15 bg-[#0D0B12]/80 active:bg-white/10" style={{ borderRadius: 16 * scale, gap: 6 * scale }}>
+            <HomeActionIcon name="scan" size={40 * scale} />
+            <Text className="font-seed text-white" style={{ fontSize: 9 * scale }}>Escanear objeto</Text>
           </Pressable>
         </View>
-        {media && !compact && <Pressable accessibilityRole="button" accessibilityLabel="Abrir última referencia" onPress={() => router.push('/reference')} className="min-h-16 flex-row items-center gap-3 rounded-[20px] border px-3 py-2" style={{ backgroundColor: surface, borderColor: border }}>
-          {media.type === 'image' ? <Image source={{ uri: media.uri }} style={{ width: 44, height: 44, borderRadius: 12 }} contentFit="cover" /> : <Video size={24} color={colors.text} />}
-          <View className="flex-1"><Text numberOfLines={1} className="font-sans-medium text-sm" style={{ color: colors.text }}>Última referencia</Text></View><ChevronRight size={18} color={colors.text} />
-        </Pressable>}
-        <View className="flex-row gap-3">
-          <Pressable accessibilityRole="button" onPress={() => router.push('/results')} className="min-h-14 flex-1 flex-row items-center justify-center gap-2 rounded-[20px] border px-2 active:opacity-70" style={{ backgroundColor: surface, borderColor: border }}><Boxes size={18} color={colors.text} /><Text className="font-sans-medium text-sm" style={{ color: colors.text }}>Catálogo</Text></Pressable>
-          <Pressable accessibilityRole="button" onPress={() => router.push('/reconstruction')} className="min-h-14 flex-1 flex-row items-center justify-center gap-2 rounded-[20px] border px-2 active:opacity-70" style={{ backgroundColor: surface, borderColor: border }}><Box size={18} color={colors.text} /><Text className="font-sans-medium text-sm" style={{ color: colors.text }}>Reconstruir</Text></Pressable>
-        </View>
+      </View>
+      <Pressable accessibilityRole="button" accessibilityLabel="Crear entorno" onPress={() => router.push('/environment')} className="absolute items-center justify-center border border-white/10 bg-[#0D090F]/80 active:bg-white/10" style={{ left: 40 * scale, top: 540 * scale, width: 314 * scale, height: 87 * scale, borderRadius: 16 * scale, gap: 2 * scale }}>
+        <HomeActionIcon name="environment" size={39 * scale} />
+        <Text className="font-seed text-white" style={{ fontSize: 9 * scale }}>Crear entorno</Text>
+      </Pressable>
+      <View pointerEvents="none" accessible={false} className="absolute" style={{ left: 0, top: 394 * scale, width: 402 * scale, height: 465 * scale }}>
+        <Image source={require('@/assets/images/home-sculpture.png')} contentFit="contain" style={{ width: '100%', height: '100%' }} />
       </View>
     </View>
-  </AppBackground>;
+    <MediaFeedback />
+  </View>;
 }

@@ -1,3 +1,16 @@
+# Inicio según referencia · 2026-11-11
+
+- Inicio sin scroll con proporciones de la referencia: logotipo en dos líneas, acceso a Perfil, pregunta, buscador, Abrir archivo, Escanear objeto y Crear entorno. LINE Seed JP Regular/ExtraBold locales con licencia OFL; iconos SVG proporcionados por el usuario. La pieza 3D del SVG adjunto se rasterizó con transparencia a 804 × 930 px para usar el mismo recurso en Android y web.
+- Fondo radial violeta y resplandor inferior naranja mediante SVG; barra inferior al borde del área segura y círculo de Inicio `#B34149`. Los gradientes usan `r` y transformación para conservar la geometría en SVG nativo y web.
+- Buscar por teclado o lupa abre y filtra el catálogo local; Abrir archivo conserva el selector real y la vista de Referencia; Escanear objeto abre Capturar; Crear entorno permite nombrar una colección y guardar assets seleccionados en el estado local de la sesión.
+- `npm run lint`, `npx tsc --noEmit` y `git diff --check`: correctos.
+- `npx expo export --platform android --platform web --max-workers 1 --output-dir /tmp/asset-finder-home-final-export`: correcto, incluidos fuentes y gráfico.
+- Pruebas interactivas en Chrome: búsqueda y estado vacío, Perfil, Capturar, selector con una imagen real, creación de entorno con dos assets y validación de nombre obligatorio. Sin errores de ejecución. Tamaños 222×482, 320×568, 390×844, 430×932, 768×1024 y 844×390: sin scroll ni superposición de las acciones con la barra.
+- Capturas revisadas a 390×844 y al tamaño de la referencia. Script temporal: `%TEMP%/verify-asset-home.cjs`.
+- Sin backend ni generación de modelos/escenas 3D. Entornos y catálogo son demostraciones locales; no se verificó cámara ni renderizado en teléfono físico.
+
+---
+
 # Navbar animado · 2026-11-10
 
 - Barra de cinco destinos según la referencia: iconos sólidos blancos, fondo `#0B0911`, círculo `#A805F4` y curva superior móvil. El indicador y la elevación de iconos comparten una animación de resorte; las pantallas usan fundido. Se respeta reducir movimiento.

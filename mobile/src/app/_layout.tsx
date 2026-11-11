@@ -33,7 +33,11 @@ function Navigation() {
   </ThemeProvider>;
 }
 export default function RootLayout() {
-  const [loaded, error] = useFonts({ Urbanist_400Regular, Urbanist_500Medium, Urbanist_600SemiBold, Urbanist_700Bold });
+  const [loaded, error] = useFonts({
+    Urbanist_400Regular, Urbanist_500Medium, Urbanist_600SemiBold, Urbanist_700Bold,
+    LINESeedJP_Regular: require('@/assets/fonts/LINESeedJP-Regular.otf'),
+    LINESeedJP_ExtraBold: require('@/assets/fonts/LINESeedJP-ExtraBold.otf'),
+  });
   useEffect(() => {
     if (loaded || error) void SplashScreen.hideAsync();
   }, [loaded, error]);

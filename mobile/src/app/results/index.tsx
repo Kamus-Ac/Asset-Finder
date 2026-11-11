@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useLocalSearchParams } from 'expo-router';
 import { ArrowDownAZ, ArrowDownWideNarrow } from 'lucide-react-native';
 import { AssetGrid } from '@/components/assets/asset-card';
 import { Choices, EmptyState, IconButton, ScreenContainer, SearchBar, StatusBadge } from '@/components/ui/kit';
 import { assets } from '@/mocks/catalog';
 export default function Results() {
-  const [query, setQuery] = useState('');
+  const { query: initialQuery } = useLocalSearchParams<{ query?: string }>();
+  const [query, setQuery] = useState(initialQuery ?? '');
   const [filter, setFilter] = useState('Todos');
   const [alphabetic, setAlphabetic] = useState(false);
   const Icon = alphabetic ? ArrowDownAZ : ArrowDownWideNarrow;
