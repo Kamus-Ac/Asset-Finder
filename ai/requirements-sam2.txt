@@ -11,14 +11,11 @@ numpy==2.4.6
 omegaconf==2.3.1
 packaging==26.3
 pillow==13.0.0
-pip==26.3
 portalocker==4.4.2
 pyyaml==6.0.3
--e file:///home/admon/projects/asset-finder/ai/sam2
+-e ./sam2
 setuptools==78.1.0
 sympy==1.14.0
-torch==2.15.0+cpu
-torchvision==0.29.2+cpu
 tqdm==4.70.1
 typing-extensions==4.16.0
 wheel==0.48.0
