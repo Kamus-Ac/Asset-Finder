@@ -79,20 +79,20 @@
 .chrome-left {
   @apply pointer-events-none absolute;
   left: -516px;
-  bottom: -300px;
+  bottom: -250px;
   width: auto;
-  height: 900px;
+  height: 1047px;
   object-fit: contain;
   z-index: 1;
 }
 
 .chrome-right {
   @apply pointer-events-none absolute;
-  right: -260px;
-  bottom: -250px;
+  right: -360px;
+  bottom: -800px;
   width: auto;
-  height: 800px;
-  transform: rotate(30.91deg);
+  height: 1168px;
+  transform: rotate(-30.91deg);
   transform-origin: center center;
   object-fit: contain;
   z-index: 1;
@@ -110,7 +110,7 @@
 /* Title */
 .search-panel__title {
   font-family: 'LINE Seed JP', sans-serif;
-  @apply text-white text-3xl md:text-4xl font-normal mb-10 text-center;
+  @apply text-white text-[2rem] font-normal mb-10 text-left;
 }
 
 /* Search card */
