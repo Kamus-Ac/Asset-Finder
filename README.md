@@ -1,6 +1,6 @@
 # Asset Finder
 
-Buscador visual de assets 3D en archivos locales y catálogos web.
+Buscador visual de assets 3D en páginas externas a partir de una imagen de referencia.
 
 ## Mapa del proyecto
 

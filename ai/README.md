@@ -1,10 +1,29 @@
 # IA visual — Brandon / P4
 
-**10 de noviembre de 2026.** Flujo CPU implementado: selección → SAM → recorte
+**11 de noviembre de 2026.** Flujo CPU implementado: selección → SAM → recorte
 → DINOv2 → ranking de candidatos externos. La conexión a la API y CUDA se validan
 con Manuel y Ángel; generación SAM 3D sigue no disponible.
 
-## Probar ahora desde la raíz
+## Probar desde el frontend oficial de Ángel
+
+Desde la raíz, en dos terminales:
+
+```bash
+ai/.venv-sam2/bin/python -m ai.demo
+```
+
+```bash
+cd frontend
+npm run dev -- --host 127.0.0.1 --port 5173
+```
+
+Abrir **http://127.0.0.1:5173**. Incluye subida de foto, selección por rectángulo,
+máscara, recorte y resultados. Elegir candidatos a comparar (1–24 en esta muestra)
+y resultados a mostrar (top-k). El diseño y los ejemplos Three.js de Ángel se
+conservan. El proxy local usa el puerto 8765 de IA; la conexión a FastAPI sigue
+pendiente con Manuel. Dependencias npm del lockfile ya instaladas con aprobación.
+
+## Demo aislada de IA desde la raíz
 
 ```bash
 ai/.venv-sam2/bin/python -m ai.demo
@@ -68,7 +87,8 @@ ai/
 ├── embedding.py         DINOv2 ViT-S/14 oficial, vectores normalizados de 384
 ├── candidates.py         Contrato interno y metadatos validados
 ├── candidate_images.py  Preparación de vistas y errores por imagen
-├── index.py             Lotes/caché de vectores y persistencia sin pickle
+├── infrastructure/      Persistencia NPZ común, sin pickle y con escritura atómica
+├── index.py             Lotes/caché de vectores y metadatos verificados
 ├── search.py            Coseno y mejor vista por asset
 ├── results.py           Formato de resultados y disponibilidad real
 ├── query_cache.py       Caché de selección/modelos; ranking siempre actualizado

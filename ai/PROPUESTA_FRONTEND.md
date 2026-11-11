@@ -4,12 +4,14 @@ Solicitud de Brandon: integrar la prueba visual y controlar candidatos/resultado
 desde frontend/. Aprobación npm ci recibida de Brandon el 10 de noviembre de 2026.
 Se conserva el diseño y el catálogo Three.js existente.
 
-No existe frontend/node_modules. Propuesta: ejecutar `npm ci --no-audit --no-fund`
-en frontend/, con caché temporal; instalar exactamente el lockfile ya existente,
+Al preparar la propuesta no existía frontend/node_modules. Se aprobó y ejecutó
+`npm ci --no-audit --no-fund` el 10 de noviembre, con caché temporal, instalando
+exactamente el lockfile ya existente,
 sin actualizar package.json ni package-lock.json ni instalar Node globalmente.
-La prueba local usará un proxy Vite a ai.demo, mientras la integración definitiva
-de FastAPI continúa con Manuel. Los cambios de frontend se guardarán en un commit
-separado y se preparará su descripción de PR para revisión de Ángel.
+La prueba local usa un proxy Vite a ai.demo; la integración definitiva de FastAPI
+continúa con Manuel. Los cambios quedaron incluidos en el commit compartido
+366aec5. Para integrar a main se preparará una revisión separada del frontend
+para Ángel, excluyendo Graphify; no se reescribe ese historial publicado.
 
 ## Versiones directas registradas
 
@@ -51,3 +53,10 @@ antes de instalar paquetes. Esta propuesta no autoriza actualizar dependencias d
 
 Fuentes: https://docs.npmjs.com/cli/v11/commands/npm-ci/
 y https://docs.sketchfab.com/data-api/v3/index.html
+
+## Estado revisado el 11 de noviembre de 2026
+
+VisualSearch está integrado en el frontend oficial; conserva el catálogo Three.js
+como ejemplo desplegable. Build/lint y proxy local probados. La captura permite
+elegir de 1 a 24 candidatos y un top-k independiente; sigue sin ser búsqueda en
+vivo. Aumentar la fuente requiere la propuesta API_CANTIDADES_P3.md con Manuel.

@@ -68,3 +68,9 @@ No hace falta programar otra herramienta para correrlo al recibir las referencia
 
 SAM 3D sigue no disponible: la investigación documenta que 8 GB no cumplen su
 configuración oficial de 32 GB VRAM. Su activación necesita evaluación separada.
+
+## Cantidad y paginación
+
+El frontend oficial ya permite elegir candidatos y top-k en la muestra local de
+24. Propuesta de extensión de la API existente en
+[API_CANTIDADES_P3.md](API_CANTIDADES_P3.md), sin modificar backend desde P4.
