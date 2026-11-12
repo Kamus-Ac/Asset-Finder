@@ -24,6 +24,20 @@ button,.upload{font:inherit;border:1px solid #ced6df;border-radius:8px;backgroun
 <div class="panel"><h2>2. Selección procesada</h2><div class="images"><div><small>Máscara</small><img id="mask" alt="Máscara del objeto" hidden></div><div><small>Recorte</small><img id="crop" alt="Objeto preparado" hidden></div></div><p id="timing"></p></div></section>
 <section class="panel"><h2>3. Modelos comparados</h2><p id="scope">Muestra de ocho modelos de Sketchfab. Puedes abrir su página de origen.</p><div id="results" class="empty">Compara la selección para ver resultados.</div><p><small>La similitud ordena resultados; no es un porcentaje de acierto. La muestra puede no contener el objeto exacto.</small></p></section>
 </div>
+<section class="panel" aria-labelledby="blender-title">
+<h2 id="blender-title">4. Probar envío a Blender</h2>
+<p>En Blender, abre la pestaña Asset Finder de la barra lateral (N), selecciona un GLB y pulsa «Autorizar demo y conectar». Copia el código de conexión y pégalo aquí.</p>
+<div class="controls">
+<label>Puerto <input id="blender-port" type="number" min="1024" max="65535" value="8766" style="width:90px"></label>
+<label>Código de conexión <input id="blender-code" type="password" autocomplete="off" spellcheck="false" placeholder="Pega el código de Blender"></label>
+<button id="blender-connect" type="button">Conectar con Blender</button>
+<button id="blender-disconnect" type="button" disabled>Cerrar sesión</button>
+</div>
+<p id="blender-model">Este envío usa el GLB que seleccionaste en Blender.</p>
+<div class="controls"><button id="blender-open" type="button" class="primary" disabled>Abrir en Blender</button></div>
+<p id="blender-status" role="status" aria-live="polite">Sin conexión. La búsqueda visual sigue disponible.</p>
+</section>
+<script src="/blender-demo.js" defer></script>
 <script>
 const $=id=>document.getElementById(id), canvas=$('canvas'), ctx=canvas.getContext('2d');
 const state={image:null,data:null,box:null,start:null,busy:false,loading:false,epoch:0,available:0};

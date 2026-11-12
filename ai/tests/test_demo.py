@@ -27,7 +27,10 @@ def request(payload,origin=None):
   with urlopen(Request(base+'/run',data=json.dumps(payload).encode(),headers=headers),timeout=20) as r:return r.status,json.load(r)
  except HTTPError as e:return e.code,json.load(e)
 try:
- with urlopen(base+'/') as r:assert b'<canvas' in r.read()
+ with urlopen(base+'/') as r:
+  page=r.read();assert b'<canvas' in page and b'blender-connect' in page
+ with urlopen(base+'/blender-demo.js') as r:
+  assert r.headers.get_content_type()=='text/javascript' and b'/imports' in r.read()
  with urlopen(base+'/sample') as r:assert json.load(r)['candidate_count']==1
  assert request({'image':'malformed'})[0]==422
  assert request({'image':png_data(image)},'https://example.invalid')[0]==403

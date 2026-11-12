@@ -48,6 +48,8 @@ def handler_for(candidates, *, device="cpu", cache_dir=None):
             path = urlsplit(self.path).path
             if path == "/":
                 self.reply(200, (BASE/"web/demo.html").read_bytes(), "text/html; charset=utf-8")
+            elif path == "/blender-demo.js":
+                self.reply(200, (BASE/"web/blender-demo.js").read_bytes(), "text/javascript; charset=utf-8")
             elif path == "/sample":
                 image = load_rgb(SAMPLE_IMAGE)
                 image.thumbnail((1024,1024))
