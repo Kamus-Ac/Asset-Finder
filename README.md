@@ -210,19 +210,10 @@ cuotas acumuladas ni limpieza automática: usar únicamente en las pruebas
 privadas del equipo. El despliegue web entre orígenes requiere un proxy del
 mismo origen o acordar la lista CORS con Ángel.
 
-Secuencia propuesta para los siguientes contratos, pendiente de coordinación
-con Brandon, Luis y Ángel antes de integrar sus clientes:
-
-| Ruta propuesta (todavía no implementada) | Dependencia / contrato por cerrar |
-| --- | --- |
-| `POST /segmentations` | `media_id` y rectángulo `box_xyxy` en píxeles normalizados; interfaz SAM de Brandon. |
-| `GET /tasks/{id}` | Persistencia y trabajador; estados `queued`, `running`, `completed`, `failed`. |
-| `POST /searches` | Selección segmentada, candidatos externos y ranking DINO real. |
-| `GET /assets/{id}` | Detalle del candidato; archivo disponible separado del enlace externo. |
-| `/projects` y `PUT /projects/{id}/scene` | Alcance compartido, acceso y persistencia por acordar. |
-
-Video y reconstrucción quedan pendientes. No se crean tareas ficticias ni se
-declara que una subida ejecute SAM o DINO.
+El flujo de búsqueda visual ya incluye `/segmentations`, `/searches`, `/tasks`
+y artefactos PNG. Detalles del contrato y estado de móvil:
+[Integración de búsqueda y móvil](docs/INTEGRACION_BUSQUEDA_MOVIL.md).
+Detalle de assets, proyectos, escenas y video continúan pendientes.
 
 Exportación de candidatos para Brandon (modo Manuel)
 ---------------------------------------------------
@@ -257,29 +248,31 @@ ejecutó SAM, DINO ni ranking en esta prueba. La consulta real requirió acceso
 de red fuera del sandbox. Las tres pruebas locales de exportación pasaron
 con datos simulados (filtrado, escritura, respuesta vacía y fallo de fuente).
 
-## IA y prueba desde el frontend oficial — 10 de noviembre de 2026
+## Búsqueda externa desde el frontend oficial
 
-La interfaz oficial sigue en `frontend/`. `frontend/src/VisualSearch.tsx` conecta
-subida/selección con IA y reutiliza el diseño de Ángel; su catálogo Three.js se
-conserva como ejemplo desplegable. Hay dos controles distintos: candidatos a
-comparar y resultados a mostrar. La muestra local contiene 24 modelos reales;
-la búsqueda en vivo y su paginación quedan con Manuel.
+La interfaz abre sin imagen. Permite subir una foto, seleccionar el objeto y
+buscar candidatos en Sketchfab y Poly Haven por una descripción. El servidor
+segmenta con SAM y ordena las miniaturas con DINOv2. No usa el lote fijo de 24.
 
-Desde la raíz, en dos terminales:
+Desde la raíz, con el entorno IA y recursos ya preparados:
 
 ```bash
-ai/.venv-sam2/bin/python -m ai.demo
+uv pip install --python ai/.venv-sam2/bin/python -r backend/requirements-http.txt
+ai/.venv-sam2/bin/python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000
 ```
+
+En otra terminal:
 
 ```bash
 cd frontend
 npm run dev -- --host 127.0.0.1 --port 5173
 ```
 
-Abrir http://127.0.0.1:5173. El proxy local reenvía las llamadas a IA en el puerto
-8765; esto permite probar el frontend oficial sin sustituir la API de Manuel.
-La interfaz aislada de pruebas permanece en `ai/web/demo.html`, servida por
-`ai/demo.py`. Persistencia común en `ai/infrastructure/arrays.py`.
-Comandos, recursos y pendientes: [README de IA](ai/README.md) y
-[entrega al equipo](ai/docs/ENTREGA_EQUIPO.md). Graphify se guarda solo en la rama IA,
-excluido de cualquier PR a main.
+Abrir http://localhost:5173. El proxy `/api` usa FastAPI en 8000; ya no requiere
+`ai.demo` en 8765. Para producción configurar un proxy equivalente.
+[Contrato, configuración, validación y pendientes para móvil](docs/INTEGRACION_BUSQUEDA_MOVIL.md).
+La demo aislada de IA sigue disponible por separado con `python -m ai.demo`.
+Su interfaz permanece en `ai/web/demo.html`; persistencia común en
+`ai/infrastructure/arrays.py`. Comandos y recursos: [README de IA](ai/README.md)
+y [entrega al equipo](ai/docs/ENTREGA_EQUIPO.md). Graphify queda excluido de
+cualquier PR a main.
