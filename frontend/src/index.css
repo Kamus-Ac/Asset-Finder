@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@theme {
+  --color-bg: #121212;
+  --color-action-btn: #141217;
+  --color-action-btn-hover: #2A292D;
+
+  --color-orange-glow: #E35024;
+  --color-purple-light: #A092E0;
+  --color-purple-glow: #4A04EF;
+}
+
 :root {
   font-synthesis: none;
   text-rendering: optimizeLegibility;

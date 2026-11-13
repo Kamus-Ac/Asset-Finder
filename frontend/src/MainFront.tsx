@@ -3,7 +3,6 @@ import chrome2 from './assets/chrome2.png'
 import chrome4 from './assets/chrome4.png'
 import folderOpenIcon from './assets/folder-open-solid.svg'
 import scanIcon from './assets/scan-square.svg'
-import moundShovelIcon from './assets/mound-shovel.svg'
 import layerGroupIcon from './assets/layer-group-solid.svg'
 
 /* ── SVG Icons ── */
@@ -29,7 +28,6 @@ export default function MainFront() {
       <div className="glow-layer glow-top-left-orange" aria-hidden="true" />
       <div className="glow-layer glow-behind-chrome-right" aria-hidden="true" />
 
-      {/* ── Chrome 3D renders — buried at bottom ── */}
       <img
         src={chrome2}
         alt=""
@@ -46,29 +44,29 @@ export default function MainFront() {
       {/* ── Centered search panel ── */}
       <div className="search-panel">
         <h1 className="search-panel__title">
-          ¿Qué asset encontraremos hoy?
+          What asset will we find today?
         </h1>
 
         <div className="search-card">
           {/* Search bar */}
           <div className="search-input-wrap">
             <SearchIcon />
-            <input type="text" placeholder="¿Qué buscas?" />
+            <input type="text" placeholder="What are you looking for?" />
           </div>
 
           {/* Action buttons */}
           <div className="action-grid">
             <button className="action-btn" type="button">
               <img src={folderOpenIcon} alt="" className="action-icon" />
-              <span>Abrir archivo</span>
+              <span>Open file</span>
             </button>
             <button className="action-btn" type="button">
               <img src={scanIcon} alt="" className="action-icon" />
-              <span>Escanear objeto</span>
+              <span>Scan object</span>
             </button>
             <button className="action-btn" type="button">
               <img src={layerGroupIcon} alt="" className="action-icon" />
-              <span>Mis colecciones</span>
+              <span>My collections</span>
             </button>
           </div>
         </div>
@@ -80,7 +78,7 @@ export default function MainFront() {
           as it,<br />find it.
         </p>
         <p className="brand-footer__powered">
-          Powered by <b>Sketchfab.</b>
+          Powered with <b>META</b> AI models.
         </p>
       </div>
     </div>
