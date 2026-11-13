@@ -48,11 +48,8 @@ def handler_for(candidates, *, device="cpu", cache_dir=None):
             path = urlsplit(self.path).path
             if path == "/":
                 self.reply(200, (BASE/"web/demo.html").read_bytes(), "text/html; charset=utf-8")
-            elif path == "/sample":
-                image = load_rgb(BASE/"prueba.jpeg")
-                image.thumbnail((1024,1024))
-                self.reply(200, {"image":png_data(image), "box":[222,355,430,562],
-                                 "candidate_count":len(candidates)})
+            elif path == "/info":
+                self.reply(200, {"candidate_count":len(candidates)})
             else:
                 self.reply(404, {"error":"Ruta no encontrada"})
 
