@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,500&display=swap');
 
+
 :root {
   --ink: #fff;
   --muted: #999999;
@@ -13,7 +14,7 @@
 body {
   background: #1E1E1E;
   color: var(--ink);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Instrument Sans', sans-serif;
 }
 
 button, a { font: inherit; }
@@ -41,4 +42,12 @@ button { cursor: pointer; }
 @media (max-width: 700px) {
   .asset-grid { grid-template-columns: 1fr; gap: 36px; }
   .asset-art { height: 310px; }
+}
+
+.font-line-seed-jp {
+  font-family: 'LINE Seed JP', sans-serif;
+}
+
+.font-instrument-sans {
+  font-family: 'Instrument Sans', sans-serif;
 }

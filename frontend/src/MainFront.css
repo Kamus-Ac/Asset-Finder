@@ -1,0 +1,167 @@
+/* MainFront.css — Custom styles for the landing page */
+@import "tailwindcss";
+@import "index.css";
+
+.main-front {
+  @apply relative w-full min-h-screen overflow-hidden bg-bg;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+/* ── Background glow layers ── */
+
+.glow-layer {
+  @apply pointer-events-none absolute;
+}
+
+/* Bottom-left purple sphere */
+.glow-bottom-left {
+  width: 600px;
+  height: 600px;
+  bottom: -380px;
+  left: 0%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #8c67e2 0%, #4A04EF 100%);
+  opacity: 0.75;
+  filter: blur(120px);
+}
+
+/* Bottom-right purple sphere */
+.glow-bottom-right {
+  width: 600px;
+  height: 600px;
+  bottom: -380px;
+  right: 0%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #8c67e2 0%, #4A04EF 100%);
+  opacity: 0.75;
+  filter: blur(120px);
+}
+
+/* Center-top large ellipse */
+.glow-center-top {
+  width: 1536px;
+  height: 1076px;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #8c67e2 0%, #4A04EF 100%);
+  opacity: 0.1;
+  filter: blur(180px);
+}
+
+/* Top-left orange ellipse */
+.glow-top-left-orange {
+  width: 225px;
+  height: 192px;
+  top: -40px;
+  left: -40px;
+  border-radius: 50%;
+  background: #E35024;
+  opacity: 0.75;
+  filter: blur(160px);
+}
+
+/* Behind right chrome — orange ellipse */
+.glow-behind-chrome-right {
+  width: 263px;
+  height: 104px;
+  bottom: 360px;
+  right: 20px;
+  border-radius: 50%;
+  background: #E35024;
+  opacity: 0.57;
+  filter: blur(100px);
+}
+
+/* ── Chrome 3D images — buried at bottom ── */
+
+.chrome-left {
+  @apply pointer-events-none absolute left-[-516px] bottom-[-250px] w-auto h-[1047px] object-contain z-1;
+}
+
+.chrome-right {
+  @apply pointer-events-none absolute right-[-410px] bottom-[-900px] w-auto h-[1368px] object-contain z-1;
+  transform: rotate(-30.91deg);
+  transform-origin: center center;
+}
+
+/* ── Search panel container ── */
+
+.search-panel {
+  @apply relative z-10 flex flex-col items-center;
+  padding-top: 20vh;
+  padding-bottom: 6vh;
+  min-height: 100vh;
+}
+
+/* Title */
+.search-panel__title {
+  font-family: 'LINE Seed JP', sans-serif;
+  @apply text-white text-[2rem] font-normal mb-4 text-left -ml-30 tracking-tighter;
+}
+
+/* Search card */
+.search-card {
+  @apply w-full max-w-xl rounded-4xl p-4 bg-white/6 border border-white/10;
+}
+
+/* Search input wrapper */
+.search-input-wrap {
+  @apply flex items-center gap-3 rounded-full px-4 py-3 mb-4 bg-black/30 border border-white/15;
+}
+
+.search-input-wrap svg {
+  @apply shrink-0 text-white/50;
+}
+
+.search-input-wrap input {
+  @apply w-full bg-transparent border-none outline-none text-white text-xs;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.search-input-wrap input::placeholder {
+  @apply text-white/40;
+}
+
+/* Action buttons grid */
+.action-grid {
+  @apply grid grid-cols-3 gap-3;
+}
+
+.action-btn {
+  @apply flex flex-col items-center justify-center gap-1 rounded-xl py-5 px-3 cursor-pointer transition-colors bg-action-btn border border-white/15;
+  font-family: 'Instrument Sans', sans-serif;
+}
+
+.action-btn:hover {
+  @apply bg-action-btn-hover;
+}
+
+.action-icon {
+  @apply size-10;
+}
+
+.action-btn svg {
+  @apply text-white w-8 h-8;
+}
+
+.action-btn span {
+  @apply text-white/80 text-xs;
+}
+
+/* ── Bottom branding ── */
+
+.brand-footer {
+  @apply absolute bottom-8 left-1/2 -translate-x-1/2 text-center z-10 pl-16;
+}
+
+.brand-footer__tagline {
+  font-family: 'LINE Seed JP', sans-serif;
+  @apply text-white text-2xl font-extrabold italic leading-7 tracking-tighter text-left;
+}
+
+.brand-footer__powered {
+  font-family: 'Instrument Sans', sans-serif;
+  @apply text-white/40 text-[10px] mt-1;
+}
