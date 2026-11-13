@@ -103,7 +103,7 @@
 
 /* Search card */
 .search-card {
-  @apply w-full max-w-xl rounded-4xl p-5 bg-white/6 border border-white/10;
+  @apply w-full max-w-xl rounded-4xl p-4 bg-white/6 border border-white/10;
 }
 
 /* Search input wrapper */
@@ -116,7 +116,7 @@
 }
 
 .search-input-wrap input {
-  @apply w-full bg-transparent border-none outline-none text-white text-sm;
+  @apply w-full bg-transparent border-none outline-none text-white text-xs;
   font-family: 'Instrument Sans', sans-serif;
 }
 
