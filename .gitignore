@@ -48,3 +48,5 @@ Thumbs.db
 
 # Graphify se conserva solo en feature/ai-exploracion, fuera de main.
 /graphify-out/
+
+*:Zone.Identifier
