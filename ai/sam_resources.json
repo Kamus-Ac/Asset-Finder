@@ -1,0 +1,10 @@
+{
+  "revision": "2b90b9f5ceec907a1c18123530e92e794ad901a4",
+  "source_url": "https://github.com/facebookresearch/sam2.git",
+  "runtime_sha256": "6e99dfb24c582a7c7b65714d383305409d3b5e4e03ce840125d72a5b31daada6",
+  "weights": {
+    "url": "https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_tiny.pt",
+    "sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69",
+    "bytes": 156008466
+  }
+}

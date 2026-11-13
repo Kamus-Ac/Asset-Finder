@@ -1,0 +1,24 @@
+PS C:\WINDOWS\system32> Get-CimInstance Win32_ComputerSystem | Format-List Manufacturer, Model
+>> Get-PnpDevice -PresentOnly -Class Display | Format-Table Status, FriendlyName -AutoSize
+>> Get-PnpDevice -PresentOnly -Status ERROR,DEGRADED,UNKNOWN | Format-Table Status, Class, FriendlyName -AutoSize
+
+
+Manufacturer : Dell Inc.
+Model        : Latitude 3410
+
+
+
+
+Status FriendlyName
+------ ------------
+OK     Intel(R) UHD Graphics
+
+
+Get-PnpDevice : No matching Win32_PnPEntity objects found by CIM query for instances of the ROOT\cimv2\Win32_PnPEntity
+class on the  CIM server: SELECT * FROM Win32_PnPEntity  WHERE ((Present = TRUE)) AND ((Status = 'ERROR') OR (Status =
+'DEGRADED') OR (Status = 'UNKNOWN')). Verify query parameters and retry.
+At line:3 char:1
++ Get-PnpDevice -PresentOnly -Status ERROR,DEGRADED,UNKNOWN | Format-Ta ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (Win32_PnPEntity:String) [Get-PnpDevice], CimJobException
+    + FullyQualifiedErrorId : CmdletizationQuery_NotFound,Get-PnpDevice

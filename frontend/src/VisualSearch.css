@@ -1,0 +1,17 @@
+.visual-search { padding: 30px 0; }
+.visual-search h1 { font-size: clamp(24px, 4vw, 38px); margin-bottom: 8px; }
+.visual-search p { color: var(--muted); line-height: 1.5; }
+.visual-controls { display: flex; gap: 18px; flex-wrap: wrap; align-items: end; margin: 24px 0; }
+.visual-controls label { display: grid; gap: 8px; font-size: 13px; }
+.visual-controls input[type=number] { width: 120px; }
+.visual-search button, .visual-search input { color: var(--ink); background: #2c2b2e; border: 1px solid #555; border-radius: 5px; padding: 10px; font: inherit; }
+.visual-search button:disabled { opacity: .45; cursor: default; }
+.visual-search > canvas { width: 100%; max-width: 850px; display: block; touch-action: none; cursor: crosshair; border-radius: 6px; background: #292929; }
+.visual-search .compare-button { display: block; margin-top: 20px; background: var(--green); color: #202920; padding: 12px 24px; }
+.visual-previews { display: flex; flex-wrap: wrap; gap: 24px; }
+.visual-previews figure { margin: 12px 0; }
+.visual-previews img { max-width: 260px; max-height: 200px; object-fit: contain; }
+.visual-search .asset-art > img { width: 100%; height: 100%; object-fit: contain; }
+.visual-search a { color: var(--green); text-decoration: none; }
+.scene-examples { margin-top: 32px; padding: 20px 0; border-top: 1px solid #454545; }
+.scene-examples summary { cursor: pointer; }

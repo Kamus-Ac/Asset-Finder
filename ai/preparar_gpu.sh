@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# T03: instalar solo la combinación aprobada en un entorno GPU nuevo existente.
+# T03: instalar la combinación aprobada; permite la base común ya revisada.
 # Copiar este archivo a la MSI y ejecutar desde cualquier carpeta del repo:
 # bash ai/preparar_gpu.sh .venv-gpu
 set -euo pipefail
@@ -26,11 +26,19 @@ if sys.version_info[:2] != (3, 12):
     sys.exit('Se requiere Python 3.12 aprobado; no se instala sobre otro intérprete.')
 if sys.prefix == sys.base_prefix or Path(sys.prefix).resolve() != Path(sys.argv[1]).resolve():
     sys.exit('El intérprete no pertenece al entorno virtual seleccionado.')
-allowed = {'pip': '26.3', 'setuptools': '78.1.0', 'wheel': '0.48.0'}
+allowed = {
+    'pip': '26.3', 'setuptools': '78.1.0', 'wheel': '0.48.0',
+    'numpy': '2.4.6', 'pillow': '13.0.0', 'hydra-core': '1.3.8',
+    'omegaconf': '2.3.1', 'iopath': '0.1.10', 'tqdm': '4.70.1',
+    # Dependencias transitivas del inventario MSI recibido y revisado.
+    'antlr4-python3-runtime': '4.9.3', 'pyyaml': '6.0.3',
+    'typing-extensions': '4.16.0', 'portalocker': '4.4.2', 'packaging': '26.3',
+}
 installed = {d.metadata['Name'].lower().replace('_', '-'): d.version for d in metadata.distributions()}
 print('Python:', sys.version.split()[0], '| Paquetes previos:', installed, flush=True)
-if any(allowed.get(name) != version for name, version in installed.items()):
-    sys.exit('El entorno ya contiene paquetes: comparte este inventario antes de instalar. No se cambió nada.')
+conflicts = {name: version for name, version in installed.items() if allowed.get(name) != version}
+if conflicts:
+    sys.exit(f'Paquetes o versiones no revisados: {conflicts}. No se cambió nada.')
 PY
 
 test -x /usr/lib/wsl/lib/nvidia-smi || { echo 'NVIDIA-SMI de WSL no disponible.' >&2; exit 2; }
