@@ -81,7 +81,7 @@
 }
 
 .chrome-right {
-  @apply pointer-events-none absolute right-[-360px] bottom-[-900px] w-auto h-[1168px] xl:right-[-410px] xl:h-[1368px] object-contain z-1;
+  @apply pointer-events-none absolute right-[-410px] bottom-[-900px] w-auto h-[1368px] object-contain z-1;
   transform: rotate(-30.91deg);
   transform-origin: center center;
 }
@@ -90,7 +90,7 @@
 
 .search-panel {
   @apply relative z-10 flex flex-col items-center;
-  padding-top: 18vh;
+  padding-top: 20vh;
   padding-bottom: 6vh;
   min-height: 100vh;
 }
@@ -98,7 +98,7 @@
 /* Title */
 .search-panel__title {
   font-family: 'LINE Seed JP', sans-serif;
-  @apply text-white text-[2rem] font-normal mb-6 text-left -ml-30 tracking-tighter;
+  @apply text-white text-[2rem] font-normal mb-4 text-left -ml-30 tracking-tighter;
 }
 
 /* Search card */
